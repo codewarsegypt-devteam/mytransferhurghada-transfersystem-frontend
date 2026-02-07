@@ -92,7 +92,7 @@ export default function PopularTrips() {
         {/* CTA Button */}
         <div className="flex justify-center">
 
-          <Button href="#trips" size="lg">View All Tours</Button>
+          <Button href="/trips" size="lg">View All Tours</Button>
         </div>
 
       </div>

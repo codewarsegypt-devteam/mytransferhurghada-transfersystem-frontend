@@ -55,7 +55,7 @@ export default function TripsPage() {
                   placeholder="Search trips by name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-xl"
+                  className="w-full pl-12 pr-4 py-4 bg-white/80 rounded-2xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-xl"
                 />
               </div>
             </div>

@@ -68,16 +68,19 @@ export async function POST(req: Request) {
 
   console.log('✅ Webhook secret found', WEBHOOK_SECRET);
 
-  // Get the headers
+  // Get the headers - try both svix- and webhook- prefixes
   const headerPayload = await headers();
-  const svix_id = headerPayload.get('svix-id');
-  const svix_timestamp = headerPayload.get('svix-timestamp');
-  const svix_signature = headerPayload.get('svix-signature');
+  
+  // Try svix- prefix first, then webhook- prefix (for Professional/Enterprise tier)
+  const svix_id = headerPayload.get('svix-id') || headerPayload.get('webhook-id');
+  const svix_timestamp = headerPayload.get('svix-timestamp') || headerPayload.get('webhook-timestamp');
+  const svix_signature = headerPayload.get('svix-signature') || headerPayload.get('webhook-signature');
 
   console.log('📨 Webhook headers:', {
     'svix-id': svix_id,
     'svix-timestamp': svix_timestamp,
     'svix-signature': svix_signature ? 'present' : 'missing',
+    allHeaders: Object.fromEntries(headerPayload.entries()),
   });
 
   // If there are no headers, error out
@@ -92,7 +95,10 @@ export async function POST(req: Request) {
   // can change key order and break verification.
   const rawBody = await req.text();
 
-  console.log('📦 Webhook payload received, length:', rawBody.length);
+  console.log('📦 Webhook payload received:', {
+    bodyLength: rawBody.length,
+    bodyPreview: rawBody.substring(0, 100),
+  });
 
   // Create a new Svix instance with your secret
   const wh = new Webhook(WEBHOOK_SECRET);
@@ -106,10 +112,17 @@ export async function POST(req: Request) {
       'svix-timestamp': svix_timestamp,
       'svix-signature': svix_signature,
     }) as WebhookEvent;
-    console.log('✅ Webhook signature verified');
+    console.log('✅ Webhook signature verified successfully');
   } catch (err) {
-    console.error('❌ Error verifying webhook signature:', err);
-    return new Response('Error occurred', {
+    console.error('❌ Error verifying webhook signature:', {
+      error: err,
+      message: err instanceof Error ? err.message : String(err),
+      secret: `${WEBHOOK_SECRET.substring(0, 10)}...`,
+      svix_id,
+      svix_timestamp,
+      signaturePreview: svix_signature?.substring(0, 20),
+    });
+    return new Response('Error occurred - webhook verification failed', {
       status: 400,
     });
   }
@@ -170,6 +183,8 @@ export async function POST(req: Request) {
     // Note: session.created will be fired after this, so we'll authenticate then
     // This event is just for logging/analytics purposes
   }
+
+  // handle user removed
 
   return new Response('Webhook processed successfully', { status: 200 });
 }

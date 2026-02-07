@@ -86,7 +86,7 @@ export default function TripDetailPage() {
       </div>
 
       {/* Hero Section with Image Gallery */}
-      <section className="relative bg-white">
+      <section className="relative bg-[#F5E6D8]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Main Image */}
