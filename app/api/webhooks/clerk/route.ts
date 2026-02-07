@@ -88,20 +88,20 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the body
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  // Get the raw body as text — Svix signs the exact bytes; re-serializing with JSON.stringify
+  // can change key order and break verification.
+  const rawBody = await req.text();
 
-  console.log('📦 Webhook payload type:', payload.type);
+  console.log('📦 Webhook payload received, length:', rawBody.length);
 
   // Create a new Svix instance with your secret
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
 
-  // Verify the payload with the headers
+  // Verify the payload with the headers (must use raw body — same bytes Clerk signed)
   try {
-    evt = wh.verify(body, {
+    evt = wh.verify(rawBody, {
       'svix-id': svix_id,
       'svix-timestamp': svix_timestamp,
       'svix-signature': svix_signature,

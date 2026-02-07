@@ -43,7 +43,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
             <Image
-              src="/icons/logoFox.png"
+              src="/icons/foxTravel.png"
               alt="Fox Travel"
               width={40}
               height={40}

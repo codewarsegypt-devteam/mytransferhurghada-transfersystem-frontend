@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <Image
-                src="/icons/logoFox.png"
+                src="/icons/foxTravel.png"
                 alt="Fox Travel"
                 width={40}
                 height={40}
