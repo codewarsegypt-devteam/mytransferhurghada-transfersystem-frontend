@@ -9,13 +9,21 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.37.1",
+    "@tanstack/react-query": "^5.90.20",
+    "axios": "^1.7.9",
+    "framer-motion": "^12.30.1",
+    "lucide-react": "^0.563.0",
     "next": "16.1.5",
+    "nodemailer": "^8.0.0",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "svix": "^1.84.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^7.0.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

@@ -1,0 +1,24 @@
+---
+description: TypeScript, API layer, and data-fetching conventions
+globs: lib/**/*.ts
+alwaysApply: false
+---
+
+# TypeScript & API Layer
+
+## Types
+
+- Trip and API types live in `lib/types/tripsTypes.ts`. Use existing DTOs (e.g. `TripItemDto`, `PublicTripDto`, `GetPublicTripsParams`) instead of redefining.
+- API responses follow `ApiResponseDto<T>` with `succeeded`, `message`, `data`. Check `succeeded` before using `data`.
+
+## API functions (`lib/apis/`)
+
+- API functions **throw** on failure (network, non-2xx, or `succeeded: false`). They do not return error objects. This is intentional for React Query.
+- Use `normalizeAndThrow` from `apiErrors.ts` in catch blocks so all failures become `ApiError` with a consistent shape.
+- Add new endpoints in `paths.ts` (using `BASE` from `NEXT_PUBLIC_API_URL`), then implement in the appropriate file under `lib/apis/`.
+- Keep API functions pure: no React hooks, no direct DOM; accept params and return promises.
+
+## Hooks (`lib/hooks/`)
+
+- Query hooks (e.g. `useTrips`) should use TanStack Query and call the API functions from `lib/apis/`. Expose `data`, `isLoading`, `isError`, `error`, and refetch as needed.
+- Do not catch and swallow errors inside query functions; let them throw so React Query can set error state.

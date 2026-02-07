@@ -1,0 +1,19 @@
+---
+description: React and Next.js patterns for components and pages
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React & Next.js Patterns
+
+- Use **functional components** only.
+- Prefer **server components** by default; use `"use client"` only when needed (hooks, interactivity, React Query).
+- Colocate component-specific logic in the same file or extract to **custom hooks** in `lib/hooks/`.
+- Use **Link** from `next/link` for internal navigation; use `paths.ts` or route strings for hrefs (e.g. `/trips`, `/trips/[slug]`).
+- Keep components focused: presentational components in `components/`, reusable UI in `components/ui/`.
+- Use existing UI primitives (`Button`, `TripCard`, etc.) before adding new ones; follow the same style (Tailwind + brand tokens from `globals.css`).
+
+## Data in components
+
+- For trips data, use **useTrips** from `lib/hooks/useTrips.ts` (wraps React Query). Do not call `tripsApi` directly from components.
+- Handle loading and error states in the UI (skeletons, messages). Do not leave loading/error unhandled.

@@ -1,0 +1,35 @@
+---
+description: Fox Travel Egypt project overview, stack, and conventions
+alwaysApply: true
+---
+
+# Fox Travel Egypt Website
+
+This is a **conversion-focused** travel booking website for Fox Travel Egypt (Hurghada). Users discover trips, book transfers, and contact via WhatsApp. Mobile-first, clear pricing, simple flows.
+
+## Stack
+
+- **Next.js 16** (App Router), **React 19**, **TypeScript**
+- **Tailwind CSS v4** for styling
+- **TanStack React Query** for server state; **Axios** for HTTP
+- **Lucide React** for icons
+- Fonts: Poppins / Montserrat (headings), Inter (body) — see `app/layout.tsx` and `app/globals.css`
+
+## Structure
+
+- `app/` — routes: `page.tsx` (home), `trips/page.tsx`, `trips/[slug]/page.tsx`
+- `components/` — UI; shared pieces in `components/ui/` (Button, TripCard, etc.)
+- `lib/` — `apis/` (tripsApi, apiErrors), `hooks/` (useTrips), `providers/`, `types/`
+- `paths.ts` — API base URL and endpoint paths (uses `NEXT_PUBLIC_API_URL`)
+
+## Conventions
+
+- Use `@/` for imports (e.g. `@/lib/apis/tripsApi`, `@/components/ui/Button`).
+- Brand colors live in `app/globals.css` (e.g. `--primary-orange`, `--accent-orange`). Prefer these over ad-hoc hex.
+- Every page should support: book a trip, book a transfer, contact company, or build trust. No dead-end pages.
+- Keep flows simple and fast; avoid hidden pricing and complex steps.
+
+## Docs
+
+- **PROJECT.md** — full product spec, user/business goals, features.
+- **WEB_APP.md** — short “what is this web app” overview.
