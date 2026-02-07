@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Search, Luggage } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Button from './ui/Button';
 import { useUser, SignInButton, UserButton } from '@clerk/nextjs';
 
@@ -41,14 +42,16 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="flex items-center space-x-2">
-              <Luggage className="w-8 h-8 text-[#F3722A]" strokeWidth={2.5} />
-              <div>
-                <span className="font-bold text-2xl text-black">
-                  Trav<span className="text-[#F3722A]">Hub</span>
-                </span>
-              </div>
-            </div>
+            <Image
+              src="/icons/logoFox.png"
+              alt="Fox Travel"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <span className="font-bold text-2xl text-black">
+              Fox<span className="text-[#F3722A]">Travel</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}

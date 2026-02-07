@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     throw new Error('Please add CLERK_WEBHOOK_SECRET to .env.local');
   }
 
-  console.log('✅ Webhook secret found');
+  console.log('✅ Webhook secret found', WEBHOOK_SECRET);
 
   // Get the headers
   const headerPayload = await headers();

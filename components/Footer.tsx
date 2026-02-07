@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Facebook, 
   Twitter, 
   Linkedin, 
   Instagram,
   MapPin,
-  Phone,
-  Briefcase
+  Phone
 } from 'lucide-react';
 
 export default function Footer() {
@@ -19,8 +19,14 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Briefcase className="w-8 h-8 text-white" />
-              <h3 className="text-2xl font-bold">TravHub</h3>
+              <Image
+                src="/icons/logoFox.png"
+                alt="Fox Travel"
+                width={40}
+                height={40}
+                className="object-contain"
+              />
+              <h3 className="text-2xl font-bold">Fox Travel</h3>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               content of a page when looking at layout the point of using lorem the is Ipsum less normal

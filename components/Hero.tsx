@@ -26,7 +26,7 @@ export default function Hero() {
           <div className="relative z-10">
             {/* Welcome Text */}
             <p className="text-[#F3722A] font-medium text-3xl  mb-4 animate-fade-in-up handwriting-style">
-              Welcome to Travhub
+              Welcome to Fox Travel
             </p>
 
             {/* Main Heading */}
