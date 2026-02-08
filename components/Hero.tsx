@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Calendar, Users, Search, Compass, Briefcase, Plane } from 'lucide-react';
+import { Compass, Briefcase, Plane } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -38,53 +38,17 @@ export default function Hero() {
               The Travel !
             </h1>
 
-            {/* Search Form - compact minimal */}
-            <div className="bg-white/90 backdrop-blur rounded-xl border border-gray-200/80 shadow-sm p-3 animate-fade-in-up animation-delay-200">
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:divide-x sm:divide-gray-200">
-                {/* Location */}
-                <div className="flex items-center gap-2 sm:flex-1 sm:px-3 py-2 min-w-0">
-                  <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] text-gray-400 uppercase tracking-wide">Location</p>
-                    <p className="text-sm text-gray-800 truncate font-medium">Where to next</p>
-                  </div>
-                </div>
-
-                {/* Type */}
-                <div className="flex items-center gap-2 sm:flex-1 sm:px-3 py-2 min-w-0">
-                  <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] text-gray-400 uppercase tracking-wide">Type</p>
-                    <p className="text-sm text-gray-800 truncate font-medium">Booking Type</p>
-                  </div>
-                </div>
-
-                {/* Date */}
-                <div className="flex items-center gap-2 sm:flex-1 sm:px-3 py-2 min-w-0">
-                  <Calendar className="w-4 h-4 text-gray-400 shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] text-gray-400 uppercase tracking-wide">Date</p>
-                    <p className="text-sm text-gray-800 truncate font-medium">Select Date</p>
-                  </div>
-                </div>
-
-                {/* Guests */}
-                <div className="flex items-center gap-2 sm:flex-1 sm:px-3 py-2 min-w-0">
-                  <Users className="w-4 h-4 text-gray-400 shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] text-gray-400 uppercase tracking-wide">Guests</p>
-                    <p className="text-sm text-gray-800 font-medium">02</p>
-                  </div>
-                </div>
-
-                {/* Search Button */}
-                <button className="sm:shrink-0 bg-[#F3722A] hover:bg-[#F15A22] text-white px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors">
-                  <Search className="w-4 h-4" />
-                  <span>Search</span>
-                </button>
-              </div>
+            {/* CTA Button */}
+            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-200">
+              <button className="bg-[#F3722A] hover:bg-[#F15A22] text-white px-8 py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:scale-105 transform">
+                <Compass className="w-5 h-5" />
+                <span>Explore Our Trips</span>
+              </button>
+              
+              <button className="bg-white hover:bg-gray-50 text-[#F3722A] border-2 border-[#F3722A] px-8 py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg hover:scale-105 transform">
+                <Plane className="w-5 h-5" />
+                <span>Book a Transfer</span>
+              </button>
             </div>
           </div>
 
