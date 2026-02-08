@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useMemo, type Dispatch, type SetStateAction } from 'react';
+import { Suspense, useState, useMemo, useRef, useEffect, useCallback, type Dispatch, type SetStateAction } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
@@ -105,6 +105,24 @@ function CheckoutContent() {
     }),
     enabled: false, // Manual trigger
   });
+
+  // When user clicks "Apply" for promo, we update formData then refetch after state has committed
+  const promoJustAppliedRef = useRef(false);
+  const onPromoApplyDoneRef = useRef<(() => void) | null>(null);
+  const applyPromoCodeAndRefetch = useCallback((promoCode: string, onDone?: () => void) => {
+    onPromoApplyDoneRef.current = onDone ?? null;
+    promoJustAppliedRef.current = true;
+    setFormData((prev) => ({ ...prev, promoCode: promoCode.trim() }));
+  }, []);
+  useEffect(() => {
+    if (promoJustAppliedRef.current) {
+      promoJustAppliedRef.current = false;
+      refetchPreview().then(() => {
+        onPromoApplyDoneRef.current?.();
+        onPromoApplyDoneRef.current = null;
+      });
+    }
+  }, [formData.promoCode, refetchPreview]);
 
   // Calculate available dates for selected slot
   const availableDates = useMemo(() => {
@@ -354,11 +372,11 @@ function CheckoutContent() {
                   trip={trip}
                   selectedSlot={selectedSlot}
                   formData={formData}
-                  setFormData={setFormData}
                   previewData={previewData?.data ?? undefined}
                   isLoading={previewLoading}
                   previewError={previewIsError ? previewError : null}
                   onRetryPreview={refetchPreview}
+                  onApplyPromoCode={applyPromoCodeAndRefetch}
                 />
               )}
 
@@ -928,21 +946,30 @@ function Step4Review({
   trip,
   selectedSlot,
   formData,
-  setFormData,
   previewData,
   isLoading,
   previewError,
   onRetryPreview,
+  onApplyPromoCode,
 }: {
   trip: PublicTripDto;
   selectedSlot: TripSlotDto | null;
   formData: BookingFormData;
-  setFormData: Dispatch<SetStateAction<BookingFormData>>;
   previewData: BookingPreviewData | undefined;
   isLoading: boolean;
   previewError: Error | null;
   onRetryPreview: () => void;
+  onApplyPromoCode: (promoCode: string, onDone?: () => void) => void;
 }) {
+  // Local state for promo code input (not applied yet)
+  const [promoCodeInput, setPromoCodeInput] = useState(formData.promoCode || '');
+  const [isApplyingPromo, setIsApplyingPromo] = useState(false);
+
+  const handleApplyPromoCode = () => {
+    if (!promoCodeInput.trim()) return;
+    setIsApplyingPromo(true);
+    onApplyPromoCode(promoCodeInput.trim(), () => setIsApplyingPromo(false));
+  };
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3">
@@ -1050,19 +1077,38 @@ function Step4Review({
         )}
       </div>
 
-      {/* Promo code – modern, compact input */}
+      {/* Promo code – modern, compact input with Apply button */}
       <div>
         <label htmlFor="promoCode" className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
           Promo Code <span className="text-gray-400 font-normal normal-case">(Optional)</span>
         </label>
-        <input
-          id="promoCode"
-          type="text"
-          value={formData.promoCode}
-          onChange={(e) => setFormData({ ...formData, promoCode: e.target.value })}
-          placeholder="Enter code"
-          className="w-full px-3.5 py-2.5 text-sm border border-(--light-grey) rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-(--primary-orange) focus:border-(--primary-orange) transition-shadow"
-        />
+        <div className="flex gap-2">
+          <input
+            id="promoCode"
+            type="text"
+            value={promoCodeInput}
+            onChange={(e) => setPromoCodeInput(e.target.value)}
+            placeholder="Enter code"
+            className="flex-1 px-3.5 py-2.5 text-sm border border-(--light-grey) rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-(--primary-orange) focus:border-(--primary-orange) transition-shadow"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && promoCodeInput.trim()) {
+                handleApplyPromoCode();
+              }
+            }}
+          />
+          <button
+            type="button"
+            onClick={handleApplyPromoCode}
+            disabled={!promoCodeInput.trim() || isApplyingPromo || isLoading}
+            className="px-6 py-2.5 text-sm font-semibold bg-(--primary-orange) text-white rounded-lg hover:bg-(--accent-orange) active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center justify-center min-w-[80px]"
+          >
+            {isApplyingPromo ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              'Apply'
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Total breakdown – polished card */}
