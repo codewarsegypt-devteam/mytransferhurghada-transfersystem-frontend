@@ -2,6 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## What Is This Web App?
 
+
 **Fox Travel Egypt** — A conversion-focused travel website for a Hurghada-based company. Visitors discover and book trips, sea excursions, and transfers, with clear pricing and WhatsApp contact. See **[WEB_APP.md](./WEB_APP.md)** for a short overview and **[PROJECT.md](./PROJECT.md)** for the full product spec.
 
 ## Getting Started
