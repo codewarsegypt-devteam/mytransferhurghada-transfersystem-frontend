@@ -33,7 +33,7 @@ function assertSucceeded<T extends { succeeded?: boolean; message?: string }>(
  * @throws {ApiError} On network error, non-2xx response, or when API returns succeeded: false
  */
 export async function previewTripBooking(
-  bookingData: TripBookingRequest
+  bookingData: Omit<TripBookingRequest, "paymentMethod" | "transactionId">
 ): Promise<BookingPreviewResponseDto> {
   try {
     const config: AxiosRequestConfig = {

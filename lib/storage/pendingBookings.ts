@@ -3,16 +3,31 @@
  * In production, this should be replaced with Redis or a database table
  */
 
-import type { TripBookingRequest } from '@/lib/types/bookingTypes';
+import type { TripBookingRequest, TransferBookingRequest } from '@/lib/types/bookingTypes';
 
-export interface PendingBooking {
+export type BookingType = 'trip' | 'transfer';
+
+export interface PendingTripBooking {
   id: string;
-  bookingData: TripBookingRequest;
+  bookingType: 'trip';
+  bookingData: Omit<TripBookingRequest, 'paymentMethod' | 'transactionId'>;
   expectedAmount: number;
   expectedCurrency: string;
   createdAt: Date;
   expiresAt: Date;
 }
+
+export interface PendingTransferBooking {
+  id: string;
+  bookingType: 'transfer';
+  bookingData: Omit<TransferBookingRequest, 'paymentMethod' | 'transactionId'>;
+  expectedAmount: number;
+  expectedCurrency: string;
+  createdAt: Date;
+  expiresAt: Date;
+}
+
+export type PendingBooking = PendingTripBooking | PendingTransferBooking;
 
 // In-memory storage (for development)
 // Attach to globalThis so the same Map is shared across all API routes in the same Node process.

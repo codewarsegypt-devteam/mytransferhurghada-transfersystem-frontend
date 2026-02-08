@@ -26,3 +26,12 @@ export const GET_TRIP_EXTRAS = (tripId: number) => `${BASE}/api/Trip/public/${tr
 // User Login API
 // ==============================
 export const USER_LOGIN = `${BASE}/api/Auth/google-login`;
+
+
+// ==============================
+// Transfer API
+// ==============================
+export const PREVIEW_TRANSFER_BOOKING = `${BASE}/api/Booking/previewTransferBooking`;
+export const CREATE_TRANSFER_BOOKING = `${BASE}/api/Booking/bookTransfer`;
+export const GET_REGION_ID_BY_COORDINATES = `${BASE}/api/Region/GetRegionIdByCoordinates`;
+export const GET_VEHICLE_TYPES = `${BASE}/api/VehicleType`;

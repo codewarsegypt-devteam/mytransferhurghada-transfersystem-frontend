@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get bookingId from request
-    const { bookingId } = body;
+    const { bookingId, redirectUrl } = body;
     if (!bookingId || typeof bookingId !== 'string') {
       return NextResponse.json(
         {
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       merchantOrderId: bookingId, // Use the secure booking ID
       mid: config.mid,
       secret: config.PaymentApiKey,
-      merchantRedirect: `${config.baseUrl}/payment/callback`,
+      merchantRedirect: `${config.baseUrl}${redirectUrl}`,
       serverWebhook: `${config.baseUrl}/api/payment/webhook`,
       display: body.display || "en",
       failureRedirect: body.failureRedirect || "true",

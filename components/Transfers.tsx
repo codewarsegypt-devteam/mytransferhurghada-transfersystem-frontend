@@ -92,10 +92,10 @@ function TransferCard({ option }: { option: TransferOption }) {
         )}
 
         {/* Price Badge */}
-        <div className="absolute bottom-4 right-4 bg-[#F3722A] text-white px-4 py-2 rounded-lg font-bold shadow-lg">
+        {/* <div className="absolute bottom-4 right-4 bg-[#F3722A] text-white px-4 py-2 rounded-lg font-bold shadow-lg">
           <div className="text-2xl leading-none">${option.price}</div>
           <div className="text-xs opacity-90">per transfer</div>
-        </div>
+        </div> */}
       </div>
 
       {/* Card Content */}
@@ -225,12 +225,12 @@ export default function Transfers() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button href="#airport-transfer" size="lg">
+          <Button href="/transfer" size="lg">
             Book Airport Transfer
           </Button>
-          <button className="bg-white hover:bg-gray-50 text-[#F3722A] border-2 border-[#F3722A] px-8 py-[15px] text-base rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-md w-full sm:w-auto">
+          {/* <button className="bg-white hover:bg-gray-50 text-[#F3722A] border-2 border-[#F3722A] px-8 py-[15px] text-base rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-md w-full sm:w-auto">
             All Transfers
-          </button>
+          </button> */}
         </div>
       </div>
 

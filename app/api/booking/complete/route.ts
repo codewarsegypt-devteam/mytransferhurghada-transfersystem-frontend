@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createTripBooking } from '@/lib/apis/bookingApi';
+import { createTransferBooking } from '@/lib/apis/transferApi';
 import { isApiError } from '@/lib/apis/apiErrors';
 import {
   getPendingBooking,
@@ -13,6 +14,7 @@ export const dynamic = 'force-dynamic';
 /**
  * Complete a booking after successful payment
  * This validates the payment amount and creates the actual booking
+ * Supports both trip and transfer bookings
  */
 export async function POST(request: NextRequest) {
   try {
@@ -77,35 +79,83 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create the actual booking
+    // Create the actual booking based on type
     try {
-      const bookingResponse = await createTripBooking({
-        ...pendingBooking.bookingData,
-        // transactionId,
-      });
+      if (pendingBooking.bookingType === 'trip') {
+        const bookingResponse = await createTripBooking({
+          ...pendingBooking.bookingData,
+          paymentMethod: 'CreditCard',
+          transactionId: transactionId || '',
+        });
 
-      // Delete the pending booking after successful creation
-      deletePendingBooking(bookingId);
+        // Delete the pending booking after successful creation
+        deletePendingBooking(bookingId);
 
-      console.log('Booking completed successfully:', {
-        pendingBookingId: bookingId,
-        actualBookingId: bookingResponse.data,
-        transactionId,
-        amount: paidAmount,
-        currency: paidCurrency,
-      });
+        console.log('Trip booking completed successfully:', {
+          pendingBookingId: bookingId,
+          actualBookingId: bookingResponse.data,
+          transactionId,
+          amount: paidAmount,
+          currency: paidCurrency,
+        });
 
-      return NextResponse.json({
-        success: true,
-        bookingId: bookingResponse.data,
-        message: 'Booking created successfully',
-      });
+        return NextResponse.json({
+          success: true,
+          bookingId: bookingResponse.data,
+          bookingType: 'trip',
+          message: 'Booking created successfully',
+        });
+      } else {
+        // Transfer booking
+        const bookingResponse = await createTransferBooking({
+          ...pendingBooking.bookingData,
+          paymentMethod: 'CreditCard',
+          transactionId: transactionId || '',
+        });
+
+        // Delete the pending booking after successful creation
+        deletePendingBooking(bookingId);
+
+        console.log('Transfer booking completed successfully:', {
+          pendingBookingId: bookingId,
+          responseMessage: bookingResponse.message,
+          transactionId,
+          amount: paidAmount,
+          currency: paidCurrency,
+        });
+
+        return NextResponse.json({
+          success: true,
+          bookingId: bookingId,
+          bookingType: 'transfer',
+          message: 'Transfer booking created successfully',
+        });
+      }
 
     } catch (bookingError) {
       console.error('Error creating booking:', bookingError);
 
       // Don't delete the pending booking - we can retry
       if (isApiError(bookingError)) {
+        const responseData = bookingError.responseData as { detail?: string } | undefined;
+        const isUserNotFound =
+          bookingError.statusCode === 404 &&
+          (bookingError.message?.includes('Resource not found') ||
+            responseData?.detail?.toLowerCase().includes('user not found'));
+
+        if (isUserNotFound) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: 'Login required',
+              code: 'USER_REQUIRED',
+              message:
+                'You must be logged in to complete a transfer booking. Please log in and try again.',
+            },
+            { status: 401 }
+          );
+        }
+
         return NextResponse.json(
           {
             success: false,

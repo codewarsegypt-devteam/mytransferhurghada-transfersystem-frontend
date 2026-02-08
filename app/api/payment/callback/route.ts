@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
         orderId: merchantOrderId,
       });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error processing callback:", error);
     return NextResponse.json(
       {

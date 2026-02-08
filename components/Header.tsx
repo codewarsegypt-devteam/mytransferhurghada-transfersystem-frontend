@@ -21,13 +21,13 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: 'HOME', href: '#home' },
-    { name: 'ABOUT', href: '#about' },
-    { name: 'PAGES', href: '#pages' },
-    { name: 'TOURS', href: '#tours' },
-    { name: 'DESTINATION', href: '#destination' },
-    { name: 'NEWS', href: '#news' },
-    { name: 'CONTACT', href: '#contact' },
+    { name: 'HOME', href: '/' },
+    { name: 'ABOUT', href: '/about' },
+    // { name: 'PAGES', href: '#pages' },
+    { name: 'TOURS', href: '/trips' },
+    // { name: 'DESTINATION', href: '#destination' },
+    // { name: 'NEWS', href: '#news' },
+    { name: 'CONTACT', href: '/contactus' },
   ];
 
   return (
@@ -70,9 +70,9 @@ export default function Header() {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button variant="icon" aria-label="Search">
+            {/* <Button variant="icon" aria-label="Search">
               <Search className="w-5 h-5 text-gray-800" />
-            </Button>
+            </Button> */}
             {!isLoaded ? (
               <div className="flex items-center space-x-3" aria-hidden>
                 <div className="h-4 w-16 rounded bg-gray-300/50 animate-pulse" />

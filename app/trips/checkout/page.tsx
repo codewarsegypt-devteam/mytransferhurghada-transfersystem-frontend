@@ -38,6 +38,7 @@ const STEPS = [
 ];
 
 type BookingFormData = {
+  bookingType: 'trip';
   tripSlotId: number | null;
   date: string;
   adults: number;
@@ -55,6 +56,7 @@ function CheckoutContent() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedSlot, setSelectedSlot] = useState<TripSlotDto | null>(null);
   const [formData, setFormData] = useState<BookingFormData>({
+    bookingType: 'trip',
     tripSlotId: null,
     date: '',
     adults: 1,
@@ -171,7 +173,7 @@ function CheckoutContent() {
   const handlePayment = async () => {
     try {
       console.log('Starting payment flow with form data:', formData);
-      
+
       // Step 1: Prepare the booking (store securely on server)
       const prepareResponse = await fetch('/api/booking/prepare', {
         method: 'POST',
@@ -204,7 +206,7 @@ function CheckoutContent() {
       const paymentResponse = await fetch('/api/payment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookingId }),
+        body: JSON.stringify({ bookingId, redirectUrl: "/payment/callback" }),
       });
 
       if (!paymentResponse.ok) {
