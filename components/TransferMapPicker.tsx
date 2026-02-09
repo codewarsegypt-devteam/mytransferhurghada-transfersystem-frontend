@@ -10,12 +10,20 @@ import { isApiError } from '@/lib/apis/apiErrors';
 import type { RegionDto } from '@/lib/types/bookingTypes';
 
 // Fix for default marker icons in Leaflet with webpack/Next.js
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
+
+const stadiaApiKey = typeof window !== "undefined" ? process.env.NEXT_PUBLIC_STADIA_MAPS_API_KEY : undefined;
+  const tileUrl = stadiaApiKey
+    ? `https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png?api_key=${stadiaApiKey}`
+    : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const tileAttribution = stadiaApiKey
+    ? '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 // Custom marker icons
 const createCustomIcon = (color: string) => {
@@ -27,7 +35,7 @@ const createCustomIcon = (color: string) => {
         width: 32px;
         height: 32px;
         border-radius: 50% 50% 50% 0;
-        transform: rotate(-45deg);
+        transform: rotate(-45deg) translate(11px, -11px);
         border: 3px solid white;
         box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       ">
@@ -164,18 +172,18 @@ export default function TransferMapPicker({
   };
 
   return (
-    <div className="space-y-4">
-      {/* Mode selector and actions */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        <div className="flex-1 flex gap-2">
+    <div className="space-y-2">
+      {/* Mode selector — compact pill toggle */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+        <div className="flex-1 flex gap-1.5 p-0.5 rounded-full bg-(--light-grey)/60 border border-(--light-grey)">
           <button
             type="button"
             onClick={() => setMode('from')}
             className={`
-              flex-1 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200
+              flex-1 px-3 py-2 rounded-full font-medium text-xs transition-all duration-200
               ${mode === 'from'
-                ? 'bg-(--primary-orange) text-white shadow-[0_2px_8px_rgba(243,114,42,0.25)]'
-                : 'bg-white text-gray-700 border border-(--light-grey) hover:border-gray-300'
+                ? 'bg-(--primary-orange) text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
               }
             `}
           >
@@ -185,71 +193,53 @@ export default function TransferMapPicker({
             type="button"
             onClick={() => setMode('to')}
             className={`
-              flex-1 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200
+              flex-1 px-3 py-2 rounded-full font-medium text-xs transition-all duration-200
               ${mode === 'to'
-                ? 'bg-(--accent-orange) text-white shadow-[0_2px_8px_rgba(241,90,34,0.25)]'
-                : 'bg-white text-gray-700 border border-(--light-grey) hover:border-gray-300'
+                ? 'bg-(--accent-orange) text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
               }
             `}
           >
             Drop-off {toLocation && '✓'}
           </button>
         </div>
-
-        {/* {fromLocation && toLocation && (
-          <button
-            type="button"
-            onClick={handleSwap}
-            className="px-4 py-3 rounded-xl border border-(--light-grey) bg-white text-gray-700 hover:bg-(--off-white) transition-colors flex items-center justify-center gap-2"
-            title="Swap locations"
-          >
-            <ArrowRightLeft className="w-4 h-4" />
-            <span className="text-sm font-medium">Swap</span>
-          </button>
-        )} */}
       </div>
 
-      {/* Current selection info */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Current selection — compact From/To cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {/* From */}
         <div
           className={`
-            p-4 rounded-xl border-2 transition-all duration-200
+            p-3 rounded-lg border transition-all duration-200
             ${mode === 'from' && !fromLocation
               ? 'border-(--primary-orange) bg-[rgba(243,114,42,0.06)]'
               : 'border-(--light-grey) bg-white'
             }
           `}
         >
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-start gap-3 flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2 min-w-0">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
               <div
                 className={`
-                  flex shrink-0 w-10 h-10 rounded-lg items-center justify-center
+                  flex shrink-0 w-8 h-8 rounded-md items-center justify-center
                   ${fromLocation ? 'bg-(--primary-orange) text-white' : 'bg-(--light-grey) text-gray-400'}
                 `}
               >
-                <MapPin className="w-5 h-5" strokeWidth={2} />
+                <MapPin className="w-4 h-4" strokeWidth={2} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
-                  Pick-up
+                <p className="text-xs text-gray-500 truncate">
+                  <span className="font-medium text-gray-600">Pick-up</span>
+                  {fromLocation ? (
+                    <> · <span className="font-semibold text-(--black)">{fromLocation.regionName}</span></>
+                  ) : (
+                    <span className="italic text-gray-400">{mode === 'from' ? 'Click map…' : 'Not set'}</span>
+                  )}
                 </p>
-                {fromLocation ? (
-                  <>
-                    <p className="font-semibold text-(--black) text-sm truncate">
-                      {fromLocation.regionName}
-                    </p>
-                    {fromLocation.isAirport && (
-                      <span className="inline-block mt-1 text-xs bg-(--primary-orange)/10 text-(--accent-orange) px-2 py-0.5 rounded-md font-medium">
-                        Airport
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-sm text-gray-500 italic">
-                    {mode === 'from' ? 'Click on map...' : 'Not selected'}
-                  </p>
+                {fromLocation?.isAirport && (
+                  <span className="inline-block mt-0.5 text-[10px] bg-(--primary-orange)/10 text-(--accent-orange) px-1.5 py-0.5 rounded font-medium">
+                    Airport
+                  </span>
                 )}
               </div>
             </div>
@@ -257,10 +247,10 @@ export default function TransferMapPicker({
               <button
                 type="button"
                 onClick={handleClearFrom}
-                className="shrink-0 p-1 text-gray-400 hover:text-red-600 transition-colors"
+                className="shrink-0 p-1 rounded text-gray-400 hover:text-red-600 hover:bg-red-50/50 transition-colors"
                 title="Clear pick-up"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -269,42 +259,36 @@ export default function TransferMapPicker({
         {/* To */}
         <div
           className={`
-            p-4 rounded-xl border-2 transition-all duration-200
+            p-3 rounded-lg border transition-all duration-200
             ${mode === 'to' && !toLocation
               ? 'border-(--accent-orange) bg-[rgba(241,90,34,0.06)]'
               : 'border-(--light-grey) bg-white'
             }
           `}
         >
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-start gap-3 flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2 min-w-0">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
               <div
                 className={`
-                  flex shrink-0 w-10 h-10 rounded-lg items-center justify-center
+                  flex shrink-0 w-8 h-8 rounded-md items-center justify-center
                   ${toLocation ? 'bg-(--accent-orange) text-white' : 'bg-(--light-grey) text-gray-400'}
                 `}
               >
-                <MapPin className="w-5 h-5" strokeWidth={2} />
+                <MapPin className="w-4 h-4" strokeWidth={2} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
-                  Drop-off
+                <p className="text-xs text-gray-500 truncate">
+                  <span className="font-medium text-gray-600">Drop-off</span>
+                  {toLocation ? (
+                    <> · <span className="font-semibold text-(--black)">{toLocation.regionName}</span></>
+                  ) : (
+                    <span className="italic text-gray-400">{mode === 'to' ? 'Click map…' : 'Not set'}</span>
+                  )}
                 </p>
-                {toLocation ? (
-                  <>
-                    <p className="font-semibold text-(--black) text-sm truncate">
-                      {toLocation.regionName}
-                    </p>
-                    {toLocation.isAirport && (
-                      <span className="inline-block mt-1 text-xs bg-(--accent-orange)/10 text-(--accent-orange) px-2 py-0.5 rounded-md font-medium">
-                        Airport
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-sm text-gray-500 italic">
-                    {mode === 'to' ? 'Click on map...' : 'Not selected'}
-                  </p>
+                {toLocation?.isAirport && (
+                  <span className="inline-block mt-0.5 text-[10px] bg-(--accent-orange)/10 text-(--accent-orange) px-1.5 py-0.5 rounded font-medium">
+                    Airport
+                  </span>
                 )}
               </div>
             </div>
@@ -312,33 +296,29 @@ export default function TransferMapPicker({
               <button
                 type="button"
                 onClick={handleClearTo}
-                className="shrink-0 p-1 text-gray-400 hover:text-red-600 transition-colors"
+                className="shrink-0 p-1 rounded text-gray-400 hover:text-red-600 hover:bg-red-50/50 transition-colors"
                 title="Clear drop-off"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* Instruction and Confirm Button */}
-      <div className="space-y-3">
-        <div className="bg-(--off-white)/80 border border-(--light-grey) rounded-lg p-3 text-center">
-          <p className="text-sm text-gray-700">
-            {mode === 'from' 
-              ? '📍 Move the map so the pin is on your pick-up location, then tap OK'
-              : '📍 Move the map so the pin is on your drop-off location, then tap OK'
-            }
-          </p>
-        </div>
-
+      {/* Instruction + CTA — compact one-line hint, smaller button */}
+      <div className="space-y-2">
+        <p className="text-xs text-gray-500 text-center px-2">
+          {mode === 'from'
+            ? 'Move the map so the pin is on pick-up, then tap below.'
+            : 'Move the map so the pin is on drop-off, then tap below.'}
+        </p>
         <button
           type="button"
           onClick={handleConfirmLocation}
           disabled={isLoading}
           className={`
-            w-full px-6 py-4 rounded-xl font-semibold text-base transition-all duration-200 shadow-soft
+            w-full px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 shadow-sm
             ${mode === 'from'
               ? 'bg-(--primary-orange) hover:bg-(--accent-orange) text-white'
               : 'bg-(--accent-orange) hover:bg-(--primary-orange) text-white'
@@ -349,27 +329,25 @@ export default function TransferMapPicker({
         >
           {isLoading ? (
             <>
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
               <span>Setting location...</span>
             </>
           ) : (
             <>
-              <MapPin className="w-5 h-5" />
+              <MapPin className="w-4 h-4" />
               <span>{mode === 'from' ? 'Set Pick-up Location' : 'Set Drop-off Location'}</span>
             </>
           )}
         </button>
       </div>
 
-      {/* Error message */}
+      {/* Error — compact */}
       {error && (
-        <div className="flex items-start gap-3 p-4 rounded-xl border border-red-200 bg-red-50/80">
-          <div className="shrink-0 w-5 h-5 rounded-full bg-red-600 flex items-center justify-center mt-0.5">
-            <span className="text-white text-xs font-bold">!</span>
+        <div className="flex items-center gap-2 p-3 rounded-lg border border-red-200 bg-red-50/80">
+          <div className="shrink-0 w-4 h-4 rounded-full bg-red-600 flex items-center justify-center">
+            <span className="text-white text-[10px] font-bold">!</span>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm text-red-800 font-medium">{error}</p>
-          </div>
+          <p className="text-xs text-red-800 font-medium flex-1 min-w-0">{error}</p>
         </div>
       )}
 
@@ -382,8 +360,10 @@ export default function TransferMapPicker({
           scrollWheelZoom={true}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url={tileUrl}
+            attribution={tileAttribution}
           />
 
           <MapCenterProvider getCenterRef={getCenterRef} />
@@ -425,7 +405,7 @@ export default function TransferMapPicker({
             {/* Animated pin icon */}
             <div 
               className={`
-                transition-all duration-300 animate-bounce
+                transition-all duration-500 
                 ${mode === 'from' ? 'text-(--primary-orange)' : 'text-(--accent-orange)'}
               `}
               style={{ 

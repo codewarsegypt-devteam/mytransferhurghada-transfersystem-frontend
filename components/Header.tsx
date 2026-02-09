@@ -22,17 +22,17 @@ export default function Header() {
 
   const navLinks = [
     { name: 'HOME', href: '/' },
-    { name: 'ABOUT', href: '/about' },
     // { name: 'PAGES', href: '#pages' },
-    { name: 'TOURS', href: '/trips' },
-    // { name: 'DESTINATION', href: '#destination' },
+    { name: 'TRIPS', href: '/trips' },
+    { name: 'TRANSFER', href: '/transfer' },
+    { name: 'ABOUT', href: '/about' },
     // { name: 'NEWS', href: '#news' },
     { name: 'CONTACT', href: '/contactus' },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
         isScrolled
           ? 'bg-[#F5E6D8]/98 backdrop-blur-md shadow-md'
           : 'bg-[#F5E6D8]/95 backdrop-blur-sm'

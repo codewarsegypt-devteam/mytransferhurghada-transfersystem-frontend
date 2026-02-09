@@ -2,10 +2,9 @@ import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 
-/** ---- Config (brand colors) ---- */
-const PRIMARY = "#F38B32";
-const SECONDARY = "#0A4F7D";
-const SECONDARY_LIGHT = "#2b57a1";
+/** ---- Config (Fox Travel Egypt brand colors) ---- */
+const PRIMARY_ORANGE = "#F3722A";
+const ACCENT_ORANGE = "#F15A22";
 
 /** ---- Schema (exactly your 4 fields) ---- */
 const ContactSchema = z.object({
@@ -48,320 +47,146 @@ async function parseBody(req: NextRequest) {
   return NextResponse.json({ ok: false, message: "Unsupported Content-Type" }, { status: 415 });
 }
 
-/** ---- Email template for regular contact ---- */
-function emailHtmlContact(data: z.infer<typeof ContactSchema>) {
-  const { name, email, phone, message } = data;
-  return `<!doctype html>
+
+/** ---- Unified Email Template - Fox Travel Egypt (New Brand Design) ---- */
+export function emailHtmlTemplate(data: z.infer<typeof ContactSchema>) {
+  const { name, email, phone, message, source } = data;
+
+  const PRIMARY_ORANGE = "#F3722A";
+  const ACCENT_ORANGE = "#F15A22";
+  const TEXT_DARK = "#333333";
+  const TEXT_LIGHT = "#666666";
+  const BG_LIGHT = "#F9F9F9";
+
+  return `
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>New Contact - Abu Dabbab Beach</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Contact Inquiry - Fox Travel Egypt</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 100%);
-      color: #1a1a1a;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
-      padding: 20px;
-    }
-    .email-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(10, 79, 125, 0.15);
-    }
-    .header {
-      background: linear-gradient(135deg, ${SECONDARY} 0%, ${SECONDARY_LIGHT} 50%, ${PRIMARY} 100%);
-      color: #ffffff;
-      padding: 32px 28px;
-      text-align: center;
-    }
-    .header-title {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-    .header-subtitle {
-      font-size: 14px;
-      opacity: 0.95;
-      font-weight: 400;
-    }
-    .content {
-      padding: 32px 28px;
-      background: #ffffff;
-    }
-    .field {
-      margin-bottom: 24px;
-    }
-    .field:last-child {
-      margin-bottom: 0;
-    }
-    .field-label {
-      font-size: 11px;
-      color: #6b7280;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .field-value {
-      font-size: 16px;
-      color: #1f2937;
-      font-weight: 500;
-      padding: 12px 16px;
-      background: #f9fafb;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-    }
-    .message-field {
-      padding: 16px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      white-space: pre-wrap;
-      line-height: 1.7;
-      font-size: 15px;
-      color: #374151;
-      min-height: 100px;
-    }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
-      margin: 28px 0;
-    }
-    .footer {
-      padding: 20px 28px;
-      background: #f9fafb;
-      text-align: center;
-      font-size: 12px;
-      color: #6b7280;
-      border-top: 1px solid #e5e7eb;
-    }
-    .footer-brand {
-      color: ${PRIMARY};
-      font-weight: 600;
-    }
-    @media only screen and (max-width: 600px) {
-      body { padding: 12px; }
-      .email-container { border-radius: 16px; }
-      .header { padding: 24px 20px; }
-      .header-title { font-size: 20px; }
-      .content { padding: 24px 20px; }
-      .field-value, .message-field { font-size: 14px; }
+    /* Reset styles for email clients */
+    body { margin: 0; padding: 0; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table { border-spacing: 0; border-collapse: collapse; }
+    img { -ms-interpolation-mode: bicubic; }
+    
+    /* Mobile responsive overrides */
+    @media screen and (max-width: 600px) {
+      .container { width: 100% !important; max-width: 100% !important; }
+      .padding { padding: 20px !important; }
+      .stack-column { display: block !important; width: 100% !important; box-sizing: border-box; }
     }
   </style>
 </head>
-<body>
-  <div class="email-container">
-    <div class="header">
-      <div class="header-title">🌊 New Contact Message</div>
-      <div class="header-subtitle">Abu Dabbab Beach</div>
-    </div>
-    <div class="content">
-      <div class="field">
-        <span class="field-label">Full Name</span>
-        <div class="field-value">${esc(name)}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="field">
-        <span class="field-label">Email Address</span>
-        <div class="field-value">${esc(email)}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="field">
-        <span class="field-label">Phone Number</span>
-        <div class="field-value">${esc(phone)}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="field">
-        <span class="field-label">Message</span>
-        <div class="message-field">${esc(message)}</div>
-      </div>
-    </div>
-    <div class="footer">
-      <div>You received this message from your contact form</div>
-      <div style="margin-top: 4px;">Powered by <span class="footer-brand">Uptrends</span></div>
-    </div>
-  </div>
+<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: ${BG_LIGHT}; margin: 0; padding: 20px 0;">
+
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: ${BG_LIGHT};">
+    <tr>
+      <td align="center">
+        
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" class="container" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          
+          <tr>
+            <td align="center" style="background-color: ${PRIMARY_ORANGE}; padding: 30px 20px;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 1px;">
+                FOX TRAVEL EGYPT
+              </h1>
+              <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">
+                New Website Inquiry
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="padding" style="padding: 40px 40px 20px 40px;">
+              <h2 style="color: ${TEXT_DARK}; margin: 0 0 20px 0; font-size: 20px;">
+                Hello Team,
+              </h2>
+              <p style="color: ${TEXT_LIGHT}; font-size: 16px; line-height: 1.5; margin-bottom: 30px;">
+                You have received a new message from the <strong>${source || 'Website'}</strong> contact form. Here are the details:
+              </p>
+
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid #eeeeee; border-radius: 6px;">
+                
+                <tr>
+                  <td width="30%" style="padding: 15px; border-bottom: 1px solid #eeeeee; background-color: #fafafa; font-weight: bold; color: ${TEXT_DARK}; font-size: 14px;">
+                    Name
+                  </td>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; color: ${TEXT_DARK}; font-size: 15px;">
+                    ${name}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; background-color: #fafafa; font-weight: bold; color: ${TEXT_DARK}; font-size: 14px;">
+                    Email
+                  </td>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; color: ${TEXT_DARK}; font-size: 15px;">
+                    <a href="mailto:${email}" style="color: ${ACCENT_ORANGE}; text-decoration: none;">${email}</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; background-color: #fafafa; font-weight: bold; color: ${TEXT_DARK}; font-size: 14px;">
+                    Phone
+                  </td>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; color: ${TEXT_DARK}; font-size: 15px;">
+                    <a href="tel:${phone}" style="color: ${TEXT_DARK}; text-decoration: none;">${phone}</a>
+                  </td>
+                </tr>
+
+                 ${source ? `
+                <tr>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; background-color: #fafafa; font-weight: bold; color: ${TEXT_DARK}; font-size: 14px;">
+                    Source
+                  </td>
+                  <td style="padding: 15px; border-bottom: 1px solid #eeeeee; color: ${TEXT_DARK}; font-size: 15px;">
+                    ${source}
+                  </td>
+                </tr>
+                ` : ''}
+
+              </table>
+
+              <div style="margin-top: 30px;">
+                <p style="font-weight: bold; color: ${TEXT_DARK}; margin-bottom: 10px; font-size: 14px;">Message:</p>
+                <div style="background-color: #fff8f5; border-left: 4px solid ${PRIMARY_ORANGE}; padding: 15px; color: ${TEXT_DARK}; font-size: 15px; line-height: 1.6; border-radius: 4px;">
+                  ${message.replace(/\n/g, '<br>')}
+                </div>
+              </div>
+
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding: 30px; background-color: ${BG_LIGHT}; border-top: 1px solid #eeeeee;">
+              <p style="color: #999999; font-size: 12px; margin: 0;">
+                &copy; ${new Date().getFullYear()} Fox Travel Egypt. All rights reserved.<br>
+                Automated notification system.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        </td>
+    </tr>
+  </table>
+
 </body>
-</html>`;
-}
-/** ---- Email template for bulk purchase ---- */
-function emailHtmlBulkPurchase(data: z.infer<typeof ContactSchema>) {
-  const { name, email, phone, message } = data;
-  return `<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bulk Purchase Inquiry - Abu Dabbab Beach</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, #0050a5 0%, #0066cc 50%, #004080 100%);
-      color: #1a1a1a;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
-      padding: 20px;
-    }
-    .email-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 80, 165, 0.25);
-    }
-    .header {
-      background: linear-gradient(135deg, #0050a5 0%, #0066cc 50%, #004080 100%);
-      color: #ffffff;
-      padding: 32px 28px;
-      text-align: center;
-    }
-    .header-title {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-    .header-subtitle {
-      font-size: 14px;
-      opacity: 0.95;
-      font-weight: 400;
-    }
-    .badge {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .content {
-      padding: 32px 28px;
-      background: #ffffff;
-    }
-    .field {
-      margin-bottom: 24px;
-    }
-    .field:last-child {
-      margin-bottom: 0;
-    }
-    .field-label {
-      font-size: 11px;
-      color: #6b7280;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .field-value {
-      font-size: 16px;
-      color: #1f2937;
-      font-weight: 500;
-      padding: 12px 16px;
-      background: #f9fafb;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-    }
-    .message-field {
-      padding: 16px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      white-space: pre-wrap;
-      line-height: 1.7;
-      font-size: 15px;
-      color: #374151;
-      min-height: 100px;
-    }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
-      margin: 28px 0;
-    }
-    .footer {
-      padding: 20px 28px;
-      background: #f9fafb;
-      text-align: center;
-      font-size: 12px;
-      color: #6b7280;
-      border-top: 1px solid #e5e7eb;
-    }
-    .footer-brand {
-      color: ${PRIMARY};
-      font-weight: 600;
-    }
-    @media only screen and (max-width: 600px) {
-      body { padding: 12px; }
-      .email-container { border-radius: 16px; }
-      .header { padding: 24px 20px; }
-      .header-title { font-size: 20px; }
-      .content { padding: 24px 20px; }
-      .field-value, .message-field { font-size: 14px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="email-container">
-    <div class="header">
-      <div class="header-title">📦 Bulk Purchase Inquiry</div>
-      <div class="header-subtitle">Abu Dabbab Beach</div>
-      <div class="badge">Group Booking Request</div>
-    </div>
-    <div class="content">
-      <div class="field">
-        <span class="field-label">Full Name</span>
-        <div class="field-value">${esc(name)}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="field">
-        <span class="field-label">Email Address</span>
-        <div class="field-value">${esc(email)}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="field">
-        <span class="field-label">Phone Number</span>
-        <div class="field-value">${esc(phone)}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="field">
-        <span class="field-label">Inquiry Details</span>
-        <div class="message-field">${esc(message)}</div>
-      </div>
-    </div>
-    <div class="footer">
-      <div>This inquiry was submitted from the Bulk Purchase form</div>
-      <div style="margin-top: 4px;">Powered by <span class="footer-brand">Uptrends</span></div>
-    </div>
-  </div>
-</body>
-</html>`;
+</html>
+  `;
 }
 
 function emailHtml(data: z.infer<typeof ContactSchema>) {
-  return data.source === "bulk-purchase" 
-    ? emailHtmlBulkPurchase(data) 
-    : emailHtmlContact(data);
+  return emailHtmlTemplate(data);
 }
 
 function emailText(d: z.infer<typeof ContactSchema>) {
-  const prefix = d.source === "bulk-purchase" 
-    ? "Bulk Purchase Inquiry - Abu Dabbab Beach" 
-    : "New Contact Message - Abu Dabbab Beach";
-  return `${prefix}\n\nName: ${d.name}\nEmail: ${d.email}\nPhone: ${d.phone}\n\nMessage:\n${d.message}\n`;
+  const prefix = d.source === "bulk-purchase"
+    ? "Bulk Purchase Inquiry - Fox Travel Egypt"
+    : "New Contact Message - Fox Travel Egypt";
+  return `${prefix}\n\nName: ${d.name}\nEmail: ${d.email}\nPhone: ${d.phone}\n\nMessage:\n${d.message}\n\n---\nFox Travel Egypt - Hurghada, Egypt`;
 }
 function esc(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -386,10 +211,10 @@ export async function POST(req: NextRequest) {
 
     const subject = data.source === "bulk-purchase"
       ? `📦 Bulk Purchase Inquiry — ${data.name}`
-      : `New Contact — ${data.name}`;
+      : `✉️ New Contact from ${data.name}`;
 
     await transporter.sendMail({
-      from: `Abu Dabbab Beach <${process.env.EMAIL_USER}>`,
+      from: `Fox Travel Egypt <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_TO, // your inbox
       subject,
       text: emailText(data),

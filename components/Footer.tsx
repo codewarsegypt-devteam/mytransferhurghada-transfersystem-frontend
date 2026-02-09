@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
+import {
+  Facebook,
+  Twitter,
+  Linkedin,
   Instagram,
   MapPin,
   Phone
@@ -44,7 +44,7 @@ export default function Footer() {
                 { label: 'Contact', href: '#contact' }
               ].map((item) => (
                 <li key={item.label}>
-                  <Link 
+                  <Link
                     href={item.href}
                     className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group"
                   >
@@ -67,7 +67,7 @@ export default function Footer() {
                 { label: 'Tour Packages', href: '#tours' }
               ].map((item) => (
                 <li key={item.label}>
-                  <Link 
+                  <Link
                     href={item.href}
                     className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group"
                   >
@@ -90,7 +90,7 @@ export default function Footer() {
                 { label: 'Thailand', href: '#thailand' }
               ].map((item) => (
                 <li key={item.label}>
-                  <Link 
+                  <Link
                     href={item.href}
                     className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group"
                   >
@@ -107,17 +107,16 @@ export default function Footer() {
             <h4 className="text-xl font-semibold mb-6">Contact Us</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="text-orange-500 mt-1 shrink-0 w-5 h-5" />
+                <MapPin className="text-orange-500 mt-1 shrink-0 w-4 h-4" />
                 <div className="text-gray-300 text-sm">
-                  <p>PO Box 16122 Collins Street</p>
-                  <p>West Victoria 8007 Australia</p>
+                  <p>Hurghada – Red Sea , Egypt</p>
+                  <p>147 El-Kawther , Airport Section</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <Phone className="text-orange-500 mt-1 shrink-0 w-5 h-5" />
+                <Phone className="text-orange-500  shrink-0 w-4 h-4" />
                 <div className="text-gray-300 text-sm">
-                  <p>+00-5566-3344</p>
-                  <p>+00-5566-4321</p>
+                  <p>+201028886667</p>
                 </div>
               </li>
             </ul>

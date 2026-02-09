@@ -126,7 +126,8 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          bookingId: bookingId,
+          // bookingId: bookingId,
+          bookingId: bookingResponse.data,
           bookingType: 'transfer',
           message: 'Transfer booking created successfully',
         });

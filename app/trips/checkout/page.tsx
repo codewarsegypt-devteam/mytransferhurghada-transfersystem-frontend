@@ -25,7 +25,7 @@ import { getPublicTripBySlug } from '@/lib/apis/tripsApi';
 import { getTripExtras } from '@/lib/apis/extras';
 import { previewTripBooking } from '@/lib/apis/bookingApi';
 import { isApiError } from '@/lib/apis/apiErrors';
-import type { TripSlotDto, PublicTripDto } from '@/lib/types/tripsTypes';
+import type { TripSlotDto, PublicTripDto, DayOfWeek } from '@/lib/types/tripsTypes';
 import type { TripExtraDto } from '@/lib/types/extrasTypes';
 import type { ExtraItemRequest, BookingPreviewData } from '@/lib/types/bookingTypes';
 
@@ -509,28 +509,26 @@ function CheckoutContent() {
   );
 }
 
-// Step 1: Slot and Date Selection
+// Step 1: Date-First Calendar Selection
 function Step1SlotAndDate({
   trip,
   selectedSlot,
   setSelectedSlot,
   formData,
   setFormData,
-  availableDates,
+  availableDates, // Not used in new implementation, kept for backwards compatibility
 }: {
   trip: PublicTripDto;
   selectedSlot: TripSlotDto | null;
-  setSelectedSlot: (slot: TripSlotDto) => void;
+  setSelectedSlot: (slot: TripSlotDto | null) => void;
   formData: BookingFormData;
   setFormData: Dispatch<SetStateAction<BookingFormData>>;
   availableDates: Date[];
 }) {
-  const handleSlotSelect = (slot: TripSlotDto) => {
-    setSelectedSlot(slot);
-    setFormData((prev) => ({ ...prev, tripSlotId: slot.id, date: '' })); // Reset date when slot changes
-  };
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  // Format date as YYYY-MM-DD in local time (toISOString() would shift to UTC and can change the calendar day)
+  // Format date as YYYY-MM-DD in local time
   const formatDateLocal = (d: Date) => {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -538,110 +536,278 @@ function Step1SlotAndDate({
     return `${y}-${m}-${day}`;
   };
 
+  // Get all available dates based on trip slots (next 90 days)
+  const allAvailableDates = useMemo(() => {
+    const dates: Date[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Get unique days from slots
+    const availableDays = new Set(trip.tripSlots.map(slot => slot.day));
+
+    // Generate dates for next 90 days that match slot days
+    for (let i = 0; i < 90; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' }) as DayOfWeek;
+      
+      if (availableDays.has(dayName)) {
+        dates.push(date);
+      }
+    }
+
+    return dates;
+  }, [trip.tripSlots]);
+
+  // Get slots matching the selected date
+  const slotsForSelectedDate = useMemo(() => {
+    if (!selectedDate) return [];
+    const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+    return trip.tripSlots.filter(slot => slot.day === dayName);
+  }, [selectedDate, trip.tripSlots]);
+
+  // Auto-select slot if only one matches
+  useEffect(() => {
+    if (selectedDate && slotsForSelectedDate.length === 1) {
+      const autoSlot = slotsForSelectedDate[0];
+      setSelectedSlot(autoSlot);
+      setFormData((prev) => ({
+        ...prev,
+        tripSlotId: autoSlot.id,
+        date: formatDateLocal(selectedDate),
+      }));
+    }
+  }, [selectedDate, slotsForSelectedDate, setSelectedSlot, setFormData]);
+
   const handleDateSelect = (date: Date) => {
-    setFormData((prev) => ({ ...prev, date: formatDateLocal(date) }));
+    setSelectedDate(date);
+    const dateString = formatDateLocal(date);
+    
+    // Clear slot selection when date changes
+    setSelectedSlot(null);
+    setFormData((prev) => ({
+      ...prev,
+      date: dateString,
+      tripSlotId: null,
+    }));
   };
 
+  const handleSlotSelect = (slot: TripSlotDto) => {
+    if (!selectedDate) return;
+    
+    setSelectedSlot(slot);
+    setFormData((prev) => ({
+      ...prev,
+      tripSlotId: slot.id,
+      date: formatDateLocal(selectedDate),
+    }));
+  };
+
+  // Check if a date is available
+  const isDateAvailable = (date: Date) => {
+    return allAvailableDates.some(
+      availDate => formatDateLocal(availDate) === formatDateLocal(date)
+    );
+  };
+
+  // Check if a date is in the past
+  const isDateInPast = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
+  // Generate calendar days for current month view
+  const calendarDays = useMemo(() => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    
+    const startDayOfWeek = firstDay.getDay(); // 0 = Sunday
+    const daysInMonth = lastDay.getDate();
+    
+    const days: (Date | null)[] = [];
+    
+    // Add empty slots for days before month starts
+    for (let i = 0; i < startDayOfWeek; i++) {
+      days.push(null);
+    }
+    
+    // Add all days in month
+    for (let day = 1; day <= daysInMonth; day++) {
+      days.push(new Date(year, month, day));
+    }
+    
+    return days;
+  }, [currentMonth]);
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
   return (
-    <div className="space-y-10">
-      <h2 className="text-xl sm:text-2xl font-semibold text-(--black) tracking-tight">
+    <div className="space-y-4">
+      <h2 className="text-lg sm:text-xl font-semibold text-(--black) tracking-tight">
         Select Date & Time
       </h2>
 
-      {/* Time slot selection – card style, on-brand */}
+      {/* Calendar - compact */}
       <div>
-        <p className="text-sm font-medium text-gray-600 mb-4">
-          Choose a time slot
+        <p className="text-xs font-medium text-gray-600 mb-2">
+          Choose your preferred date
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {trip.tripSlots.map((slot) => {
-            const isSelected = selectedSlot?.id === slot.id;
-            return (
-              <button
-                key={slot.id}
-                type="button"
-                onClick={() => handleSlotSelect(slot)}
-                className={`
-                  relative flex items-center gap-4 p-4 sm:p-5 rounded-brand border-2 text-left
-                  transition-all duration-200 ease-out
-                  ${isSelected
-                    ? 'border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]'
-                    : 'border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft'
-                  }
-                `}
-              >
-                <div
-                  className={`
-                    flex shrink-0 w-12 h-12 rounded-xl items-center justify-center
-                    ${isSelected ? 'bg-(--primary-orange) text-white' : 'bg-(--light-grey) text-gray-500'}
-                  `}
-                >
-                  <Clock className="w-5 h-5" strokeWidth={2} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <span className="font-semibold text-(--black)">{slot.day}</span>
-                    <span
-                      className={`
-                        text-xs font-medium px-2 py-0.5 rounded-md shrink-0
-                        ${isSelected ? 'bg-(--primary-orange)/10 text-(--accent-orange)' : 'bg-(--light-grey) text-gray-600'}
-                      `}
-                    >
-                      {slot.capacity} seats
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Starts at <span className="font-medium text-gray-800">{slot.startsAt}</span>
-                  </p>
-                </div>
-                {isSelected && (
-                  <div className="absolute top-3 right-3 text-(--primary-orange)">
-                    <Check className="w-5 h-5" strokeWidth={2.5} />
-                  </div>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Date picker – minimal strip, only when slot chosen */}
-      {selectedSlot && (
-        <div className="pt-2 border-t border-(--light-grey)">
-          <p className="text-sm font-medium text-gray-600 mb-3">
-            Pick a date <span className="text-gray-400 font-normal">({selectedSlot.day}s only)</span>
-          </p>
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2 max-h-72 overflow-y-auto overscroll-contain py-1 -mx-1 px-1">
-            {availableDates.map((date) => {
-              const dateString = formatDateLocal(date);
-              const isSelected = formData.date === dateString;
-
+        <div className="bg-white border border-(--light-grey) rounded-brand p-3 sm:p-4 w-full">
+          {/* Month navigation */}
+          <div className="flex items-center justify-between mb-2">
+            <button
+              type="button"
+              onClick={handlePrevMonth}
+              className="p-1.5 hover:bg-(--off-white) rounded-md transition-colors"
+              aria-label="Previous month"
+            >
+              <ChevronLeft className="w-4 h-4 text-gray-600" />
+            </button>
+            <h3 className="text-sm font-semibold text-(--black)">
+              {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+            </h3>
+            <button
+              type="button"
+              onClick={handleNextMonth}
+              className="p-1.5 hover:bg-(--off-white) rounded-md transition-colors"
+              aria-label="Next month"
+            >
+              <ChevronRight className="w-4 h-4 text-gray-600" />
+            </button>
+          </div>
+          {/* Day labels - full width grid */}
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-1">
+            {dayLabels.map(day => (
+              <div key={day} className="text-center text-[10px] font-medium text-gray-500 py-0.5">
+                {day}
+              </div>
+            ))}
+          </div>
+          {/* Calendar grid - full width, compact fixed-size cells */}
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 justify-items-center">
+            {calendarDays.map((date, idx) => {
+              if (!date) {
+                return <div key={`empty-${idx}`} className="w-8 h-8 sm:w-9 sm:h-9" />;
+              }
+              const isAvailable = isDateAvailable(date);
+              const isPast = isDateInPast(date);
+              const isDisabled = !isAvailable || isPast;
+              const isSelected = selectedDate && formatDateLocal(date) === formatDateLocal(selectedDate);
+              const isToday = formatDateLocal(date) === formatDateLocal(new Date());
               return (
                 <button
-                  key={dateString}
+                  key={formatDateLocal(date)}
                   type="button"
-                  onClick={() => handleDateSelect(date)}
+                  onClick={() => !isDisabled && handleDateSelect(date)}
+                  disabled={isDisabled}
                   className={`
-                    flex flex-col items-center justify-center min-h-17 py-2.5 px-2 rounded-xl
-                    border transition-all duration-200 ease-out
+                    w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-md text-xs font-medium shrink-0
+                    transition-all duration-200 ease-out
                     ${isSelected
-                      ? 'border-(--primary-orange) bg-(--primary-orange) text-white shadow-[0_2px_8px_rgba(243,114,42,0.25)]'
-                      : 'border-(--light-grey) bg-white text-(--black) hover:border-gray-300 hover:bg-(--off-white)'
+                      ? 'bg-(--primary-orange) text-white shadow-[0_1px_4px_rgba(243,114,42,0.3)] scale-105'
+                      : isDisabled
+                        ? 'text-gray-300 cursor-not-allowed bg-gray-50'
+                        : 'text-(--black) hover:bg-(--off-white) hover:border hover:border-(--light-grey) cursor-pointer'
                     }
+                    ${isToday && !isSelected ? 'border border-(--primary-orange)/40' : ''}
                   `}
                 >
-                  <span
-                    className={`text-[10px] sm:text-xs font-medium uppercase tracking-wider ${isSelected ? 'text-white/90' : 'text-gray-500'}`}
-                  >
-                    {date.toLocaleDateString('en-US', { month: 'short' })}
-                  </span>
-                  <span className={`text-lg sm:text-xl font-bold mt-0.5 tabular-nums ${isSelected ? 'text-white' : 'text-(--black)'}`}>
-                    {date.getDate()}
-                  </span>
+                  {date.getDate()}
                 </button>
               );
             })}
           </div>
+          {/* Available days legend */}
+          <div className="mt-2 pt-2 border-t border-(--light-grey)">
+            <p className="text-[10px] text-gray-500 flex items-center gap-1">
+              <Calendar className="w-3 h-3 shrink-0" />
+              Available: {trip.tripSlots.map(s => s.day).join(', ')}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Slot selection - compact, shown after date is selected */}
+      {selectedDate && slotsForSelectedDate.length > 0 && (
+        <div className="pt-1">
+          {slotsForSelectedDate.length === 1 ? (
+            <div className="bg-[rgba(243,114,42,0.06)] border border-(--primary-orange) rounded-brand p-3 max-w-[280px] sm:max-w-[320px]">
+              <div className="flex items-center gap-2">
+                <div className="flex shrink-0 w-8 h-8 rounded-md items-center justify-center bg-(--primary-orange) text-white">
+                  <Check className="w-4 h-4" strokeWidth={2.5} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">Time slot</p>
+                  <p className="text-sm font-semibold text-(--black) leading-tight">
+                    {slotsForSelectedDate[0].day} at {slotsForSelectedDate[0].startsAt}
+                  </p>
+                  <p className="text-[10px] text-gray-500">{slotsForSelectedDate[0].capacity} seats</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="text-xs font-medium text-gray-600 mb-2">Choose time slot</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-w-[320px]">
+                {slotsForSelectedDate.map((slot) => {
+                  const isSelected = selectedSlot?.id === slot.id;
+                  return (
+                    <button
+                      key={slot.id}
+                      type="button"
+                      onClick={() => handleSlotSelect(slot)}
+                      className={`
+                        relative flex items-center gap-2 p-2.5 rounded-lg border-2 text-left
+                        transition-all duration-200 ease-out
+                        ${isSelected
+                          ? 'border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]'
+                          : 'border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft'
+                        }
+                      `}
+                    >
+                      <div
+                        className={`
+                          flex shrink-0 w-7 h-7 rounded-md items-center justify-center
+                          ${isSelected ? 'bg-(--primary-orange) text-white' : 'bg-(--light-grey) text-gray-500'}
+                        `}
+                      >
+                        <Clock className="w-3.5 h-3.5" strokeWidth={2} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="font-semibold text-(--black) text-xs block">{slot.startsAt}</span>
+                        <span
+                          className={`
+                            text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0 inline-block mt-0.5
+                            ${isSelected ? 'bg-(--primary-orange)/10 text-(--accent-orange)' : 'bg-(--light-grey) text-gray-600'}
+                          `}
+                        >
+                          {slot.capacity} seats
+                        </span>
+                      </div>
+                      {isSelected && (
+                        <div className="absolute top-1 right-1 text-(--primary-orange)">
+                          <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -724,7 +890,7 @@ function Step2Participants({
                   <Icon className="w-5 h-5" strokeWidth={2} />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-(--black)">{label}</h4>
+                  <h4 className="font-semibold text-(--black) text-[20px]">{label}</h4>
                   <p className="text-sm text-gray-500">{ageRange}</p>
                 </div>
               </div>
@@ -860,7 +1026,7 @@ function Step3Extras({
                     <ShoppingBag className="w-5 h-5" strokeWidth={2} />
                   </div>
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-(--black)">{extra.title}</h3>
+                    <h3 className="font-semibold text-(--black) text-[20px]">{extra.title}</h3>
                     {extra.description && (
                       <p className="text-sm text-gray-600 mt-0.5 line-clamp-2">{extra.description}</p>
                     )}
@@ -888,7 +1054,7 @@ function Step3Extras({
                     type="button"
                     onClick={() => updateExtra(extra.id, quantity > 0 ? 0 : 1)}
                     className={`
-                      flex shrink-0 items-center justify-center gap-2 sm:w-auto w-full min-h-12 px-5 rounded-xl border-2 transition-all duration-200
+                      flex shrink-0 items-center justify-center gap-1.5 h-9 sm:w-auto w-full px-3 rounded-lg border transition-all duration-200 text-sm
                       ${quantity > 0
                         ? 'border-(--primary-orange) bg-(--primary-orange) text-white'
                         : 'border-(--light-grey) bg-white text-gray-600 hover:border-(--primary-orange) hover:text-(--accent-orange)'
@@ -897,38 +1063,38 @@ function Step3Extras({
                   >
                     {quantity > 0 ? (
                       <>
-                        <Check className="w-5 h-5" strokeWidth={2.5} />
-                        <span className="font-semibold">Added</span>
+                        <Check className="w-4 h-4" strokeWidth={2.5} />
+                        <span className="font-medium">Added</span>
                       </>
                     ) : (
-                      <span className="font-semibold">Add</span>
+                      <span className="font-medium">Add</span>
                     )}
                   </button>
                 ) : (
-                  <div className="flex items-center shrink-0 rounded-xl border border-(--light-grey) bg-(--off-white)/50 p-0.5">
+                  <div className="flex items-center shrink-0 rounded-lg border border-(--light-grey) bg-(--off-white)/50 p-0.5">
                     <button
                       type="button"
                       onClick={() => updateExtra(extra.id, quantity - 1)}
                       disabled={quantity === 0}
                       className={`
-                        flex w-10 h-10 rounded-lg items-center justify-center transition-all duration-200
+                        flex w-8 h-8 rounded-md items-center justify-center transition-all duration-200
                         ${quantity > 0
                           ? 'text-(--accent-orange) hover:bg-(--primary-orange) hover:text-white active:scale-95'
                           : 'text-gray-300 cursor-not-allowed'
                         }
                       `}
                     >
-                      <Minus className="w-4 h-4" strokeWidth={2.5} />
+                      <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
                     </button>
-                    <span className="min-w-9 text-center font-bold text-(--black) text-lg tabular-nums">
+                    <span className="min-w-6 text-center font-semibold text-(--black) text-sm tabular-nums">
                       {quantity}
                     </span>
                     <button
                       type="button"
                       onClick={() => updateExtra(extra.id, quantity + 1)}
-                      className="flex w-10 h-10 rounded-lg items-center justify-center text-(--accent-orange) hover:bg-(--primary-orange) hover:text-white active:scale-95 transition-all duration-200"
+                      className="flex w-8 h-8 rounded-md items-center justify-center text-(--accent-orange) hover:bg-(--primary-orange) hover:text-white active:scale-95 transition-all duration-200"
                     >
-                      <Plus className="w-4 h-4" strokeWidth={2.5} />
+                      <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
                     </button>
                   </div>
                 )}

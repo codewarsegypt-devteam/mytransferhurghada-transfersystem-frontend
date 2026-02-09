@@ -232,6 +232,11 @@
   opacity: 0;
 }
 
+.animation-delay-150 {
+  animation-delay: 0.15s;
+  opacity: 0;
+}
+
 .animation-delay-200 {
   animation-delay: 0.2s;
   opacity: 0;
@@ -240,6 +245,40 @@
 .animation-delay-300 {
   animation-delay: 0.3s;
   opacity: 0;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-15px) translateX(5px);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-5px);
+  }
+  75% {
+    transform: translateY(-20px) translateX(3px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Expand Width Animation */
+@keyframes expand-width {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-expand-width {
+  animation: expand-width 1s ease-out forwards 0.5s;
 }
 
 /* Handwriting Style for Welcome Text */
