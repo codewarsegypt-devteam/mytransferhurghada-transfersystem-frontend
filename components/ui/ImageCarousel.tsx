@@ -189,9 +189,14 @@ export function ImageCarousel({
               className="absolute inset-0 cursor-grab active:cursor-grabbing"
             >
               <motion.div
-                variants={imageVariants}
-                initial="initial"
-                animate="animate"
+                initial={{ scale: 1 }}
+                animate={{ 
+                  scale: 1.02, 
+                  transition: { 
+                    duration: 0.3, 
+                    ease: [0.42, 0, 0.58, 1] // equivalent to 'easeOut'
+                  } 
+                }}
                 className="relative w-full h-full"
               >
                 <Image
