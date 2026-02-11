@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 /* Fox Travel Egypt Brand Identity */
+@theme inline {
+  --color-main: #F3722A;
+  --color-secondary: #F15A22;
+  --font-family-poppins: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
 
 @layer base {
   /* Color Palette - CSS Custom Properties */
@@ -18,6 +24,7 @@
     --color-secondary-orange: var(--secondary-orange);
     --color-light-grey: var(--light-grey);
     --color-off-white: var(--off-white);
+    --color-black: var(--black);
   }
 
   /* Base Styles */
@@ -111,7 +118,7 @@
 
   /* Primary CTA Button */
   .btn-primary {
-    background-color: var(--accent-orange);
+    background-color: var(--primary-orange);
     color: white;
     border: none;
     border-radius: 12px;

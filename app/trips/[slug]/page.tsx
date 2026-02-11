@@ -80,7 +80,7 @@ export default function TripDetailPage() {
   return (
     <div className="min-h-screen bg-[#F5F6F6]">
       {/* Back Button */}
-      <div className="bg-white border-b border-gray-200">
+      {/* <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link
             href="/trips"
@@ -90,7 +90,7 @@ export default function TripDetailPage() {
             <span className="font-medium">Back to All Trips</span>
           </Link>
         </div>
-      </div>
+      </div> */}
 
       {/* Hero Section with Image Carousel */}
       <ImageCarousel

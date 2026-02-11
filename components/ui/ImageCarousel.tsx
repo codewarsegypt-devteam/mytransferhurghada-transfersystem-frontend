@@ -161,7 +161,7 @@ export function ImageCarousel({
 
   return (
     <section className="relative bg-[#F5E6D8]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-8 pt-[100px]">
         {/* Main Carousel */}
         <div 
           className="relative h-96 lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg group"

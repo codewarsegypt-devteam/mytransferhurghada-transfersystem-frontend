@@ -20,11 +20,11 @@ export default function SeaAdventures() {
       description: 'Visit Orange Bay & Paradise Island for unforgettable experiences',
       icon: Waves,
     },
-    {
-      title: 'Private Yacht',
-      description: 'Exclusive luxury yacht rentals for your perfect sea adventure',
-      icon: Ship,
-    },
+    // {
+    //   title: 'Private Yacht',
+    //   description: 'Exclusive luxury yacht rentals for your perfect sea adventure',
+    //   icon: Ship,
+    // },
   ];
 
   // Sample user avatars for the counter
@@ -36,26 +36,6 @@ export default function SeaAdventures() {
 
   return (
     <section className="relative py-8 lg:py-15 bg-[#F5E6D8] overflow-hidden">
-      {/* Decorative Elements */}
-      {/* <div className="absolute top-20 left-[5%] opacity-20 animate-bounce-slow">
-        <svg width="40" height="40" viewBox="0 0 40 40" className="text-[#F3722A]">
-          <path d="M20 5 L24 17 L37 17 L27 25 L31 37 L20 29 L9 37 L13 25 L3 17 L16 17 Z" fill="currentColor"/>
-        </svg>
-      </div> */}
-      
-      <div className="absolute bottom-1/3 left-[8%] opacity-15">
-        <Waves className="w-16 h-16 text-[#F3722A]" />
-      </div>
-
-      {/* Curved dashed line decoration */}
-      <svg className="absolute top-1/4 right-[15%] opacity-20" width="200" height="200" viewBox="0 0 200 200">
-        <path d="M10 100 Q 100 10, 190 100" stroke="#F3722A" strokeWidth="2" fill="none" strokeDasharray="8,8" strokeLinecap="round"/>
-      </svg>
-
-      {/* Airplane decoration */}
-      <div className="absolute bottom-40 right-[12%] opacity-25">
-        <Ship className="w-16 h-16 text-[#F3722A]" />
-      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">

@@ -37,59 +37,52 @@ export default function WhyChoose() {
   ];
 
   return (
-    <section className="relative py-20 lg:py-32 bg-linear-to-b from-white to-[#F5EDE4] overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-20 right-[8%] opacity-20 animate-bounce-slow">
-        <svg width="40" height="40" viewBox="0 0 40 40" className="text-[#F3722A]">
-          <path d="M20 5 L24 17 L37 17 L27 25 L31 37 L20 29 L9 37 L13 25 L3 17 L16 17 Z" fill="currentColor"/>
-        </svg>
-      </div>
+    <section className="relative py-14 lg:py-20 bg-linear-to-b from-main/10 via-white to-main/10 overflow-hidden">
+      {/* Subtle background pattern */}
+      <div
+        className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_1px_at_1px_1px,#2C3539_1px,transparent_0)] bg-[length:32px_32px]"
+        aria-hidden
+      />
 
-      <div className="absolute bottom-32 right-[5%] opacity-15">
-        <Shield className="w-16 h-16 text-[#F3722A]" />
-      </div>
-
-      {/* Curved dashed line decoration */}
-      <svg className="absolute top-1/4 left-[10%] opacity-20" width="200" height="200" viewBox="0 0 200 200">
-        <path d="M10 100 Q 100 10, 190 100" stroke="#F3722A" strokeWidth="2" fill="none" strokeDasharray="8,8" strokeLinecap="round"/>
-      </svg>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12 lg:mb-16">
-          <p className="text-[#F3722A] font-medium text-lg lg:text-xl mb-3 handwriting-style">
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header - tighter */}
+        <div className="text-center mb-10 lg:mb-12 max-w-3xl mx-auto">
+          <p className="text-main font-semibold text-sm uppercase tracking-widest mb-2">
             Why Choose Us
           </p>
-          <h2 className="text-4xl lg:text-5xl font-bold text-[#2C3539] leading-tight mb-6">
+          <h2 className="text-3xl lg:text-4xl font-bold text-[#2C3539] leading-tight mb-4">
             Why Choose Fox Travel Egypt
           </h2>
-          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-            Experience the difference with our trusted service, competitive advantages, and commitment to excellence
+          <p className="text-gray-600 text-base lg:text-lg">
+            Trusted service, clear advantages, and a commitment to excellence
           </p>
         </div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+        {/* Feature Cards Grid - more compact, modern cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-soft hover:shadow-soft-lg transition-all duration-300 group cursor-pointer hover:-translate-y-2"
+                className="group relative flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-main/20 transition-all duration-300 cursor-pointer hover:-translate-y-1"
               >
-                {/* Icon */}
-                <div className="mb-6">
-                  <div className="w-20 h-20 bg-[#F3722A] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
-                    <Icon className="w-10 h-10 text-white" />
+                {/* Soft glow on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-main/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden />
+
+                {/* Icon - slightly smaller, modern pill */}
+                <div className="relative mb-4">
+                  <div className="w-14 h-14 bg-main rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-md group-hover:shadow-main/30 group-hover:shadow-lg">
+                    <Icon className="w-7 h-7 text-white" strokeWidth={2} />
                   </div>
                 </div>
 
-                {/* Content */}
-                <div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-[#2C3539] mb-3">
+                {/* Content - tighter typography */}
+                <div className="relative">
+                  <h3 className="text-lg font-bold text-[#2C3539] mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 text-base leading-relaxed">
+                  <p className="text-gray-600 text-sm leading-snug">
                     {feature.description}
                   </p>
                 </div>
@@ -98,32 +91,16 @@ export default function WhyChoose() {
           })}
         </div>
 
-        {/* Optional Trust Badge or Additional Info */}
-        <div className="text-center mt-12 lg:mt-16">
-          <div className="inline-flex items-center space-x-3 bg-white px-8 py-4 rounded-full shadow-soft">
-            <Shield className="w-6 h-6 text-[#F3722A]" />
-            <p className="text-gray-800 font-semibold">
-              Trusted by over <span className="text-[#F3722A]">10,000+</span> happy travelers
+        {/* Trust Badge - compact */}
+        <div className="text-center mt-8 lg:mt-10">
+          <div className="inline-flex items-center gap-2.5 bg-white/90 backdrop-blur-sm border border-gray-100 px-6 py-3 rounded-full shadow-sm">
+            <Shield className="w-5 h-5 text-main shrink-0" />
+            <p className="text-gray-800 font-semibold text-sm">
+              Trusted by over <span className="text-main">10,000+</span> happy travelers
             </p>
           </div>
         </div>
       </div>
-
-      {/* Custom Animations */}
-      <style jsx>{`
-        @keyframes bounce-slow {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-
-        .animate-bounce-slow {
-          animation: bounce-slow 4s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 }

@@ -282,7 +282,7 @@ function CheckoutContent() {
 
   return (
     <div className="min-h-screen bg-[#F5E6D8] py-8 pt-24">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Step progress – Fox Travel identity */}
         <div className="bg-white rounded-brand border border-(--light-grey) shadow-soft p-6 sm:p-8 mb-6">
           <div className="flex items-center justify-between gap-2 sm:gap-4">

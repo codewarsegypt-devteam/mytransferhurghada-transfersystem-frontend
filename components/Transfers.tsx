@@ -3,6 +3,7 @@
 import { Car, Shield, DollarSign, Clock, CheckCircle, MapPin } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import Button from './ui/Button';
+import Link from 'next/link';
 
 interface TransferOption {
   id: number;
@@ -141,8 +142,8 @@ function TransferCard({ option }: { option: TransferOption }) {
 
 export default function Transfers() {
   return (
-    <section className="relative pt-8 lg:pt-15 px-4 bg-linear-to-b from-white via-[#F5EDE4] to-white overflow-hidden">
-      {/* Decorative Elements */}
+    <section className="relative py-8 lg:py-15 px-4 bg-linear-to-b from-white via-[#F5EDE4] to-white overflow-hidden">
+      {/* Decorative Elements
       <div className="absolute top-10 right-[8%] opacity-20">
         <svg width="50" height="50" viewBox="0 0 50 50" className="text-[#F3722A]">
           <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="5,5" />
@@ -151,7 +152,7 @@ export default function Transfers() {
 
       <div className="absolute bottom-20 left-[5%] opacity-15 animate-bounce-slow">
         <Car className="w-20 h-20 text-[#F3722A]" />
-      </div>
+      </div> */}
 
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
@@ -171,66 +172,37 @@ export default function Transfers() {
         </div>
 
 
-        {/* Key Features Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-15 md:mb-20">
+        {/* Key Features — compact strip */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
           {keyFeatures.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-5 md:p-6 shadow-soft hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-1 text-center group"
+                className="flex items-center gap-3 md:flex-col md:gap-2 bg-white/90 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-gray-100/80 shadow-sm hover:shadow-md hover:border-main/20 transition-all duration-200 group"
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-[#F3722A] bg-opacity-10 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 md:w-8 md:h-8 text-white" />
+                <div className="flex shrink-0 items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-lg bg-main/15 text-main group-hover:bg-main group-hover:text-white transition-colors duration-200">
+                  <Icon className="w-5 h-5 md:w-5 md:h-5" />
                 </div>
-                <h3 className="text-base md:text-lg font-bold text-[#2C3539] mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-xs md:text-sm text-gray-600">
-                  {feature.description}
-                </p>
+                <div className="min-w-0 md:text-center">
+                  <h3 className="text-sm font-semibold text-[#2C3539] leading-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Trust Indicators */}
-        {/* <div className="bg-white rounded-3xl p-6 md:p-8 shadow-soft mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center">
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-[#F3722A] bg-opacity-10 rounded-full flex items-center justify-center mb-3">
-                <Shield className="w-8 h-8 text-[#F3722A]" />
-              </div>
-              <h4 className="text-2xl font-bold text-[#2C3539] mb-1">100% Safe</h4>
-              <p className="text-gray-600 text-sm">Verified Drivers</p>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-[#F3722A] bg-opacity-10 rounded-full flex items-center justify-center mb-3">
-                <CheckCircle className="w-8 h-8 text-[#F3722A]" />
-              </div>
-              <h4 className="text-2xl font-bold text-[#2C3539] mb-1">5000+ Trips</h4>
-              <p className="text-gray-600 text-sm">Successfully Completed</p>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-[#F3722A] bg-opacity-10 rounded-full flex items-center justify-center mb-3">
-                <Clock className="w-8 h-8 text-[#F3722A]" />
-              </div>
-              <h4 className="text-2xl font-bold text-[#2C3539] mb-1">24/7 Support</h4>
-              <p className="text-gray-600 text-sm">Always Available</p>
-            </div>
-          </div>
-        </div> */}
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button href="/transfer" size="lg">
+          <Link href="/transfer" className="btn-primary inline-flex items-center gap-2">
             Book Airport Transfer
-          </Button>
-          {/* <button className="bg-white hover:bg-gray-50 text-[#F3722A] border-2 border-[#F3722A] px-8 py-[15px] text-base rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-md w-full sm:w-auto">
-            All Transfers
-          </button> */}
+          </Link>
         </div>
       </div>
 

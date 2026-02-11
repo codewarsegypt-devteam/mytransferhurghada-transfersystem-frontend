@@ -88,7 +88,7 @@ export default function TripCard({ trip, className = '', index = 0 }: TripCardPr
             </div>
 
             {/* Title */}
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight line-clamp-2 group-hover:text-[#FF6B35] transition-colors duration-300">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight line-clamp-1 group-hover:text-[#FF6B35] transition-colors duration-300">
               {trip.title}
             </h3>
 

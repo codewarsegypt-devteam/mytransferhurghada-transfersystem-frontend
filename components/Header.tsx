@@ -4,13 +4,18 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import Button from './ui/Button';
 import { useUser, SignInButton, UserButton } from '@clerk/nextjs';
 
 export default function Header() {
   const { isSignedIn, user, isLoaded } = useUser();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const isBlackTheme =
+    pathname === '/transfer' || pathname === '/trips/checkout' || pathname.startsWith('/trips/');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,26 +37,30 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#F5E6D8]/98 backdrop-blur-md shadow-md'
-          : 'bg-[#F5E6D8]/95 backdrop-blur-sm'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${isScrolled || isBlackTheme
+          ? `bg-[#F5E6D8]/98 backdrop-blur-md shadow-md`
+          : 'bg-transparent '
+        }`}
     >
       <nav className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <Image
-              src="/icons/foxTravel.png"
+            {isScrolled || isBlackTheme ? (<Image
+              src="/icons/blackLogo.png"
               alt="Fox Travel"
-              width={40}
-              height={40}
+              width={140}
+              height={140}
               className="object-contain"
             />
-            <span className="font-bold text-2xl text-black">
-              Fox<span className="text-[#F3722A]">Travel</span>
-            </span>
+            ) : (
+              <Image
+                src="/icons/whiteLogo.png"
+                alt="Fox Travel"
+                width={140}
+                height={140}
+                className="object-contain"
+              />)}
           </Link>
 
           {/* Desktop Navigation */}
@@ -60,7 +69,7 @@ export default function Header() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-gray-800 hover:text-[#F3722A] font-medium text-sm transition-colors duration-200 relative group"
+                className={`${isScrolled || isBlackTheme ? 'text-black' : 'text-white'} hover:text-[#F3722A] font-medium text-sm transition-colors duration-200 relative group`}
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#F3722A] group-hover:w-full transition-all duration-300"></span>
@@ -80,7 +89,7 @@ export default function Header() {
               </div>
             ) : isSignedIn ? (
               <div className="flex items-center space-x-3">
-                <span className="text-sm font-medium text-gray-800">
+                <span className={`text-sm font-medium ${isScrolled || isBlackTheme ? 'text-black' : 'text-white'}`}>
                   {user?.firstName || user?.username || 'User'}
                 </span>
                 <UserButton
@@ -115,9 +124,8 @@ export default function Header() {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="py-4 space-y-3 border-t border-gray-300/30">
             {navLinks.map((link) => (

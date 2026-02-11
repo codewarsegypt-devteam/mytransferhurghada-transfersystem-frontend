@@ -122,22 +122,7 @@ export default function Reviews() {
   const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
 
   return (
-    <section className="relative pt-8 lg:pt-15 bg-linear-to-b from-white to-[#F5EDE4] overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-[8%] opacity-20 animate-bounce-slow">
-        <svg width="40" height="40" viewBox="0 0 40 40" className="text-[#F3722A]">
-          <path d="M20 5 L24 17 L37 17 L27 25 L31 37 L20 29 L9 37 L13 25 L3 17 L16 17 Z" fill="currentColor"/>
-        </svg>
-      </div>
-
-      <div className="absolute bottom-32 right-[10%] opacity-15">
-        <Quote className="w-16 h-16 text-[#F3722A]" />
-      </div>
-
-      {/* Curved dashed line decoration */}
-      <svg className="absolute top-1/4 right-[5%] opacity-20" width="200" height="200" viewBox="0 0 200 200">
-        <path d="M10 100 Q 100 10, 190 100" stroke="#F3722A" strokeWidth="2" fill="none" strokeDasharray="8,8" strokeLinecap="round"/>
-      </svg>
+    <section className="relative py-8 lg:py-15 bg-linear-to-b from-white to-[#F5EDE4] overflow-hidden">
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -153,22 +138,22 @@ export default function Reviews() {
           </p>
 
           {/* Overall Rating Display */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <div className="flex items-center bg-white px-6 py-3 rounded-full shadow-soft">
-              <div className="flex items-center mr-3">
+          <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
+            <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-soft gap-2">
+              <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className="w-5 h-5 fill-[#F9C74F] text-[#F9C74F]"
+                    className="w-4 h-4 fill-[#F9C74F] text-[#F9C74F]"
                   />
                 ))}
               </div>
-              <span className="text-2xl font-bold text-[#2C3539]">{averageRating.toFixed(1)}</span>
-              <span className="text-gray-600 ml-2">out of 5</span>
+              <span className="text-lg font-bold text-[#2C3539]">{averageRating.toFixed(1)}</span>
+              <span className="text-sm text-gray-600">/ 5</span>
             </div>
-            <div className="text-gray-600">
+            <span className="text-sm text-gray-600">
               <span className="font-semibold text-[#2C3539]">{reviews.length}+</span> reviews
-            </div>
+            </span>
           </div>
         </div>
 
@@ -237,42 +222,40 @@ export default function Reviews() {
             ))}
           </div>
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center justify-center gap-4 mb-8">
+          {/* Navigation: arrows left/right, dots in the middle */}
+          <div className="flex items-center justify-center gap-6 mb-8">
             <button
               onClick={handlePrevious}
-              className="w-12 h-12 rounded-full bg-white shadow-soft hover:shadow-soft-lg hover:bg-[#F3722A] hover:text-white text-[#2C3539] transition-all duration-300 flex items-center justify-center group"
+              className="w-12 h-12 rounded-full bg-white shadow-soft hover:shadow-soft-lg hover:bg-[#F3722A] hover:text-white text-[#2C3539] transition-all duration-300 flex items-center justify-center group shrink-0"
               aria-label="Previous review"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
+            <div className="flex items-center justify-center gap-2">
+              {reviews.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? 'w-8 bg-[#F3722A]'
+                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to review ${index + 1}`}
+                />
+              ))}
+            </div>
             <button
               onClick={handleNext}
-              className="w-12 h-12 rounded-full bg-white shadow-soft hover:shadow-soft-lg hover:bg-[#F3722A] hover:text-white text-[#2C3539] transition-all duration-300 flex items-center justify-center group"
+              className="w-12 h-12 rounded-full bg-white shadow-soft hover:shadow-soft-lg hover:bg-[#F3722A] hover:text-white text-[#2C3539] transition-all duration-300 flex items-center justify-center group shrink-0"
               aria-label="Next review"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
-
-          {/* Dot Indicators */}
-          <div className="flex items-center justify-center gap-2">
-            {reviews.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => handleDotClick(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? 'w-8 bg-[#F3722A]'
-                    : 'w-2 bg-gray-300 hover:bg-gray-400'
-                }`}
-                aria-label={`Go to review ${index + 1}`}
-              />
-            ))}
-          </div>
         </div>
 
-        {/* Trust Badges */}
+        {/* Trust Badges
         <div className="flex flex-wrap items-center justify-center gap-8 mt-16">
           <div className="flex items-center space-x-3 bg-white px-6 py-4 rounded-2xl shadow-soft">
             <div className="w-12 h-12 bg-[#F3722A] rounded-xl flex items-center justify-center">
@@ -310,11 +293,11 @@ export default function Reviews() {
               <p className="text-gray-600 text-sm">Happy Travelers</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* CTA Section */}
         <div className="text-center mt-12">
-          <p className="text-gray-600 mb-6">Ready to create your own amazing story?</p>
+          {/* <p className="text-gray-600 mb-6">Ready to create your own amazing story?</p> */}
           <button className="btn-primary px-8 py-4 text-lg font-semibold">
             Book Your Adventure Now
           </button>
