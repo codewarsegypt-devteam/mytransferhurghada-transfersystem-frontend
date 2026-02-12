@@ -1,4 +1,3 @@
-"use client";
 import PopularTrips from '../components/PopularTrips';
 import SeaAdventures from '../components/SeaAdventures';
 import Transfers from '../components/Transfers';
@@ -9,7 +8,6 @@ import { PulseFitHero } from '@/components/ui/pulse-fit-hero';
 import { buildWhatsAppHref } from '@/components/ui/WhatsAppCTA';
 import type { TripItemDto } from '@/lib/types/tripsTypes';
 
-const FOX_WHATSAPP = '+201010836364';
 
 /** Demo trips for hero carousel only. No API fetch. */
 const HERO_DEMO_TRIPS: TripItemDto[] = [

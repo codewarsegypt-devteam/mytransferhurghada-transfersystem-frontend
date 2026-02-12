@@ -220,7 +220,7 @@ export function PulseFitHero({
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="relative h-[370px] min-[765px]:h-[450px] overflow-visible bg-transparent translate-y-[-300px] z-10 w-full pt-12 sm:pt-14 pb-14 sm:pb-16"
+          className="relative h-[410px] min-[765px]:h-[450px] overflow-visible bg-transparent translate-y-[-250px] md:translate-y-[-300px] z-10 w-full pt-12 sm:pt-14 pb-14 sm:pb-16"
         >
 
           {/* Scrolling container: TripCard per trip, duplicated for seamless loop */}
