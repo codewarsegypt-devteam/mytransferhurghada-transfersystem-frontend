@@ -198,7 +198,7 @@ export function PulseFitHero({
                     </button>
                   </div>
                   {/* Action button */}
-                  <div className="shrink-0 p-2.5 sm:p-3 flex items-center justify-center bg-linear-to-br from-main to-secondary">
+                  <div className="shrink-0 p-2.5 sm:p-3 flex items-center justify-center bg-main">
                     <button
                       type="button"
                       className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/95 hover:bg-white text-gray-900 font-semibold px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl text-sm shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"

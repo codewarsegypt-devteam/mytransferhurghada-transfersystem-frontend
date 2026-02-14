@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 
 interface FAQItem {
   question: string;
@@ -41,22 +42,18 @@ export default function FAQ() {
   return (
     <section className="relative py-6 lg:py-12 bg-linear-to-b from-white to-[#F5EDE4] overflow-hidden">
       <div
-        className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_1px_at_1px_1px,#2C3539_1px,transparent_0)] bg-[length:32px_32px]"
+        className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_1px_at_1px_1px,#2C3539_1px,transparent_0)] bg-[length:32px_32px] pointer-events-none"
         aria-hidden
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-8 lg:mb-10">
-          <p className="text-[#F3722A] font-medium text-base lg:text-lg mb-2 handwriting-style">
-            Got Questions?
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#2C3539] leading-tight mb-4">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-gray-600 text-base lg:text-lg max-w-3xl mx-auto">
-            Find answers to common questions about our trips, transfers, and services
-          </p>
+          <SectionHeader
+            subtitle="Got Questions?"
+            title="Frequently Asked Questions"
+            description="Find answers to common questions about our trips, transfers, and services"
+          />
         </div>
 
         {/* FAQ Accordion */}
@@ -96,21 +93,14 @@ export default function FAQ() {
                     </div>
                   </button>
 
-                  {/* Answer Content - use grid for reliable open/close height transition */}
-                  <div
-                    className="grid transition-[grid-template-rows] duration-300 ease-in-out"
-                    style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
-                  >
-                    <div className="min-h-0 overflow-hidden">
-                      <div className="px-5 pb-4 lg:px-6 lg:pb-5 pt-0">
-                        <div className="border-t border-gray-100 pt-3">
-                          <p className="text-gray-600 text-sm lg:text-base leading-relaxed">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      </div>
+                  {/* Answer - show when open */}
+                  {isOpen && (
+                    <div className="px-5 pb-4 lg:px-6 lg:pb-5 pt-0 border-t border-gray-100">
+                      <p className="text-gray-600 text-sm lg:text-base leading-relaxed pt-3">
+                        {faq.answer}
+                      </p>
                     </div>
-                  </div>
+                  )}
                 </div>
               );
             })}

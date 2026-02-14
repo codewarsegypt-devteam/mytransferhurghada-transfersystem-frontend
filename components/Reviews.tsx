@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import SectionHeader from './SectionHeader';
 
 interface Review {
   id: number;
@@ -126,16 +127,12 @@ export default function Reviews() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12 lg:mb-16">
-          <p className="text-[#F3722A] font-medium text-lg lg:text-xl mb-3 handwriting-style">
-            Testimonials
-          </p>
-          <h2 className="text-4xl lg:text-5xl font-bold text-[#2C3539] leading-tight mb-6">
-            What Travelers Say
-          </h2>
-          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-            Hear from our satisfied customers who have experienced the magic of Egypt with Fox Travel
-          </p>
+        <div className="text-center mb-10">
+          <SectionHeader
+            subtitle="Testimonials"
+            title="What Travelers Say"
+            description="Hear from our satisfied customers who have experienced the magic of Egypt with Fox Travel"
+          />
 
           {/* Overall Rating Display */}
           <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">

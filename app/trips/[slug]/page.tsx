@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, SignInButton } from '@clerk/nextjs';
 import { usePublicTripBySlug, isApiError } from '@/lib/hooks/useTrips';
+import type { DayOfWeek, TripSlotDto } from '@/lib/types/tripsTypes';
 import {
   Clock,
   MapPin,
@@ -25,6 +26,94 @@ import {
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { motion } from 'framer-motion';
+
+const DAYS_ORDER: DayOfWeek[] = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
+function DaysAvailabilityRow({ tripSlots }: { tripSlots: TripSlotDto[] }) {
+  const slotsByDay = useMemo(() => {
+    const counts: Record<DayOfWeek, number> = {
+      Sunday: 0,
+      Monday: 0,
+      Tuesday: 0,
+      Wednesday: 0,
+      Thursday: 0,
+      Friday: 0,
+      Saturday: 0,
+    };
+    tripSlots.forEach((slot) => {
+      counts[slot.day] = (counts[slot.day] ?? 0) + 1;
+    });
+    return counts;
+  }, [tripSlots]);
+
+  return (
+    <div className="mt-5 pt-4 border-t border-gray-100">
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-7 h-7 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center">
+          <Calendar className="w-3.5 h-3.5 text-(--accent-orange)" />
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+          Dates & times
+        </p>
+      </div>
+      <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+        {DAYS_ORDER.map((day, idx) => {
+          const count = slotsByDay[day];
+          const hasSlots = count > 0;
+          return (
+            <motion.div
+              key={day}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: idx * 0.02 }}
+              whileHover={hasSlots ? { scale: 1.03, y: -1 } : undefined}
+              title={hasSlots ? `${day}: ${count} slot${count !== 1 ? 's' : ''} available` : `${day}: no slots`}
+              className={`
+                flex flex-col items-center justify-center gap-1.5
+                min-h-[56px] py-3 px-2 rounded-xl border
+                transition-colors duration-200
+                ${hasSlots
+                  ? 'bg-linear-to-br from-orange-50 to-orange-50/40 border-orange-100 shadow-sm hover:shadow-md hover:border-(--accent-orange)/30'
+                  : 'bg-gray-50/80 border-gray-100 text-gray-400'
+                }
+              `}
+              aria-disabled={!hasSlots}
+              aria-label={`${day}, ${count} time${count !== 1 ? 's' : ''} available`}
+            >
+              <span
+                className={`text-xs font-bold uppercase tracking-wide ${
+                  hasSlots ? 'text-gray-800' : 'text-gray-400 line-through'
+                }`}
+              >
+                {day.slice(0, 3)}
+              </span>
+              <span
+                className={`
+                  text-[10px] font-bold tabular-nums px-2 py-0.5 rounded-full
+                  ${hasSlots
+                    ? 'bg-(--accent-orange)/20 text-(--accent-orange)'
+                    : 'bg-gray-200/80 text-gray-400'
+                  }
+                `}
+              >
+                {count} 
+                {count === 1 ? ' time' : ' times'}
+              </span>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function TripDetailPage() {
   const params = useParams();
@@ -126,7 +215,7 @@ export default function TripDetailPage() {
                 </h1>
 
                 {/* Quick Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center gap-2.5 p-3 rounded-xl bg-linear-to-br from-orange-50 to-orange-50/30 border border-orange-100"
@@ -165,20 +254,10 @@ export default function TripDetailPage() {
                       <p className="text-sm font-bold text-gray-900">{trip.languages.length}</p>
                     </div>
                   </motion.div>
-
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="flex items-center gap-2.5 p-3 rounded-xl bg-linear-to-br from-orange-50 to-orange-50/30 border border-orange-100"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center">
-                      <Calendar className="w-4 h-4 text-(--accent-orange)" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Dates & times</p>
-                      <p className="text-sm font-bold text-gray-900">{trip.tripSlots.length}</p>
-                    </div>
-                  </motion.div>
                 </div>
+
+                {/* Dates & times — availability by day */}
+                <DaysAvailabilityRow tripSlots={trip.tripSlots} />
               </motion.div>
 
               {/* Overview */}

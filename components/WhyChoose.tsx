@@ -1,6 +1,7 @@
 'use client';
 
 import { Shield, Users, Car, DollarSign, Lock, MessageCircle } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 
 export default function WhyChoose() {
   const features = [
@@ -37,7 +38,7 @@ export default function WhyChoose() {
   ];
 
   return (
-    <section className="relative py-14 lg:py-20 bg-linear-to-b from-main/10 via-white to-main/10 overflow-hidden">
+    <section className="relative py-14 lg:py-20 bg-linear-to-b from-[#F5E6D8] via-white to-[#F5E6D8] overflow-hidden">
       {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_1px_at_1px_1px,#2C3539_1px,transparent_0)] bg-[length:32px_32px]"
@@ -46,7 +47,7 @@ export default function WhyChoose() {
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header - tighter */}
-        <div className="text-center mb-10 lg:mb-12 max-w-3xl mx-auto">
+        {/* <div className="text-center mb-10 lg:mb-12 max-w-3xl mx-auto">
           <p className="text-main font-semibold text-sm uppercase tracking-widest mb-2">
             Why Choose Us
           </p>
@@ -56,7 +57,12 @@ export default function WhyChoose() {
           <p className="text-gray-600 text-base lg:text-lg">
             Trusted service, clear advantages, and a commitment to excellence
           </p>
-        </div>
+        </div> */}
+        <SectionHeader
+          subtitle="Why Choose Us"
+          title="Why Choose Fox Travel Egypt"
+          description="Trusted service, clear advantages, and a commitment to excellence"
+        />
 
         {/* Feature Cards Grid - more compact, modern cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-6xl mx-auto">

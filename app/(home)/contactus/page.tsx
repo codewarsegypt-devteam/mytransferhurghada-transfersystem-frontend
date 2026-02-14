@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Clock, Shield } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
 export default function ContactUsPage() {
@@ -378,8 +378,8 @@ export default function ContactUsPage() {
 
                 {/* Trust Badge */}
                 <div className="mt-8 pt-6 border-t border-gray-200">
-                  <p className="text-sm text-gray-500 text-center">
-                    🦊 Trusted by travelers since 2010
+                  <p className="text-sm text-gray-500 text-center flex items-center justify-center">
+                    <Shield className="w-4 h-4 inline-block mr-2 text-gray-500" /> Trusted by travelers since 2010
                   </p>
                 </div>
               </div>

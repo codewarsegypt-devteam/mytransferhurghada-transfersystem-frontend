@@ -35,7 +35,7 @@ export default function SeaAdventures() {
   ];
 
   return (
-    <section className="relative py-8 lg:py-15 bg-[#F5E6D8] overflow-hidden">
+    <section className="relative py-15 bg-[#F5E6D8] overflow-hidden">
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -97,7 +97,7 @@ export default function SeaAdventures() {
           <div className="space-y-8">
             {/* Header */}
             <div>
-              <p className="text-[#F3722A] font-medium text-3xl mb-3 handwriting-style">
+              <p className="text-secondary font-medium text-3xl mb-3 handwriting-style">
                 Best Features
               </p>
               <h2 className="text-4xl lg:text-5xl font-bold text-black leading-tight mb-6">

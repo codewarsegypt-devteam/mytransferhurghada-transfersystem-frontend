@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -15,7 +15,10 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isBlackTheme =
-    pathname === '/transfer' || pathname === '/trips/checkout' || pathname.startsWith('/trips/');
+    pathname === '/transfer' || pathname === '/trips/checkout' 
+    || pathname.startsWith('/trips/') 
+    || pathname.startsWith('/payment/callback') 
+    || pathname.startsWith('/transfer/callback') ;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,16 +40,16 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${isScrolled || isBlackTheme
+      className={`fixed top-0 left-0 right-0 z-9999 transition-all duration-300 ${isScrolled || isBlackTheme || isMobileMenuOpen
           ? `bg-[#F5E6D8]/98 backdrop-blur-md shadow-md`
-          : 'bg-transparent '
+          : 'bg-transparent'
         }`}
     >
       <nav className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            {isScrolled || isBlackTheme ? (<Image
+            {isScrolled || isBlackTheme || isMobileMenuOpen ? (<Image
               src="/icons/blackLogo.png"
               alt="Fox Travel"
               width={140}

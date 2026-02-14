@@ -16,8 +16,8 @@ export default function SectionHeader({
   className = '',
 }: SectionHeaderProps) {
   return (
-    <div className={`text-center mb-12 md:mb-16 ${className}`.trim()}>
-      <p className="handwriting-style text-(--accent-orange) text-xl md:text-2xl mb-3">
+    <div className={`text-center mb-12 ${className}`.trim()}>
+      <p className="text-secondary font-medium text-3xl mb-3 handwriting-style">
         {subtitle}
       </p>
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#2C3539] mb-4">

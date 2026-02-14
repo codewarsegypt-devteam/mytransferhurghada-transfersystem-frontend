@@ -2,22 +2,22 @@
 
 /* Fox Travel Egypt Brand Identity */
 @theme inline {
-  --color-main: #F3722A;
-  --color-secondary: #F15A22;
-  --font-family-poppins: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --color-main: #f3722a;
+  --color-secondary: #f15a22;
+  --font-family-poppins:
+    var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
-
 
 @layer base {
   /* Color Palette - CSS Custom Properties */
   :root {
-    --primary-orange: #F3722A;
-    --accent-orange: #F15A22;
-    --secondary-orange: #F36F24;
+    --primary-orange: #f3722a;
+    --accent-orange: #f15a22;
+    --secondary-orange: #f36f24;
     --black: #000000;
-    --light-grey: #E6E7E8;
-    --off-white: #F5F6F6;
-    
+    --light-grey: #e6e7e8;
+    --off-white: #f5f6f6;
+
     /* Tailwind v4 color tokens - automatically available as utility classes */
     --color-primary-orange: var(--primary-orange);
     --color-accent-orange: var(--accent-orange);
@@ -36,7 +36,12 @@
 
   /* Typography - Google Fonts loaded via Next.js font optimization */
   body {
-    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      var(--font-inter),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
     background-color: var(--off-white);
     color: var(--black);
     line-height: 1.6;
@@ -44,8 +49,19 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-poppins), var(--font-montserrat), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family:
+      var(--font-poppins),
+      var(--font-montserrat),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -72,15 +88,15 @@
     h1 {
       font-size: 2.5rem;
     }
-    
+
     h2 {
       font-size: 2rem;
     }
-    
+
     h3 {
       font-size: 1.75rem;
     }
-    
+
     h4 {
       font-size: 1.5rem;
     }
@@ -90,11 +106,11 @@
     h1 {
       font-size: 3rem;
     }
-    
+
     h2 {
       font-size: 2.5rem;
     }
-    
+
     h3 {
       font-size: 2rem;
     }
@@ -172,12 +188,20 @@
 @layer utilities {
   /* Gradient Overlays */
   .gradient-overlay {
-    background: linear-gradient(135deg, rgba(243, 114, 42, 0.1), rgba(241, 90, 34, 0.05));
+    background: linear-gradient(
+      135deg,
+      rgba(243, 114, 42, 0.1),
+      rgba(241, 90, 34, 0.05)
+    );
   }
 
   /* Section Highlights */
   .section-highlight {
-    background: linear-gradient(135deg, rgba(243, 114, 42, 0.08), rgba(241, 90, 34, 0.03));
+    background: linear-gradient(
+      135deg,
+      rgba(243, 114, 42, 0.08),
+      rgba(241, 90, 34, 0.03)
+    );
     border-radius: 20px;
     padding: 2rem;
   }
@@ -256,7 +280,8 @@
 
 /* Floating Animation */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) translateX(0px);
   }
   25% {
@@ -290,7 +315,9 @@
 
 /* Handwriting Style for Welcome Text */
 .handwriting-style {
-  font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', 'Apple Chancery', sans-serif;
+  font-family:
+    cursive, "Lucida Handwriting", "Brush Script MT", "Apple Chancery",
+    sans-serif;
   font-style: italic;
 }
 

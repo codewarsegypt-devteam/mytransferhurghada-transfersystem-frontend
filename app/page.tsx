@@ -71,8 +71,8 @@ export default function Home() {
         trips={HERO_DEMO_TRIPS}
       />
       {/* <PopularTrips /> */}
-      <SeaAdventures />
       <Transfers />
+      <SeaAdventures />
       {/* <Accommodation /> */}
       <WhyChoose />
       <Reviews />
