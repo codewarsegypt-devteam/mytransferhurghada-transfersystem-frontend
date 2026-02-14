@@ -1,14 +1,85 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { ChevronDown, ArrowRight, MapPin, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TripItemDto } from "@/lib/types/tripsTypes";
 import TripCard from "@/components/ui/TripCard";
 import HeroText from "@/components/ui/HeroText";
+
+const CARD_WIDTH_MOBILE = 300;
+const CARD_WIDTH_DESKTOP = 420;
+const CARD_GAP = 24;
+
+/** Carousel with CSS animation (GPU-friendly) and pause when off-screen. */
+function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(true);
+
+  const duplicatedTrips = useMemo(() => [...trips, ...trips], [trips]);
+  const offsetMobile = trips.length * (CARD_WIDTH_MOBILE + CARD_GAP);
+  const offsetDesktop = trips.length * (CARD_WIDTH_DESKTOP + CARD_GAP);
+  const duration = Math.max(16, trips.length * 4);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { rootMargin: "100px", threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <motion.div
+      ref={wrapRef}
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, delay: 0.8 }}
+      className="relative h-[450px] min-[765px]:h-[480px] overflow-visible bg-transparent translate-y-[-250px] md:translate-y-[-300px] z-10 w-full pt-12 sm:pt-14 pb-14 sm:pb-16"
+    >
+      <div
+        className="overflow-hidden w-full"
+        style={{ contain: "layout style paint" }}
+      >
+        <div
+          className={cn(
+            "carousel-track flex items-stretch gap-6 px-4 sm:px-6",
+            !isInView && "paused"
+          )}
+          style={{
+            width: "max-content",
+            ["--carousel-offset-mobile" as string]: `-${offsetMobile}px`,
+            ["--carousel-offset-desktop" as string]: `-${offsetDesktop}px`,
+            ["--carousel-duration" as string]: `${duration}s`,
+          } as React.CSSProperties}
+        >
+          {duplicatedTrips.map((trip, index) => (
+            <div
+              key={`${trip.id}-${index}`}
+              className="shrink-0 w-[300px] sm:w-[420px] py-5"
+            >
+              <TripCard trip={trip} index={index} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-row items-center justify-center gap-4 mt-10">
+        <button
+          type="button"
+          className="bg-main cursor-pointer text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-l hover:scale-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out"
+          onClick={() => { window.location.href = "/trips"; }}
+        >
+          Explore trips
+        </button>
+      </div>
+    </motion.div>
+  );
+}
 
 /** Rotating words in the hero title; longest length is used to reserve layout space. */
 const HERO_TITLE_ROTATING_WORDS = ["Fox", "Travel", "Egypt"] as const;
@@ -214,49 +285,9 @@ export function PulseFitHero({
         </div>
       )}
 
-      {/* TripCard carousel */}
+      {/* TripCard carousel: CSS-driven animation + pause when off-screen for performance */}
       {trips.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="relative h-[410px] min-[765px]:h-[450px] overflow-visible bg-transparent translate-y-[-250px] md:translate-y-[-300px] z-10 w-full pt-12 sm:pt-14 pb-14 sm:pb-16"
-        >
-
-          {/* Scrolling container: TripCard per trip, duplicated for seamless loop */}
-          <motion.div
-            className="flex items-stretch gap-6 px-4 sm:px-6"
-            animate={{
-              x: [0, -(trips.length * (320 + 24))],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: trips.length * 4,
-                ease: "easeInOut",
-              },
-            }}
-            style={{ width: "max-content" }}
-          >
-            {[...trips, ...trips].map((trip, index) => (
-              <div
-                key={`${trip.id}-${index}`}
-                className="shrink-0 w-[300px] sm:w-[420px]"
-              >
-                <TripCard trip={trip} index={index} />
-              </div>
-            ))}
-          </motion.div>
-          {/* CTA Buttons center */}
-          <div className="flex flex-row items-center justify-center gap-4 mt-10">
-            <button type="button" className="bg-main text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" onClick={() => {
-              window.location.href = "/trips";
-            }}>
-              Explore trips
-            </button>
-          </div>
-        </motion.div>
+        <CarouselBlock trips={trips} />
       )}
     </section>
   );

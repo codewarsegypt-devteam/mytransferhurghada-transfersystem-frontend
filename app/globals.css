@@ -334,3 +334,26 @@
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
 }
+
+/* Hero carousel: GPU-friendly infinite scroll (offset set via CSS vars on .carousel-track) */
+@keyframes carousel-scroll {
+  to {
+    transform: translate3d(var(--carousel-offset), 0, 0);
+  }
+}
+
+.carousel-track {
+  --carousel-offset: var(--carousel-offset-mobile, -2000px);
+  will-change: transform;
+  animation: carousel-scroll var(--carousel-duration, 24s) linear infinite;
+}
+
+@media (min-width: 640px) {
+  .carousel-track {
+    --carousel-offset: var(--carousel-offset-desktop, -2000px);
+  }
+}
+
+.carousel-track.paused {
+  animation-play-state: paused;
+}

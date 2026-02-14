@@ -18,15 +18,15 @@ export default function TripCard({ trip, className = '', index = 0 }: TripCardPr
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ 
-        duration: 0.5, 
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        duration: 0.3, 
+        // delay: index * 0.1,
+        ease: 'easeInOut'
       }}
       whileHover={{ y: -8 }}
       className={className}
     >
       <Link href={`/trips/${trip.slug}`} className="block">
-        <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+        <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-l transition-shadow duration-300 h-full">
           {/* Image Container with Gradient Overlay */}
           <div className="relative h-64 md:h-80 overflow-hidden">
             <motion.div
