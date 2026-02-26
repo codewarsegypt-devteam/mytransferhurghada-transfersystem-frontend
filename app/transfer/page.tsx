@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
@@ -72,7 +72,7 @@ type TransferFormData = {
   promoCode: string;
 };
 
-export default function TransferBookingPage() {
+function TransferBookingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
@@ -1049,5 +1049,19 @@ function Step4Payment({
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TransferBookingPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <Loader2 className="w-10 h-10 animate-spin text-(--primary-orange)" />
+        </div>
+      }
+    >
+      <TransferBookingContent />
+    </Suspense>
   );
 }
