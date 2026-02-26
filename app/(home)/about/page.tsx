@@ -200,6 +200,7 @@ export default function AboutPage() {
               </p>
             </div>
 
+
             {/* Signature / stamp */}
             <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <p className="handwriting-style text-2xl text-[#F3722A]">
