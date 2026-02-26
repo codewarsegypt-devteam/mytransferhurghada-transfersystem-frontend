@@ -357,3 +357,10 @@
 .carousel-track.paused {
   animation-play-state: paused;
 }
+.Why-Choose-Fox {
+background-image: url('/assets/contact.avif');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+}

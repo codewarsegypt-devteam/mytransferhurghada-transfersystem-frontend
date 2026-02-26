@@ -20,30 +20,30 @@ export default function WhyChoose() {
       description: 'Comfortable, air-conditioned vehicles for all transfers',
       icon: Car,
     },
-    {
-      title: 'Clear Pricing',
-      description: 'No hidden fees - what you see is what you pay',
-      icon: DollarSign,
-    },
-    {
-      title: 'Secure Booking & Payment',
-      description: 'Safe and encrypted payment processing for your peace of mind',
-      icon: Lock,
-    },
-    {
-      title: '24/7 WhatsApp Support',
-      description: 'Always available to assist you throughout your journey',
-      icon: MessageCircle,
-    },
+    // {
+    //   title: 'Clear Pricing',
+    //   description: 'No hidden fees - what you see is what you pay',
+    //   icon: DollarSign,
+    // },
+    // {
+    //   title: 'Secure Booking & Payment',
+    //   description: 'Safe and encrypted payment processing for your peace of mind',
+    //   icon: Lock,
+    // },
+    // {
+    //   title: '24/7 WhatsApp Support',
+    //   description: 'Always available to assist you throughout your journey',
+    //   icon: MessageCircle,
+    // },
   ];
 
   return (
-    <section className="relative py-14 lg:py-20 bg-linear-to-b from-[#F5E6D8] via-white to-[#F5E6D8] overflow-hidden">
+    <section className=" relative py-14 lg:py-20 bg-linear-to-b from-[#F5E6D8] via-white to-[#F5E6D8] overflow-hidden">
       {/* Subtle background pattern */}
-      <div
+      {/* <div
         className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_1px_at_1px_1px,#2C3539_1px,transparent_0)] bg-[length:32px_32px]"
         aria-hidden
-      />
+      /> */}
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header - tighter */}

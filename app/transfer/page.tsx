@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import { useState, useMemo, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import {
   MapPin,
   Calendar,
@@ -18,34 +18,41 @@ import {
   Banknote,
   CheckCircle2,
   ArrowRight,
-} from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import DateTimePicker from '@/components/ui/DateTimePicker';
-import { getVehicleTypes, previewTransferBooking } from '@/lib/apis/transferApi';
-import { isApiError } from '@/lib/apis/apiErrors';
+} from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import DateTimePicker from "@/components/ui/DateTimePicker";
+import {
+  getVehicleTypes,
+  previewTransferBooking,
+} from "@/lib/apis/transferApi";
+import { isApiError } from "@/lib/apis/apiErrors";
 import type {
   VehicleTypeDto,
   TransferLegRequest,
   ExtraItemRequest,
   TransferPreviewData,
-} from '@/lib/types/bookingTypes';
+} from "@/lib/types/bookingTypes";
+import PageBanner from "@/components/pageBanner";
 
 // Dynamic import for map component (client-only, no SSR)
-const TransferMapPicker = dynamic(() => import('@/components/TransferMapPicker'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center py-16 bg-(--off-white)/50 rounded-brand border border-(--light-grey)">
-      <Loader2 className="w-8 h-8 animate-spin text-(--primary-orange)" />
-    </div>
-  ),
-});
+const TransferMapPicker = dynamic(
+  () => import("@/components/TransferMapPicker"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center py-16 bg-(--off-white)/50 rounded-brand border border-(--light-grey)">
+        <Loader2 className="w-8 h-8 animate-spin text-(--primary-orange)" />
+      </div>
+    ),
+  },
+);
 
 // Step configuration
 const STEPS = [
-  { id: 1, name: 'Route', icon: MapPin },
-  { id: 2, name: 'Date & Time', icon: Calendar },
-  { id: 3, name: 'Vehicle', icon: Car },
-  { id: 4, name: 'Payment', icon: CreditCard },
+  { id: 1, name: "Route", icon: MapPin },
+  { id: 2, name: "Date & Time", icon: Calendar },
+  { id: 3, name: "Vehicle", icon: Car },
+  { id: 4, name: "Payment", icon: CreditCard },
 ];
 
 type TransferFormData = {
@@ -67,32 +74,66 @@ type TransferFormData = {
 
 export default function TransferBookingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState<'Cash' | 'CreditCard' | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<
+    "Cash" | "CreditCard" | null
+  >(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [cashBookingConfirmed, setCashBookingConfirmed] = useState(false);
-  const [cashBookingReference, setCashBookingReference] = useState<string>('');
+  const [cashBookingReference, setCashBookingReference] = useState<string>("");
 
   const [formData, setFormData] = useState<TransferFormData>({
     fromRegionId: null,
-    fromRegionName: '',
+    fromRegionName: "",
     fromLat: null,
     fromLng: null,
     fromIsAirport: false,
     toRegionId: null,
-    toRegionName: '',
+    toRegionName: "",
     toLat: null,
     toLng: null,
     toIsAirport: false,
-    pickupDateTime: '',
+    pickupDateTime: "",
     vehicleTypeId: null,
     extras: [],
-    promoCode: '',
+    promoCode: "",
   });
+
+  // Prefill from hero form (URL params from GetRegionIdByCoordinates)
+  useEffect(() => {
+    const fromRegionId = searchParams.get("fromRegionId");
+    const toRegionId = searchParams.get("toRegionId");
+    if (!fromRegionId || !toRegionId) return;
+    setFormData((prev) => ({
+      ...prev,
+      fromRegionId: Number(fromRegionId) || null,
+      fromRegionName: searchParams.get("fromRegionName") ?? prev.fromRegionName,
+      fromLat: searchParams.get("fromLat")
+        ? Number(searchParams.get("fromLat"))
+        : null,
+      fromLng: searchParams.get("fromLng")
+        ? Number(searchParams.get("fromLng"))
+        : null,
+      fromIsAirport: searchParams.get("fromIsAirport") === "true",
+      toRegionId: Number(toRegionId) || null,
+      toRegionName: searchParams.get("toRegionName") ?? prev.toRegionName,
+      toLat: searchParams.get("toLat")
+        ? Number(searchParams.get("toLat"))
+        : null,
+      toLng: searchParams.get("toLng")
+        ? Number(searchParams.get("toLng"))
+        : null,
+      toIsAirport: searchParams.get("toIsAirport") === "true",
+      pickupDateTime: searchParams.get("date")
+        ? `${searchParams.get("date")}T12:00:00`
+        : prev.pickupDateTime,
+    }));
+  }, [searchParams]);
 
   // Fetch vehicle types
   const { data: vehicleTypesData, isLoading: vehiclesLoading } = useQuery({
-    queryKey: ['vehicleTypes'],
+    queryKey: ["vehicleTypes"],
     queryFn: () => getVehicleTypes(),
   });
 
@@ -106,7 +147,7 @@ export default function TransferBookingPage() {
     error: previewError,
     refetch: refetchPreview,
   } = useQuery({
-    queryKey: ['transferPreview', formData],
+    queryKey: ["transferPreview", formData],
     queryFn: () => {
       const leg: TransferLegRequest = {
         fromRegionId: formData.fromRegionId!,
@@ -142,7 +183,7 @@ export default function TransferBookingPage() {
   const handleNext = async () => {
     if (currentStep === 4) {
       // Handle payment
-      if (paymentMethod === 'Cash') {
+      if (paymentMethod === "Cash") {
         await handleCashPayment();
       } else {
         await handleCreditCardPayment();
@@ -172,9 +213,9 @@ export default function TransferBookingPage() {
 
       // For cash payment, we bypass the prepare/payment flow
       // and call createTransferBooking directly
-      const response = await fetch('/api/transfer/booking/cash', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/transfer/booking/cash", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           vehicleTypeId: formData.vehicleTypeId,
           legs: [leg],
@@ -185,16 +226,16 @@ export default function TransferBookingPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        alert(error.message || 'Failed to create booking. Please try again.');
+        alert(error.message || "Failed to create booking. Please try again.");
         return;
       }
 
       const result = await response.json();
-      setCashBookingReference(result.bookingId || 'N/A');
+      setCashBookingReference(result.bookingId || "N/A");
       setCashBookingConfirmed(true);
     } catch (error) {
-      console.error('Cash payment error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      console.error("Cash payment error:", error);
+      alert("An unexpected error occurred. Please try again.");
     } finally {
       setIsProcessing(false);
     }
@@ -211,11 +252,11 @@ export default function TransferBookingPage() {
       };
 
       // Step 1: Prepare the booking
-      const prepareResponse = await fetch('/api/booking/prepare', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const prepareResponse = await fetch("/api/booking/prepare", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          bookingType: 'transfer',
+          bookingType: "transfer",
           vehicleTypeId: formData.vehicleTypeId,
           legs: [leg],
           extras: formData.extras,
@@ -225,7 +266,7 @@ export default function TransferBookingPage() {
 
       if (!prepareResponse.ok) {
         const error = await prepareResponse.json();
-        alert(error.message || 'Failed to prepare booking. Please try again.');
+        alert(error.message || "Failed to prepare booking. Please try again.");
         return;
       }
 
@@ -233,20 +274,20 @@ export default function TransferBookingPage() {
       const { bookingId } = prepareResult;
 
       if (!bookingId) {
-        alert('Failed to prepare booking. Please try again.');
+        alert("Failed to prepare booking. Please try again.");
         return;
       }
 
       // Step 2: Create payment
-      const paymentResponse = await fetch('/api/payment/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const paymentResponse = await fetch("/api/payment/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ bookingId, redirectUrl: "/transfer/callback" }),
       });
 
       if (!paymentResponse.ok) {
         const error = await paymentResponse.json();
-        alert(error.message || 'Failed to create payment. Please try again.');
+        alert(error.message || "Failed to create payment. Please try again.");
         return;
       }
 
@@ -256,11 +297,11 @@ export default function TransferBookingPage() {
         // Redirect to Kashier payment page
         window.location.href = paymentResult.paymentUrl;
       } else {
-        alert('Failed to create payment. Please try again.');
+        alert("Failed to create payment. Please try again.");
       }
     } catch (error) {
-      console.error('Credit card payment error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      console.error("Credit card payment error:", error);
+      alert("An unexpected error occurred. Please try again.");
     } finally {
       setIsProcessing(false);
     }
@@ -274,10 +315,15 @@ export default function TransferBookingPage() {
           <div className="bg-white rounded-brand border border-(--light-grey) shadow-soft p-8 text-center">
             <div className="flex justify-center mb-6">
               <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-                <CheckCircle2 className="w-12 h-12 text-green-600" strokeWidth={2} />
+                <CheckCircle2
+                  className="w-12 h-12 text-green-600"
+                  strokeWidth={2}
+                />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-(--black) mb-2">Booking Confirmed!</h2>
+            <h2 className="text-2xl font-bold text-(--black) mb-2">
+              Booking Confirmed!
+            </h2>
             <p className="text-gray-600 mb-6">
               Your transfer has been booked. Please have cash ready for payment.
             </p>
@@ -291,7 +337,7 @@ export default function TransferBookingPage() {
             </div>
             <div className="space-y-3">
               <button
-                onClick={() => router.push('/')}
+                onClick={() => router.push("/")}
                 className="w-full px-6 py-3 bg-(--primary-orange) text-white font-semibold rounded-xl hover:bg-(--accent-orange) transition-colors"
               >
                 Back to Home
@@ -310,8 +356,20 @@ export default function TransferBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5E6D8] py-8 pt-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F5E6D8] py-8 ">
+      <PageBanner
+        subtitle="Transfer Booking"
+        title="Book Your Transfer"
+        description="Book your transfer with us and enjoy a smooth and comfortable journey to your destination."
+        searchQuery={""}
+        setSearchQuery={() => {}}
+        placeholder="Search for a trip"
+        searchBar={false}
+        bgImageUrl="/assets/transfer.avif"
+        bgImageAlt="Transfer Image"
+        bgOverlay={true}
+      />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-15">
         {/* Step progress */}
         <div className="bg-white rounded-brand border border-(--light-grey) shadow-soft p-6 sm:p-8 mb-6">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
@@ -324,10 +382,10 @@ export default function TransferBookingPage() {
                       transition-all duration-300 ease-out
                       ${
                         currentStep > step.id
-                          ? 'bg-(--accent-orange) text-white shadow-[0_2px_8px_rgba(241,90,34,0.25)]'
+                          ? "bg-(--accent-orange) text-white shadow-[0_2px_8px_rgba(241,90,34,0.25)]"
                           : currentStep === step.id
-                            ? 'bg-(--primary-orange) text-white ring-2 ring-(--accent-orange) ring-offset-2 ring-offset-white shadow-[0_2px_12px_rgba(243,114,42,0.35)]'
-                            : 'bg-(--light-grey) text-[#9ca3af]'
+                            ? "bg-(--primary-orange) text-white ring-2 ring-(--accent-orange) ring-offset-2 ring-offset-white shadow-[0_2px_12px_rgba(243,114,42,0.35)]"
+                            : "bg-(--light-grey) text-[#9ca3af]"
                       }
                     `}
                   >
@@ -345,8 +403,8 @@ export default function TransferBookingPage() {
                       ml-2 sm:ml-3 truncate hidden sm:inline font-semibold text-sm tracking-tight
                       ${
                         currentStep >= step.id
-                          ? 'text-(--black)'
-                          : 'text-gray-400'
+                          ? "text-(--black)"
+                          : "text-gray-400"
                       }
                     `}
                   >
@@ -358,7 +416,7 @@ export default function TransferBookingPage() {
                     className={`
                       flex-1 h-1.5 mx-2 sm:mx-4 rounded-full shrink min-w-[12px] sm:min-w-[24px]
                       transition-colors duration-300
-                      ${currentStep > step.id ? 'bg-(--accent-orange)' : 'bg-(--light-grey)'}
+                      ${currentStep > step.id ? "bg-(--accent-orange)" : "bg-(--light-grey)"}
                     `}
                   />
                 )}
@@ -378,7 +436,9 @@ export default function TransferBookingPage() {
                   </h2>
                   <TransferMapPicker
                     fromLocation={
-                      formData.fromRegionId && formData.fromLat && formData.fromLng
+                      formData.fromRegionId &&
+                      formData.fromLat &&
+                      formData.fromLng
                         ? {
                             lat: formData.fromLat,
                             lng: formData.fromLng,
@@ -413,7 +473,7 @@ export default function TransferBookingPage() {
                         setFormData((prev) => ({
                           ...prev,
                           fromRegionId: null,
-                          fromRegionName: '',
+                          fromRegionName: "",
                           fromLat: null,
                           fromLng: null,
                           fromIsAirport: false,
@@ -434,7 +494,7 @@ export default function TransferBookingPage() {
                         setFormData((prev) => ({
                           ...prev,
                           toRegionId: null,
-                          toRegionName: '',
+                          toRegionName: "",
                           toLat: null,
                           toLng: null,
                           toIsAirport: false,
@@ -496,7 +556,7 @@ export default function TransferBookingPage() {
                     </>
                   ) : currentStep === 4 ? (
                     <>
-                      {paymentMethod === 'Cash' ? (
+                      {paymentMethod === "Cash" ? (
                         <>
                           <Banknote className="w-4 h-4" strokeWidth={2.5} />
                           Confirm Cash Booking
@@ -532,9 +592,13 @@ export default function TransferBookingPage() {
                     Route
                   </p>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="font-medium text-(--black)">{formData.fromRegionName}</span>
+                    <span className="font-medium text-(--black)">
+                      {formData.fromRegionName}
+                    </span>
                     <ArrowRight className="w-3 h-3 text-gray-400" />
-                    <span className="font-medium text-(--black)">{formData.toRegionName}</span>
+                    <span className="font-medium text-(--black)">
+                      {formData.toRegionName}
+                    </span>
                   </div>
                 </div>
               )}
@@ -545,16 +609,22 @@ export default function TransferBookingPage() {
                     Pickup
                   </p>
                   <p className="text-xs text-(--black) font-medium">
-                    {new Date(formData.pickupDateTime).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}{' '}
-                    at{' '}
-                    {new Date(formData.pickupDateTime).toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                    {new Date(formData.pickupDateTime).toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      },
+                    )}{" "}
+                    at{" "}
+                    {new Date(formData.pickupDateTime).toLocaleTimeString(
+                      "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      },
+                    )}
                   </p>
                 </div>
               )}
@@ -565,7 +635,10 @@ export default function TransferBookingPage() {
                     Vehicle
                   </p>
                   <p className="text-xs text-(--black) font-medium">
-                    {vehicleTypes.find((v) => v.id === formData.vehicleTypeId)?.title}
+                    {
+                      vehicleTypes.find((v) => v.id === formData.vehicleTypeId)
+                        ?.title
+                    }
                   </p>
                 </div>
               )}
@@ -573,7 +646,9 @@ export default function TransferBookingPage() {
               {previewData?.data && currentStep === 4 && (
                 <div className="rounded-lg bg-(--off-white)/80 border border-(--light-grey) p-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-gray-700">Total Amount</span>
+                    <span className="text-xs font-semibold text-gray-700">
+                      Total Amount
+                    </span>
                     <span className="text-base font-bold text-(--accent-orange) tabular-nums">
                       {previewData.data.total} {previewData.data.currency}
                     </span>
@@ -607,7 +682,10 @@ function Step2DateTime({
       </h2>
 
       <div className="max-w-md">
-        <label htmlFor="pickupDateTime" className="block text-sm font-medium text-gray-600 mb-3">
+        <label
+          htmlFor="pickupDateTime"
+          className="block text-sm font-medium text-gray-600 mb-3"
+        >
           Pickup Date & Time
         </label>
         <DateTimePicker
@@ -628,18 +706,18 @@ function Step2DateTime({
             Selected Pickup
           </p>
           <p className="text-base font-semibold text-(--black)">
-            {new Date(formData.pickupDateTime).toLocaleDateString('en-US', {
-              weekday: 'long',
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
+            {new Date(formData.pickupDateTime).toLocaleDateString("en-US", {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+              year: "numeric",
             })}
           </p>
           <p className="text-sm text-gray-600 mt-1">
-            at{' '}
-            {new Date(formData.pickupDateTime).toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
+            at{" "}
+            {new Date(formData.pickupDateTime).toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
             })}
           </p>
         </div>
@@ -691,8 +769,8 @@ function Step3Vehicle({
                 relative flex flex-col gap-4 p-5 rounded-brand border-2 text-left transition-all duration-200
                 ${
                   isSelected
-                    ? 'border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]'
-                    : 'border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft'
+                    ? "border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]"
+                    : "border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft"
                 }
               `}
             >
@@ -700,13 +778,15 @@ function Step3Vehicle({
                 <div
                   className={`
                     flex shrink-0 w-14 h-14 rounded-xl items-center justify-center
-                    ${isSelected ? 'bg-(--primary-orange) text-white' : 'bg-(--light-grey) text-gray-500'}
+                    ${isSelected ? "bg-(--primary-orange) text-white" : "bg-(--light-grey) text-gray-500"}
                   `}
                 >
                   <Car className="w-7 h-7" strokeWidth={2} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-(--black) text-base">{vehicle.title}</h3>
+                  <h3 className="font-bold text-(--black) text-base">
+                    {vehicle.title}
+                  </h3>
                   <div className="flex items-center gap-1.5 mt-1">
                     <Users className="w-4 h-4 text-gray-500" strokeWidth={2} />
                     <span className="text-sm text-gray-600">
@@ -753,8 +833,10 @@ function Step4Payment({
   isLoading: boolean;
   previewError: Error | null;
   onRetryPreview: () => void;
-  paymentMethod: 'Cash' | 'CreditCard' | null;
-  setPaymentMethod: React.Dispatch<React.SetStateAction<'Cash' | 'CreditCard' | null>>;
+  paymentMethod: "Cash" | "CreditCard" | null;
+  setPaymentMethod: React.Dispatch<
+    React.SetStateAction<"Cash" | "CreditCard" | null>
+  >;
 }) {
   if (isLoading) {
     return (
@@ -766,13 +848,17 @@ function Step4Payment({
   }
 
   if (previewError) {
-    const message = isApiError(previewError) ? previewError.message : 'Failed to load pricing.';
+    const message = isApiError(previewError)
+      ? previewError.message
+      : "Failed to load pricing.";
     return (
       <div className="rounded-brand border border-red-200 bg-red-50/80 p-5">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-red-900 text-sm">Preview unavailable</h3>
+            <h3 className="font-semibold text-red-900 text-sm">
+              Preview unavailable
+            </h3>
             <p className="text-red-700 text-sm mt-1">{message}</p>
             <button
               type="button"
@@ -803,9 +889,13 @@ function Step4Payment({
             <div className="space-y-2">
               {previewData.transferLegs.map((leg, index) => (
                 <div key={index} className="flex items-center gap-2 text-sm">
-                  <span className="font-medium text-(--black)">{leg.fromRegionName}</span>
+                  <span className="font-medium text-(--black)">
+                    {leg.fromRegionName}
+                  </span>
                   <ArrowRightLeft className="w-3.5 h-3.5 text-gray-400" />
-                  <span className="font-medium text-(--black)">{leg.toRegionName}</span>
+                  <span className="font-medium text-(--black)">
+                    {leg.toRegionName}
+                  </span>
                   <span className="ml-auto font-semibold text-(--black) tabular-nums">
                     {leg.price} {previewData.currency}
                   </span>
@@ -822,13 +912,18 @@ function Step4Payment({
           htmlFor="promoCode"
           className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2"
         >
-          Promo Code <span className="text-gray-400 font-normal normal-case">(Optional)</span>
+          Promo Code{" "}
+          <span className="text-gray-400 font-normal normal-case">
+            (Optional)
+          </span>
         </label>
         <input
           id="promoCode"
           type="text"
           value={formData.promoCode}
-          onChange={(e) => setFormData({ ...formData, promoCode: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, promoCode: e.target.value })
+          }
           placeholder="Enter code"
           className="w-full px-3.5 py-2.5 text-sm border border-(--light-grey) rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-(--primary-orange) focus:border-(--primary-orange) transition-shadow"
         />
@@ -854,14 +949,18 @@ function Step4Payment({
             )}
             {previewData.discountValue > 0 && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-green-700 font-medium">Discount applied</span>
+                <span className="text-green-700 font-medium">
+                  Discount applied
+                </span>
                 <span className="font-semibold text-green-700 tabular-nums">
                   −{previewData.discountValue} {previewData.currency}
                 </span>
               </div>
             )}
             <div className="flex items-center justify-between pt-3 mt-2 border-t border-(--light-grey)">
-              <span className="text-base font-semibold text-(--black)">Total amount</span>
+              <span className="text-base font-semibold text-(--black)">
+                Total amount
+              </span>
               <span className="text-xl font-bold text-(--accent-orange) tabular-nums">
                 {previewData.total} {previewData.currency}
               </span>
@@ -876,63 +975,75 @@ function Step4Payment({
 
       {/* Payment method selection */}
       <div>
-        <p className="text-sm font-medium text-gray-600 mb-3">Choose Payment Method</p>
+        <p className="text-sm font-medium text-gray-600 mb-3">
+          Choose Payment Method
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
             type="button"
-            onClick={() => setPaymentMethod('Cash')}
+            onClick={() => setPaymentMethod("Cash")}
             className={`
               relative flex items-center gap-3 p-4 rounded-brand border-2 text-left transition-all duration-200
               ${
-                paymentMethod === 'Cash'
-                  ? 'border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]'
-                  : 'border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft'
+                paymentMethod === "Cash"
+                  ? "border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]"
+                  : "border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft"
               }
             `}
           >
             <div
               className={`
                 flex shrink-0 w-12 h-12 rounded-lg items-center justify-center
-                ${paymentMethod === 'Cash' ? 'bg-(--primary-orange) text-white' : 'bg-(--light-grey) text-gray-500'}
+                ${paymentMethod === "Cash" ? "bg-(--primary-orange) text-white" : "bg-(--light-grey) text-gray-500"}
               `}
             >
               <Banknote className="w-6 h-6" strokeWidth={2} />
             </div>
             <div className="flex-1 min-w-0">
               <span className="font-semibold text-(--black)">Cash</span>
-              <p className="text-xs text-gray-600 mt-0.5">Pay driver directly</p>
+              <p className="text-xs text-gray-600 mt-0.5">
+                Pay driver directly
+              </p>
             </div>
-            {paymentMethod === 'Cash' && (
-              <Check className="w-5 h-5 text-(--primary-orange) shrink-0" strokeWidth={2.5} />
+            {paymentMethod === "Cash" && (
+              <Check
+                className="w-5 h-5 text-(--primary-orange) shrink-0"
+                strokeWidth={2.5}
+              />
             )}
           </button>
 
           <button
             type="button"
-            onClick={() => setPaymentMethod('CreditCard')}
+            onClick={() => setPaymentMethod("CreditCard")}
             className={`
               relative flex items-center gap-3 p-4 rounded-brand border-2 text-left transition-all duration-200
               ${
-                paymentMethod === 'CreditCard'
-                  ? 'border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]'
-                  : 'border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft'
+                paymentMethod === "CreditCard"
+                  ? "border-(--primary-orange) bg-[rgba(243,114,42,0.06)] shadow-[0_0_0_1px_var(--primary-orange)]"
+                  : "border-(--light-grey) bg-white hover:border-[#d1d3d6] hover:shadow-soft"
               }
             `}
           >
             <div
               className={`
                 flex shrink-0 w-12 h-12 rounded-lg items-center justify-center
-                ${paymentMethod === 'CreditCard' ? 'bg-(--primary-orange) text-white' : 'bg-(--light-grey) text-gray-500'}
+                ${paymentMethod === "CreditCard" ? "bg-(--primary-orange) text-white" : "bg-(--light-grey) text-gray-500"}
               `}
             >
               <CreditCard className="w-6 h-6" strokeWidth={2} />
             </div>
             <div className="flex-1 min-w-0">
               <span className="font-semibold text-(--black)">Credit Card</span>
-              <p className="text-xs text-gray-600 mt-0.5">Secure online payment</p>
+              <p className="text-xs text-gray-600 mt-0.5">
+                Secure online payment
+              </p>
             </div>
-            {paymentMethod === 'CreditCard' && (
-              <Check className="w-5 h-5 text-(--primary-orange) shrink-0" strokeWidth={2.5} />
+            {paymentMethod === "CreditCard" && (
+              <Check
+                className="w-5 h-5 text-(--primary-orange) shrink-0"
+                strokeWidth={2.5}
+              />
             )}
           </button>
         </div>

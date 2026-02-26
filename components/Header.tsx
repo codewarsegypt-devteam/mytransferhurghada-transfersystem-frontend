@@ -45,7 +45,7 @@ export default function Header() {
           : 'bg-transparent'
         }`}
     >
-      <nav className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav className="container mx-auto max-w-7xl px-4 sm:px-6  md:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">

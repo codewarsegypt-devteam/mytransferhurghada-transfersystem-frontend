@@ -173,7 +173,7 @@ export default function Transfers() {
 
 
         {/* Key Features — compact strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
+        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
           {keyFeatures.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -195,7 +195,7 @@ export default function Transfers() {
               </div>
             );
           })}
-        </div>
+        </div> */}
 
 
         {/* CTA Buttons */}
