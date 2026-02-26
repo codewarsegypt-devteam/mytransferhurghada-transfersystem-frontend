@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
-import SectionHeader from './SectionHeader';
+import { useState } from "react";
+import { Plus, Minus } from "lucide-react";
+import SectionHeader from "./SectionHeader";
 
 interface FAQItem {
   question: string;
@@ -12,24 +12,29 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     question: "What's included in trips?",
-    answer: "All our trips include transportation, professional guides, entrance fees to attractions, and meals as specified in the itinerary. Snorkeling trips include equipment (mask, fins, snorkel), life jackets, and refreshments. Hotel pickups and drop-offs are complimentary for most packages."
+    answer:
+      "All our trips include transportation, professional guides, entrance fees to attractions, and meals as specified in the itinerary. Snorkeling trips include equipment (mask, fins, snorkel), life jackets, and refreshments. Hotel pickups and drop-offs are complimentary for most packages.",
   },
   {
     question: "How does pickup & drop-off work?",
-    answer: "We provide complimentary pickup and drop-off from your hotel in Hurghada. Our driver will contact you via WhatsApp the evening before to confirm the exact pickup time. For airport transfers, we track your flight in real-time to ensure timely pickup regardless of delays."
+    answer:
+      "We provide complimentary pickup and drop-off from your hotel in Hurghada. Our driver will contact you via WhatsApp the evening before to confirm the exact pickup time. For airport transfers, we track your flight in real-time to ensure timely pickup regardless of delays.",
   },
   {
     question: "What is your cancellation policy?",
-    answer: "Free cancellation up to 24 hours before the scheduled trip for a full refund. Cancellations within 24 hours are subject to a 50% fee. No-shows are non-refundable. Weather-related cancellations decided by us result in a full refund or rescheduling option."
+    answer:
+      "Free cancellation up to 24 hours before the scheduled trip for a full refund. Cancellations within 24 hours are subject to a 50% fee. No-shows are non-refundable. Weather-related cancellations decided by us result in a full refund or rescheduling option.",
   },
   {
     question: "What payment methods do you accept?",
-    answer: "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, bank transfers, and cash payments (USD, EUR, or EGP). For online bookings, secure payment is processed through our encrypted payment gateway. You can also pay in person for certain services."
+    answer:
+      "We accept all major credit cards (Visa, Mastercard, American Express), PayPal, bank transfers, and cash payments (USD, EUR, or EGP). For online bookings, secure payment is processed through our encrypted payment gateway. You can also pay in person for certain services.",
   },
   {
     question: "What's the difference between private and group trips?",
-    answer: "Private trips are exclusively for your party with a dedicated guide and vehicle, offering flexibility in timing and itinerary. Group trips are shared with other travelers (maximum 15-20 people) at a lower cost, following a fixed schedule. Both options include the same quality of service and attractions."
-  }
+    answer:
+      "Private trips are exclusively for your party with a dedicated guide and vehicle, offering flexibility in timing and itinerary. Group trips are shared with other travelers (maximum 15-20 people) at a lower cost, following a fixed schedule. Both options include the same quality of service and attractions.",
+  },
 ];
 
 export default function FAQ() {
@@ -80,8 +85,8 @@ export default function FAQ() {
                       <div
                         className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                           isOpen
-                            ? 'bg-[#F3722A] text-white'
-                            : 'bg-[#F5EDE4] text-[#F3722A] group-hover:bg-[#F3722A] group-hover:text-white'
+                            ? "bg-[#F3722A] text-white"
+                            : "bg-[#F5EDE4] text-[#F3722A] group-hover:bg-[#F3722A] group-hover:text-white"
                         }`}
                       >
                         {isOpen ? (
@@ -133,7 +138,8 @@ export default function FAQ() {
       {/* Custom Animations */}
       <style jsx>{`
         @keyframes bounce-slow {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {

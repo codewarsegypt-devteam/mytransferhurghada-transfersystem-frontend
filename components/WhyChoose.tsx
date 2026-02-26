@@ -1,23 +1,32 @@
-'use client';
+"use client";
 
-import { Shield, Users, Car, DollarSign, Lock, MessageCircle } from 'lucide-react';
-import SectionHeader from './SectionHeader';
+import {
+  Shield,
+  Users,
+  Car,
+  DollarSign,
+  Lock,
+  MessageCircle,
+} from "lucide-react";
+import SectionHeader from "./SectionHeader";
 
 export default function WhyChoose() {
   const features = [
     {
-      title: 'Licensed Travel Agency',
-      description: 'Fully licensed and certified by Egyptian tourism authorities',
+      title: "Licensed Travel Agency",
+      description:
+        "Fully licensed and certified by Egyptian tourism authorities",
       icon: Shield,
     },
     {
-      title: 'Trusted Local Experts',
-      description: 'Professional guides with deep knowledge of Egypt\'s treasures',
+      title: "Trusted Local Experts",
+      description:
+        "Professional guides with deep knowledge of Egypt's treasures",
       icon: Users,
     },
     {
-      title: 'Modern Vehicles',
-      description: 'Comfortable, air-conditioned vehicles for all transfers',
+      title: "Modern Vehicles",
+      description: "Comfortable, air-conditioned vehicles for all transfers",
       icon: Car,
     },
     // {
@@ -74,7 +83,10 @@ export default function WhyChoose() {
                 className="group relative flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-main/20 transition-all duration-300 cursor-pointer hover:-translate-y-1"
               >
                 {/* Soft glow on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-main/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden />
+                <div
+                  className="absolute inset-0 rounded-2xl bg-linear-to-br from-main/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  aria-hidden
+                />
 
                 {/* Icon - slightly smaller, modern pill */}
                 <div className="relative mb-4">
@@ -102,7 +114,8 @@ export default function WhyChoose() {
           <div className="inline-flex items-center gap-2.5 bg-white/90 backdrop-blur-sm border border-gray-100 px-6 py-3 rounded-full shadow-sm">
             <Shield className="w-5 h-5 text-main shrink-0" />
             <p className="text-gray-800 font-semibold text-sm">
-              Trusted by over <span className="text-main">10,000+</span> happy travelers
+              Trusted by over <span className="text-main">10,000+</span> happy
+              travelers
             </p>
           </div>
         </div>

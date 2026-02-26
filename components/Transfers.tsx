@@ -1,9 +1,16 @@
-'use client';
+"use client";
 
-import { Car, Shield, DollarSign, Clock, CheckCircle, MapPin } from 'lucide-react';
-import SectionHeader from './SectionHeader';
-import Button from './ui/Button';
-import Link from 'next/link';
+import {
+  Car,
+  Shield,
+  DollarSign,
+  Clock,
+  CheckCircle,
+  MapPin,
+} from "lucide-react";
+import SectionHeader from "./SectionHeader";
+import Button from "./ui/Button";
+import Link from "next/link";
 
 interface TransferOption {
   id: number;
@@ -24,8 +31,9 @@ const transferOptions: TransferOption[] = [
     routes: ["Hurghada Airport", "Hotel Zone", "Downtown"],
     price: "25",
     duration: "30-45 min",
-    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80",
-    popular: true
+    image:
+      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80",
+    popular: true,
   },
   {
     id: 2,
@@ -34,8 +42,9 @@ const transferOptions: TransferOption[] = [
     routes: ["Any Hotel", "Beach Resorts", "City Hotels"],
     price: "20",
     duration: "20-40 min",
-    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
-    popular: false
+    image:
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
+    popular: false,
   },
   {
     id: 3,
@@ -44,32 +53,33 @@ const transferOptions: TransferOption[] = [
     routes: ["Custom Route", "Multiple Stops", "Flexible"],
     price: "35",
     duration: "Flexible",
-    image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80",
-    popular: false
-  }
+    image:
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80",
+    popular: false,
+  },
 ];
 
 const keyFeatures = [
   {
     icon: DollarSign,
     title: "Fixed Prices",
-    description: "No surprises, no hidden fees"
+    description: "No surprises, no hidden fees",
   },
   {
     icon: Car,
     title: "Air-Conditioned",
-    description: "Modern, comfortable vehicles"
+    description: "Modern, comfortable vehicles",
   },
   {
     icon: Shield,
     title: "Professional Drivers",
-    description: "Licensed & experienced"
+    description: "Licensed & experienced",
   },
   {
     icon: Clock,
     title: "Pickup on Time",
-    description: "Reliable & punctual service"
-  }
+    description: "Reliable & punctual service",
+  },
 ];
 
 function TransferCard({ option }: { option: TransferOption }) {
@@ -80,7 +90,7 @@ function TransferCard({ option }: { option: TransferOption }) {
         <div
           className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500"
           style={{
-            backgroundImage: `url('${option.image}')`
+            backgroundImage: `url('${option.image}')`,
           }}
         />
 
@@ -105,9 +115,7 @@ function TransferCard({ option }: { option: TransferOption }) {
           {option.title}
         </h3>
 
-        <p className="text-gray-600 text-sm mb-4">
-          {option.description}
-        </p>
+        <p className="text-gray-600 text-sm mb-4">{option.description}</p>
 
         <div className="mb-4">
           <div className="flex items-start text-gray-600 text-sm mb-2">
@@ -162,15 +170,12 @@ export default function Transfers() {
           description="Experience hassle-free travel with our professional transfer services. Fixed prices, modern vehicles, and timely pickups guaranteed."
         />
 
-
-
         {/* Transfer Options Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {transferOptions.map((option) => (
             <TransferCard key={option.id} option={option} />
           ))}
         </div>
-
 
         {/* Key Features — compact strip */}
         {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
@@ -197,10 +202,12 @@ export default function Transfers() {
           })}
         </div> */}
 
-
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link href="/transfer" className="btn-primary inline-flex items-center gap-2">
+          <Link
+            href="/transfer"
+            className="btn-primary inline-flex items-center gap-2"
+          >
             Book Airport Transfer
           </Link>
         </div>
@@ -209,7 +216,8 @@ export default function Transfers() {
       {/* Custom Animations */}
       <style jsx>{`
         @keyframes bounce-slow {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {

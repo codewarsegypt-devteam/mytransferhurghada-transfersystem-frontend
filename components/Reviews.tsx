@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import Image from 'next/image';
-import SectionHeader from './SectionHeader';
+import { useState, useEffect } from "react";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import SectionHeader from "./SectionHeader";
 
 interface Review {
   id: number;
@@ -19,64 +19,70 @@ interface Review {
 const reviews: Review[] = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    country: 'United States',
+    name: "Sarah Johnson",
+    country: "United States",
     rating: 5,
-    text: 'An absolutely incredible experience! Fox Travel made our Egypt trip unforgettable. The guides were knowledgeable, the accommodations perfect, and every detail was handled with care. We visited the Pyramids, sailed the Nile, and explored Luxor - all beyond our expectations!',
-    date: 'January 2026',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
-    tripName: 'Cairo & Luxor Tour'
+    text: "An absolutely incredible experience! Fox Travel made our Egypt trip unforgettable. The guides were knowledgeable, the accommodations perfect, and every detail was handled with care. We visited the Pyramids, sailed the Nile, and explored Luxor - all beyond our expectations!",
+    date: "January 2026",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
+    tripName: "Cairo & Luxor Tour",
   },
   {
     id: 2,
-    name: 'Michael Chen',
-    country: 'Canada',
+    name: "Michael Chen",
+    country: "Canada",
     rating: 5,
-    text: 'Professional service from start to finish! The snorkeling trip to Orange Bay was spectacular. Crystal clear waters, amazing coral reefs, and the entire crew was fantastic. Highly recommend Fox Travel for anyone visiting the Red Sea area.',
-    date: 'December 2025',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop',
-    tripName: 'Orange Bay Snorkeling'
+    text: "Professional service from start to finish! The snorkeling trip to Orange Bay was spectacular. Crystal clear waters, amazing coral reefs, and the entire crew was fantastic. Highly recommend Fox Travel for anyone visiting the Red Sea area.",
+    date: "December 2025",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
+    tripName: "Orange Bay Snorkeling",
   },
   {
     id: 3,
-    name: 'Emma Williams',
-    country: 'United Kingdom',
+    name: "Emma Williams",
+    country: "United Kingdom",
     rating: 5,
-    text: 'Fox Travel exceeded all our expectations! The private yacht experience was luxurious and the staff was incredibly attentive. We felt safe and pampered throughout our entire journey. Best vacation we\'ve ever had!',
-    date: 'November 2025',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop',
-    tripName: 'Private Yacht Charter'
+    text: "Fox Travel exceeded all our expectations! The private yacht experience was luxurious and the staff was incredibly attentive. We felt safe and pampered throughout our entire journey. Best vacation we've ever had!",
+    date: "November 2025",
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
+    tripName: "Private Yacht Charter",
   },
   {
     id: 4,
-    name: 'David Martinez',
-    country: 'Spain',
+    name: "David Martinez",
+    country: "Spain",
     rating: 5,
-    text: 'Outstanding organization and excellent value for money! Our family had an amazing time exploring Egypt with Fox Travel. The transfers were comfortable, hotels were great, and our guide was passionate about Egyptian history. We\'ll definitely be back!',
-    date: 'October 2025',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
-    tripName: 'Family Egypt Adventure'
+    text: "Outstanding organization and excellent value for money! Our family had an amazing time exploring Egypt with Fox Travel. The transfers were comfortable, hotels were great, and our guide was passionate about Egyptian history. We'll definitely be back!",
+    date: "October 2025",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
+    tripName: "Family Egypt Adventure",
   },
   {
     id: 5,
-    name: 'Lisa Anderson',
-    country: 'Australia',
+    name: "Lisa Anderson",
+    country: "Australia",
     rating: 5,
-    text: 'The diving experience was world-class! Fox Travel\'s team was professional, safety-focused, and knew all the best spots. We saw incredible marine life and the underwater world of the Red Sea is truly magical. Can\'t wait to come back!',
-    date: 'September 2025',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop',
-    tripName: 'Red Sea Diving'
+    text: "The diving experience was world-class! Fox Travel's team was professional, safety-focused, and knew all the best spots. We saw incredible marine life and the underwater world of the Red Sea is truly magical. Can't wait to come back!",
+    date: "September 2025",
+    avatar:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop",
+    tripName: "Red Sea Diving",
   },
   {
     id: 6,
-    name: 'James Brown',
-    country: 'Germany',
+    name: "James Brown",
+    country: "Germany",
     rating: 5,
-    text: 'Exceptional service and attention to detail! From booking to the end of our trip, everything was seamless. The 24/7 WhatsApp support was incredibly helpful. Fox Travel made our honeymoon in Egypt absolutely perfect!',
-    date: 'August 2025',
-    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop',
-    tripName: 'Romantic Egypt Honeymoon'
-  }
+    text: "Exceptional service and attention to detail! From booking to the end of our trip, everything was seamless. The 24/7 WhatsApp support was incredibly helpful. Fox Travel made our honeymoon in Egypt absolutely perfect!",
+    date: "August 2025",
+    avatar:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop",
+    tripName: "Romantic Egypt Honeymoon",
+  },
 ];
 
 export default function Reviews() {
@@ -86,7 +92,7 @@ export default function Reviews() {
   // Auto-play functionality
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % reviews.length);
     }, 5000);
@@ -120,11 +126,11 @@ export default function Reviews() {
   };
 
   // Calculate average rating
-  const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+  const averageRating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
 
   return (
     <section className="relative py-8 lg:py-15 bg-linear-to-b from-white to-[#F5EDE4] overflow-hidden">
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-10">
@@ -145,11 +151,16 @@ export default function Reviews() {
                   />
                 ))}
               </div>
-              <span className="text-lg font-bold text-[#2C3539]">{averageRating.toFixed(1)}</span>
+              <span className="text-lg font-bold text-[#2C3539]">
+                {averageRating.toFixed(1)}
+              </span>
               <span className="text-sm text-gray-600">/ 5</span>
             </div>
             <span className="text-sm text-gray-600">
-              <span className="font-semibold text-[#2C3539]">{reviews.length}+</span> reviews
+              <span className="font-semibold text-[#2C3539]">
+                {reviews.length}+
+              </span>{" "}
+              reviews
             </span>
           </div>
         </div>
@@ -162,8 +173,8 @@ export default function Reviews() {
               <div
                 key={`${review.id}-${index}`}
                 className={`bg-white rounded-3xl p-8 shadow-soft hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-2 ${
-                  index > 0 ? 'hidden md:block' : ''
-                } ${index > 1 ? 'hidden lg:block' : ''}`}
+                  index > 0 ? "hidden md:block" : ""
+                } ${index > 1 ? "hidden lg:block" : ""}`}
               >
                 {/* Quote Icon */}
                 <div className="mb-4">
@@ -177,8 +188,8 @@ export default function Reviews() {
                       key={i}
                       className={`w-5 h-5 ${
                         i < review.rating
-                          ? 'fill-[#F9C74F] text-[#F9C74F]'
-                          : 'text-gray-300'
+                          ? "fill-[#F9C74F] text-[#F9C74F]"
+                          : "text-gray-300"
                       }`}
                     />
                   ))}
@@ -235,8 +246,8 @@ export default function Reviews() {
                   onClick={() => handleDotClick(index)}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === currentIndex
-                      ? 'w-8 bg-[#F3722A]'
-                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                      ? "w-8 bg-[#F3722A]"
+                      : "w-2 bg-gray-300 hover:bg-gray-400"
                   }`}
                   aria-label={`Go to review ${index + 1}`}
                 />
@@ -304,7 +315,8 @@ export default function Reviews() {
       {/* Custom Animations */}
       <style jsx>{`
         @keyframes bounce-slow {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {

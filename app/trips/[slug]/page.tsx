@@ -446,7 +446,7 @@ export default function TripDetailPage() {
                         {idx !== trip.infoSections.length - 1 && (
                           <div className="absolute left-4 top-10 bottom-0 w-px bg-linear-to-b from-orange-200 via-orange-100 to-transparent" />
                         )}
-
+                  
                         <div className="flex gap-3.5">
                           <motion.div
                             whileHover={{ scale: 1.1, rotate: 5 }}

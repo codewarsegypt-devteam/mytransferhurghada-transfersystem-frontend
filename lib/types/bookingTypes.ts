@@ -96,6 +96,14 @@ export interface TransferBookingRequest {
   promoCode: string;
   paymentMethod: "CreditCard" | "Cash";
   transactionId: string;
+  /** Passenger or contact name */
+  name?: string;
+  /** Contact phone number */
+  phoneNumber?: string;
+  /** Room number (e.g. for hotel pickup) */
+  roomNumber?: string;
+  /** Flight number (e.g. for airport transfer) */
+  flightNumber?: string;
 }
 
 export interface TransferLegResponse {
@@ -160,4 +168,42 @@ export interface GetVehicleTypesResponseDto {
     count: number;
     data: VehicleTypeDto[];
   };
+}
+
+// ==============================
+// Extras list (GET /api/Extra)
+// ==============================
+
+export interface ExtraPriceDto {
+  amount: number;
+  currency: string;
+}
+
+export interface ExtraDto {
+  id: number | string; // API may return string
+  title: string;
+  description: string;
+  extraChargeType: string; // e.g. "PerBooking" | "PerQuantity"
+  price: ExtraPriceDto;
+  extraCategoryId: number | string;
+}
+
+export interface GetExtrasResponseDto {
+  succeeded: boolean;
+  message: string;
+  data: {
+    pageNumber: number;
+    pageSize: number;
+    count: number;
+    data: ExtraDto[];
+  };
+}
+
+export interface GetExtrasParams {
+  extraCategoryId?: number;
+  extraChargeType?: string;
+  pageNumber?: number;
+  pageSize?: number;
+  search?: string;
+  sort?: string;
 }

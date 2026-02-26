@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log('Received cash transfer booking request:', body);
 
-    const { vehicleTypeId, legs, extras, promoCode } = body;
+    const { vehicleTypeId, legs, extras, promoCode, name, phoneNumber, roomNumber, flightNumber } = body;
 
     // Validate required fields
     if (!vehicleTypeId || !Array.isArray(legs) || legs.length === 0) {
@@ -53,6 +53,10 @@ export async function POST(request: NextRequest) {
       promoCode: String(promoCode || ''),
       paymentMethod: 'Cash',
       transactionId: '', // No transaction for cash
+      ...(name != null && { name: String(name) }),
+      ...(phoneNumber != null && { phoneNumber: String(phoneNumber) }),
+      ...(roomNumber != null && roomNumber !== '' && { roomNumber: String(roomNumber) }),
+      ...(flightNumber != null && flightNumber !== '' && { flightNumber: String(flightNumber) }),
     };
 
     console.log('Creating cash transfer booking:', bookingData);

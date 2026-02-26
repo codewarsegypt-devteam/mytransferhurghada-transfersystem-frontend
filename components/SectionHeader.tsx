@@ -13,7 +13,7 @@ export default function SectionHeader({
   subtitle,
   title,
   description,
-  className = '',
+  className = "",
 }: SectionHeaderProps) {
   return (
     <div className={`text-center mb-12 ${className}`.trim()}>

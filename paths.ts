@@ -35,3 +35,8 @@ export const PREVIEW_TRANSFER_BOOKING = `${BASE}/api/Booking/previewTransferBook
 export const CREATE_TRANSFER_BOOKING = `${BASE}/api/Booking/bookTransfer`;
 export const GET_REGION_ID_BY_COORDINATES = `${BASE}/api/Region/GetRegionIdByCoordinates`;
 export const GET_VEHICLE_TYPES = `${BASE}/api/VehicleType`;
+
+// ==============================
+// Extras API (transfer / booking)
+// ==============================
+export const GET_EXTRAS = `${BASE}/api/Extra`;
