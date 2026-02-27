@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#0a1f1f] text-white pt-16 pb-8">
       <div className="container mx-auto max-w-7xl px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center space-x-2 group">
@@ -38,10 +38,10 @@ export default function Footer() {
             <h4 className="text-xl font-semibold mb-6">Company</h4>
             <ul className="space-y-3">
               {[
-                { label: "About us", href: "#about" },
-                { label: "Destination", href: "#destination" },
-                { label: "Faq", href: "#faq" },
-                { label: "Contact", href: "#contact" },
+                { label: "About us", href: "/about" },
+                // { label: "Destination", href: "#destination" },
+                { label: "Faq", href: "/#faq" },
+                { label: "Contact", href: "/contactus" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link
@@ -63,10 +63,17 @@ export default function Footer() {
             <h4 className="text-xl font-semibold mb-6">Our Services</h4>
             <ul className="space-y-3">
               {[
-                { label: "Visa Processing", href: "#visa" },
-                { label: "Hotel Booking", href: "#hotel" },
-                { label: "Car Hire", href: "#car" },
-                { label: "Tour Packages", href: "#tours" },
+                { label: "Sea & Desert Excursions", href: "/trips" },
+                { label: "Private Transfers", href: "/transfer" },
+                { label: "Airport Transfers", href: "/transfer" },
+                // { label: "City Tours", href: "/trips" },
+                // { label: "Day Trips", href: "/trips" },
+                // { label: "Multi-Day Trips", href: "/trips" },
+                // { label: "Transfers", href: "/transfer" },
+                // { label: "Accommodation", href: "/accommodation" },
+                // { label: "Visa Processing", href: "#visa" },
+                // { label: "Car Hire", href: "#car" },
+                // { label: "Tour Packages", href: "#tours" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link
@@ -84,7 +91,7 @@ export default function Footer() {
           </div>
 
           {/* Destination Column */}
-          <div>
+          {/* <div>
             <h4 className="text-xl font-semibold mb-6">Destination</h4>
             <ul className="space-y-3">
               {[
@@ -106,7 +113,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Contact Us Column */}
           <div>
@@ -153,8 +160,8 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
             <p>
               © {new Date().getFullYear()} Fox Travel Egypt. All rights
-              reserved.
-            </p>
+              reserved|  Powered by <Link href="https://codewarsegypt.com" target="_blank" className="hover:text-white transition-colors text-[#58a31b]">CODEWARS</Link>
+              </p>
             <div className="flex gap-6">
               <Link
                 href="#terms"
@@ -168,12 +175,12 @@ export default function Footer() {
               >
                 Privacy Policy
               </Link>
-              <Link
+              {/* <Link
                 href="#refund"
                 className="hover:text-white transition-colors"
               >
                 Refund Policy
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

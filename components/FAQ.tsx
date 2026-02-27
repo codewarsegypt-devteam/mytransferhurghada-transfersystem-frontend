@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
+import Link from "next/link";
 import SectionHeader from "./SectionHeader";
+import { buildWhatsAppHref } from "@/components/ui/WhatsAppCTA";
 
 interface FAQItem {
   question: string;
@@ -37,7 +39,12 @@ const faqData: FAQItem[] = [
   },
 ];
 
-export default function FAQ() {
+interface FAQProps {
+  /** When "page", the section header is hidden (e.g. when used on the dedicated FAQ page with PageBanner). */
+  variant?: "section" | "page";
+}
+
+export default function FAQ({ variant = "section" }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleFAQ = (index: number) => {
@@ -52,17 +59,19 @@ export default function FAQ() {
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-8 lg:mb-10">
-          <SectionHeader
-            subtitle="Got Questions?"
-            title="Frequently Asked Questions"
-            description="Find answers to common questions about our trips, transfers, and services"
-          />
-        </div>
+        {/* Section Header - hidden on dedicated FAQ page */}
+        {variant === "section" && (
+          <div className="text-center mb-8 lg:mb-10">
+            <SectionHeader
+              subtitle="Got Questions?"
+              title="Frequently Asked Questions"
+              description="Find answers to common questions about our trips, transfers, and services"
+            />
+          </div>
+        )}
 
         {/* FAQ Accordion */}
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="space-y-3">
             {faqData.map((faq, index) => {
               const isOpen = openIndex === index;
@@ -113,7 +122,7 @@ export default function FAQ() {
         </div>
 
         {/* Bottom CTA - compact */}
-        <div className="mt-8 max-w-2xl mx-auto">
+        {/* <div className="mt-8 max-w-2xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-4 px-5 rounded-xl border border-gray-100 bg-white/60 backdrop-blur-sm shadow-2xl">
             <div className="text-center sm:text-left">
               <h3 className="text-lg font-semibold text-[#2C3539]">
@@ -124,15 +133,23 @@ export default function FAQ() {
               </p>
             </div>
             <div className="flex items-center justify-center gap-3 shrink-0">
-              <button className="btn-primary px-5 py-2.5 text-sm font-medium rounded-xl">
+              <a
+                href={buildWhatsAppHref("+201010836364", "Hi, I have a question.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary px-5 py-2.5 text-sm font-medium rounded-xl"
+              >
                 WhatsApp
-              </button>
-              <button className="btn-secondary px-5 py-2.5 text-sm font-medium rounded-xl">
-                Email
-              </button>
+              </a>
+              <Link
+                href="/contactus"
+                className="btn-secondary px-5 py-2.5 text-sm font-medium rounded-xl inline-block text-center"
+              >
+                Contact Us
+              </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Custom Animations */}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react"; // or: import { motion } from "framer-motion";
 import {
   Car,
   Shield,
@@ -8,8 +9,6 @@ import {
   Clock,
   CheckCircle2,
   MapPin,
-  ArrowRight,
-  Sparkles,
 } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 
@@ -29,7 +28,7 @@ const transferOptions: TransferOption[] = [
     id: 1,
     title: "Airport Transfer",
     description: "Comfortable ride from airport to your hotel",
-    routes: [" Airport", "Hotel Zone", "Downtown"],
+    routes: ["Airport", "Hotel Zone", "Downtown"],
     price: "25",
     duration: "30-45 min",
     image:
@@ -83,9 +82,27 @@ const keyFeatures = [
   },
 ];
 
-function TransferCard({ option }: { option: TransferOption }) {
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function TransferCard({
+  option,
+  index,
+}: {
+  option: TransferOption;
+  index: number;
+}) {
   return (
-    <div className="group relative overflow-hidden rounded-[28px] bg-white shadow-soft border border-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
+      className="group relative overflow-hidden rounded-[28px] bg-white shadow-soft border border-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]"
+    >
       {/* Image */}
       <div className="relative h-56 sm:h-64 overflow-hidden">
         <div
@@ -160,33 +177,23 @@ function TransferCard({ option }: { option: TransferOption }) {
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        {/* <div className="mt-6 flex items-center justify-between pt-5 border-t border-black/5">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-          
-            <span className="font-medium">Private • Door-to-door</span>
-          </div>
-
-          <Link
-            href="/transfer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#F3722A] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(243,114,42,0.25)] transition-all hover:bg-[#F15A22] hover:translate-y-[-1px]"
-          >
-            Book now
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div> */}
       </div>
 
       {/* Subtle corner highlight */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#F9C74F]/25 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-    </div>
+    </motion.div>
   );
 }
 
 export default function Transfers() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-white via-[#F5EDE4] to-white px-4 py-12 lg:py-16">
+    <motion.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.5 }}
+      className="relative overflow-hidden bg-linear-to-b from-white via-[#F5EDE4] to-white px-4 py-12 lg:py-16"
+    >
       {/* Premium background ornaments */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 right-[-120px] h-[320px] w-[320px] rounded-full bg-[#F3722A]/18 blur-3xl" />
@@ -195,28 +202,41 @@ export default function Transfers() {
       </div>
 
       <div className="relative container mx-auto max-w-7xl">
-        <SectionHeader
-          subtitle="Reliable Transportation"
-          title="Private Transfers Safe, Comfortable & Premium"
-          description="Enjoy a seamless ride with fixed pricing, executive vehicles, and punctual pickups crafted for a smooth, luxury experience."
-        />
-
-   
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <SectionHeader
+            subtitle="Reliable Transportation"
+            title="Private Transfers Safe, Comfortable & Premium"
+            description="Enjoy a seamless ride with fixed pricing, executive vehicles, and punctual pickups crafted for a smooth, luxury experience."
+          />
+        </motion.div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {transferOptions.map((option) => (
-            <TransferCard key={option.id} option={option} />
+          {transferOptions.map((option, index) => (
+            <TransferCard key={option.id} option={option} index={index} />
           ))}
         </div>
 
         {/* CTA */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
           <Link
             href="/transfer"
             className="inline-flex items-center justify-center rounded-full bg-[#F3722A] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(243,114,42,0.25)] transition-all hover:bg-[#F15A22] hover:translate-y-[-1px] w-full sm:w-auto"
           >
-            Book  Transfer
+            Book Transfer
           </Link>
 
           <Link
@@ -225,8 +245,8 @@ export default function Transfers() {
           >
             Talk to concierge
           </Link>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

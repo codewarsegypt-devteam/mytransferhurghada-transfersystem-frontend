@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CarouselImage {
   id: number;
@@ -42,11 +42,14 @@ export function ImageCarousel({
   const imageCount = sortedImages.length;
 
   // Navigate to specific index
-  const goToSlide = useCallback((index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-    setIsAutoplayPaused(true);
-  }, [currentIndex]);
+  const goToSlide = useCallback(
+    (index: number) => {
+      setDirection(index > currentIndex ? 1 : -1);
+      setCurrentIndex(index);
+      setIsAutoplayPaused(true);
+    },
+    [currentIndex],
+  );
 
   // Navigate to previous slide
   const goToPrevious = useCallback(() => {
@@ -65,15 +68,15 @@ export function ImageCarousel({
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         goToPrevious();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         goToNext();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToPrevious, goToNext]);
 
   // Autoplay
@@ -100,7 +103,10 @@ export function ImageCarousel({
   }, [isAutoplayPaused, autoplayInterval]);
 
   // Swipe detection
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
     const swipeThreshold = 50;
     if (info.offset.x > swipeThreshold) {
       goToPrevious();
@@ -150,20 +156,20 @@ export function ImageCarousel({
 
   const imageVariants = {
     initial: { scale: 1 },
-    animate: { 
+    animate: {
       scale: 1.02,
       transition: {
         duration: 0.3,
-        ease: 'easeOut',
-      }
+        ease: "easeOut",
+      },
     },
   };
 
   return (
-    <section className="relative bg-[#F5E6D8]">
+    <section className="relative bg-[#F5F6F6]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-8 pt-[100px]">
         {/* Main Carousel */}
-        <div 
+        <div
           className="relative h-96 lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg group"
           onMouseEnter={() => setIsAutoplayPaused(true)}
           onMouseLeave={() => setIsAutoplayPaused(false)}
@@ -178,7 +184,7 @@ export function ImageCarousel({
               animate="center"
               exit="exit"
               transition={{
-                x: { type: 'spring', stiffness: 300, damping: 30 },
+                x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.3 },
                 scale: { duration: 0.3 },
               }}
@@ -190,12 +196,12 @@ export function ImageCarousel({
             >
               <motion.div
                 initial={{ scale: 1 }}
-                animate={{ 
-                  scale: 1.02, 
-                  transition: { 
-                    duration: 0.3, 
-                    ease: [0.42, 0, 0.58, 1] // equivalent to 'easeOut'
-                  } 
+                animate={{
+                  scale: 1.02,
+                  transition: {
+                    duration: 0.3,
+                    ease: [0.42, 0, 0.58, 1], // equivalent to 'easeOut'
+                  },
                 }}
                 className="relative w-full h-full"
               >
@@ -268,8 +274,8 @@ export function ImageCarousel({
                   onClick={() => goToSlide(index)}
                   className={`transition-all rounded-full ${
                     index === currentIndex
-                      ? 'w-8 h-2 bg-white'
-                      : 'w-2 h-2 bg-white/50 hover:bg-white/75'
+                      ? "w-8 h-2 bg-white"
+                      : "w-2 h-2 bg-white/50 hover:bg-white/75"
                   }`}
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
@@ -300,8 +306,8 @@ export function ImageCarousel({
                 onClick={() => goToSlide(index)}
                 className={`relative shrink-0 w-20 h-20 lg:w-24 lg:h-24 rounded-xl overflow-hidden border-2 transition-all ${
                   index === currentIndex
-                    ? 'border-[#F3722A] shadow-lg scale-105'
-                    : 'border-transparent hover:border-gray-300'
+                    ? "border-[#F3722A] shadow-lg scale-105"
+                    : "border-transparent hover:border-gray-300"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -318,7 +324,7 @@ export function ImageCarousel({
                   <motion.div
                     layoutId="thumbnail-indicator"
                     className="absolute inset-0 bg-[#F3722A]/20"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
               </motion.button>
