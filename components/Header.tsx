@@ -114,7 +114,9 @@ export default function Header() {
               <SignInButton mode="modal">
                 <Button>Sign In</Button>
               </SignInButton>
+              
             )}
+            
           </div>
 
           {/* Mobile Menu Button */}

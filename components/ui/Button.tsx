@@ -5,7 +5,7 @@ import { type ButtonHTMLAttributes, type ReactNode } from "react";
 
 const variantStyles = {
   primary:
-    "bg-[#F3722A] hover:bg-[#F15A22] text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300",
+    "bg-[#F3722A] hover:bg-[#F15A22] text-white rounded-full cursor-pointer font-semibold shadow-lg hover:shadow-xl transition-all duration-300",
   icon: "hover:bg-white/50 rounded-lg transition-colors inline-flex items-center justify-center",
 } as const;
 

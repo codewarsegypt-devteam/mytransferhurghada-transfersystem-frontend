@@ -74,7 +74,7 @@ function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
       <div className="flex flex-row items-center justify-center gap-4 mt-10">
         <button
           type="button"
-          className="bg-main cursor-pointer text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-l hover:scale-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out"
+          className="bg-main cursor-pointer text-white px-6 py-4 text-sm rounded-full font-semibold shadow-lg hover:shadow-l hover:scale-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out"
           onClick={() => {
             window.location.href = "/trips";
           }}

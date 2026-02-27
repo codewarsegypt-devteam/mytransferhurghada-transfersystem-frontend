@@ -141,7 +141,7 @@ export default function Reviews() {
           />
 
           {/* Overall Rating Display */}
-          <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
+          {/* <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
             <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-soft gap-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
@@ -162,7 +162,7 @@ export default function Reviews() {
               </span>{" "}
               reviews
             </span>
-          </div>
+          </div> */}
         </div>
 
         {/* Reviews Carousel */}
@@ -306,7 +306,7 @@ export default function Reviews() {
         {/* CTA Section */}
         <div className="text-center mt-12">
           {/* <p className="text-gray-600 mb-6">Ready to create your own amazing story?</p> */}
-          <button className="btn-primary px-8 py-4 text-lg font-semibold">
+          <button className="btn-primary px-8 py-4 text-sm font-semibold rounded-full">
             Book Your Adventure Now
           </button>
         </div>

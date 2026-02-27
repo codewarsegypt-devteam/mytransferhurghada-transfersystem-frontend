@@ -7,6 +7,8 @@ import FAQ from '../components/FAQ';
 import { PulseFitHero } from '@/components/ui/pulse-fit-hero';
 import { buildWhatsAppHref } from '@/components/ui/WhatsAppCTA';
 import type { TripItemDto } from '@/lib/types/tripsTypes';
+import PopularDestinationHero from '@/components/PopularDestinationHero';
+import Contact from '@/components/Contact';
 
 
 /** Demo trips for hero carousel only. No API fetch. */
@@ -72,11 +74,13 @@ export default function Home() {
       />
       {/* <PopularTrips /> */}
       <Transfers />
-      <SeaAdventures />
+      {/* <SeaAdventures /> */}
       {/* <Accommodation /> */}
+      <PopularDestinationHero />
       <WhyChoose />
       <Reviews />
-      <FAQ />
+      {/* <FAQ /> */}
+      <Contact/>
       {/* <Newsletter /> */}
     </>
   );

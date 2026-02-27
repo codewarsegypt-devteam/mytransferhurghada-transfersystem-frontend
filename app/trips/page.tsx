@@ -9,6 +9,7 @@ import SectionHeader from "@/components/SectionHeader";
 import { WhatsAppCTA } from "@/components/ui/WhatsAppCTA";
 import type { TripItemDto } from "@/lib/types/tripsTypes";
 import PageBanner from "@/components/pageBanner";
+import Contact from "@/components/Contact";
 
 export default function TripsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -200,6 +201,7 @@ export default function TripsPage() {
             )}
           </div>
         </section>
+        {/* <Contact/> */}
 
       </div>
         {!isLoading && !isError && trips.length > 0 && (
