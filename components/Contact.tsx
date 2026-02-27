@@ -327,7 +327,7 @@ const Contact = () => {
 
                 <a
                   href="/about"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 text-base bg-white text-[#F3722A] border-2 border-[#F3722A] rounded-lg font-semibold hover:bg-[#F5F6F6] transition-all duration-300"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 text-base bg-white text-[#F3722A] border-2 border-[#F3722A] rounded-full font-semibold hover:bg-[#F5F6F6] transition-all duration-300"
                 >
                   About Fox Travel
                 </a>
