@@ -70,6 +70,7 @@ export default function FAQ({ variant = "section" }: FAQProps) {
           </div>
         )}
 
+
         {/* FAQ Accordion */}
         <div className="max-w-6xl mx-auto">
           <div className="space-y-3">
