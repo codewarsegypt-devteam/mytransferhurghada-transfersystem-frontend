@@ -94,6 +94,7 @@ type TransferFormData = {
 function TransferBookingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState<
     "Cash" | "CreditCard" | null
@@ -403,9 +404,9 @@ function TransferBookingContent() {
       </div>
     );
   }
-  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
+
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/50 to-white py-8">
+    <div className="relative min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/50 to-white pb-10">
       {/* Decorative top gradient strip */}
       <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-amber-400 via-(--primary-orange) to-amber-500" aria-hidden />
       <PageBanner
@@ -416,7 +417,7 @@ function TransferBookingContent() {
         setSearchQuery={() => {}}
         placeholder="Search for a trip"
         searchBar={false}
-        bgImageUrl="/assets/transfer.avif"
+        bgImageUrl="/assets/transfer.png"
         bgImageAlt="Transfer Image"
         bgOverlay={true}
       />
@@ -595,63 +596,58 @@ function TransferBookingContent() {
                   Back
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={!canProceed || isProcessing || isNextLoading}
-                  className="flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-(--primary-orange) to-amber-500 text-white font-semibold rounded-2xl hover:from-(--accent-orange) hover:to-amber-600 active:scale-[0.98] shadow-lg shadow-orange-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : isNextLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Loading...
-                    </>
-                  ) : currentStep === 4 ? (
-                    <>
-                      {paymentMethod === "Cash" ? (
-                        <>
-                          <Banknote className="w-4 h-4" strokeWidth={2.5} />
-                          Confirm Cash Booking
-                        </>
-                      ) : (
-                        <>
-                          <CreditCard className="w-4 h-4" strokeWidth={2.5} />
-                          Pay with Card
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {isSignedIn && isAuthLoaded ? (
-                        <>
-                          Next
-                          <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
-                        </>
-                      ) 
-                      : (
-                        <SignInButton
-                        mode="modal"
-                        forceRedirectUrl={`/transfer?step=${currentStep}`}
-                      >
-                        <button
-                          type="button"
-                          className=""
-                        >
-                          {/* <ShoppingCartIcon className="w-6 h-6" /> */}
-                          {isAuthLoaded ? 'Sign in to Book' : 'Book Now'}
-                        </button>
-                      </SignInButton>
-                      )
-                      
-                      }
-                    </>
-                  )}
-                </button>
+                {!isSignedIn && currentStep !== 4 ? (
+                  <SignInButton
+                    mode="modal"
+                    forceRedirectUrl={`/transfer?step=${currentStep}`}
+                  >
+                    <span
+                      role="button"
+                      tabIndex={0}
+                      className="flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-(--primary-orange) to-amber-500 text-white font-semibold rounded-2xl hover:from-(--accent-orange) hover:to-amber-600 active:scale-[0.98] shadow-lg shadow-orange-500/30 transition-all cursor-pointer"
+                    >
+                      {isAuthLoaded ? "Sign in to Book" : "Book Now"}
+                    </span>
+                  </SignInButton>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed || isProcessing || isNextLoading}
+                    className="flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-(--primary-orange) to-amber-500 text-white font-semibold rounded-2xl hover:from-(--accent-orange) hover:to-amber-600 active:scale-[0.98] shadow-lg shadow-orange-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : isNextLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Loading...
+                      </>
+                    ) : currentStep === 4 ? (
+                      <>
+                        {paymentMethod === "Cash" ? (
+                          <>
+                            <Banknote className="w-4 h-4" strokeWidth={2.5} />
+                            Confirm Cash Booking
+                          </>
+                        ) : (
+                          <>
+                            <CreditCard className="w-4 h-4" strokeWidth={2.5} />
+                            Pay with Card
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        Next
+                        <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -15,7 +15,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isBlackTheme =
-    pathname === "/transfer" ||
+    // pathname === "/transfer" ||
     pathname === "/trips/checkout" ||
     pathname.startsWith("/trips/") ||
     pathname.startsWith("/payment/callback") ||

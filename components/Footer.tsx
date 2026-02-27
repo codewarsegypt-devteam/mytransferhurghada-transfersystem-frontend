@@ -122,8 +122,44 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="text-orange-500 mt-1 shrink-0 w-4 h-4" />
                 <div className="text-gray-300 text-sm">
-                  <p>Hurghada – Red Sea , Egypt</p>
-                  <p>147 El-Kawther , Airport Section</p>
+                <a
+                    href="https://maps.app.goo.gl/75ty98puBGhNridE8?g_st=aw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-orange-400 transition-colors underline underline-offset-2"
+                  >
+                  <p>Hurghada – Red Sea, Egypt</p>
+                  <p>147 El-Kawther, Airport Section</p>
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="text-orange-500 mt-1 shrink-0 w-4 h-4" />
+                <div className="text-gray-300 text-sm">
+                  <a
+                    href="https://maps.app.goo.gl/ooih4uWASjdWjU827?g_st=aw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-orange-400 transition-colors underline underline-offset-2"
+                  >
+                    <p>Nasr City, Cairo</p>
+                    <p>2 Hassan Afifi, off Makram Ebeid, behind Mahgoub</p>
+                    <p>6th floor, Apt 62</p>
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="text-orange-500 mt-1 shrink-0 w-4 h-4" />
+                <div className="text-gray-300 text-sm">
+                  <a
+                    href="https://maps.app.goo.gl/75ty98puBGhNridE8?g_st=aw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-orange-400 transition-colors underline underline-offset-2"
+                  >
+                    <p>French School Mall, Alhadaba, Office Nr. A3</p>
+                    <p>Sharm El Sheikh, South Sinai, Egypt</p>
+                  </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -137,10 +173,10 @@ export default function Footer() {
             {/* Social Media Icons */}
             <div className="flex gap-3 mt-6">
               {[
-                { Icon: Facebook, href: "#", label: "Facebook" },
-                { Icon: Twitter, href: "#", label: "Twitter" },
-                { Icon: Linkedin, href: "#", label: "LinkedIn" },
-                { Icon: Instagram, href: "#", label: "Instagram" },
+                { Icon: Facebook, href: "https://www.facebook.com/foxtravelegypt", label: "Facebook" },
+                // { Icon: Twitter, href: "#", label: "Twitter" },
+                { Icon: Linkedin, href: "https://www.linkedin.com/company/fox-travel-egypt/", label: "LinkedIn" },
+                { Icon: Instagram, href: "https://www.instagram.com/foxtravelegypt?igsh=bG1jOGc3Zmd2ZWtt", label: "Instagram" },
               ].map(({ Icon, href, label }) => (
                 <a
                   key={label}

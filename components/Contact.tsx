@@ -318,14 +318,12 @@ const Contact = () => {
                 variants={fadeUp}
                 className="mt-6 flex flex-col sm:flex-row gap-3"
               >
-                <Button
-                  href="/trips"
-                  variant="primary"
-                  size="lg"
-                  className="w-full sm:w-auto justify-center"
+                <button
+                  onClick={() => window.location.href = "/trips"}
+                  className="w-full sm:w-auto justify-center bg-[#F3722A] text-white rounded-full cursor-pointer font-semibold shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-3 text-sm"
                 >
                   View Trips
-                </Button>
+                </button>
 
                 <a
                   href="/about"
