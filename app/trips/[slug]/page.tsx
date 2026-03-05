@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useMemo, useState } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
-import { useAuth, SignInButton } from '@clerk/nextjs';
-import { usePublicTripBySlug, isApiError } from '@/lib/hooks/useTrips';
-import type { DayOfWeek, TripSlotDto } from '@/lib/types/tripsTypes';
+import { useMemo, useState } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import { useAuth, SignInButton } from "@clerk/nextjs";
+import { usePublicTripBySlug, isApiError } from "@/lib/hooks/useTrips";
+import type { DayOfWeek, TripSlotDto } from "@/lib/types/tripsTypes";
 import {
   Clock,
   MapPin,
@@ -22,19 +22,19 @@ import {
   ClipboardList,
   Globe,
   ChartNoAxesGantt,
-} from 'lucide-react';
-import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA';
-import { ImageCarousel } from '@/components/ui/ImageCarousel';
-import { motion } from 'framer-motion';
+} from "lucide-react";
+import { WhatsAppCTA } from "@/components/ui/WhatsAppCTA";
+import { ImageCarousel } from "@/components/ui/ImageCarousel";
+import { motion } from "framer-motion";
 
 const DAYS_ORDER: DayOfWeek[] = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
 ];
 
 function DaysAvailabilityRow({ tripSlots }: { tripSlots: TripSlotDto[] }) {
@@ -75,22 +75,27 @@ function DaysAvailabilityRow({ tripSlots }: { tripSlots: TripSlotDto[] }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: idx * 0.02 }}
               whileHover={hasSlots ? { scale: 1.03, y: -1 } : undefined}
-              title={hasSlots ? `${day}: ${count} slot${count !== 1 ? 's' : ''} available` : `${day}: no slots`}
+              title={
+                hasSlots
+                  ? `${day}: ${count} slot${count !== 1 ? "s" : ""} available`
+                  : `${day}: no slots`
+              }
               className={`
                 flex flex-col items-center justify-center gap-1.5
                 min-h-[56px] py-3 px-2 rounded-xl border
                 transition-colors duration-200
-                ${hasSlots
-                  ? 'bg-linear-to-br from-orange-50 to-orange-50/40 border-orange-100 shadow-sm hover:shadow-md hover:border-(--accent-orange)/30'
-                  : 'bg-gray-50/80 border-gray-100 text-gray-400'
+                ${
+                  hasSlots
+                    ? "bg-linear-to-br from-orange-50 to-orange-50/40 border-orange-100 shadow-sm hover:shadow-md hover:border-(--accent-orange)/30"
+                    : "bg-gray-50/80 border-gray-100 text-gray-400"
                 }
               `}
               aria-disabled={!hasSlots}
-              aria-label={`${day}, ${count} time${count !== 1 ? 's' : ''} available`}
+              aria-label={`${day}, ${count} time${count !== 1 ? "s" : ""} available`}
             >
               <span
                 className={`text-xs font-bold uppercase tracking-wide ${
-                  hasSlots ? 'text-gray-800' : 'text-gray-400 line-through'
+                  hasSlots ? "text-gray-800" : "text-gray-400 line-through"
                 }`}
               >
                 {day.slice(0, 3)}
@@ -98,14 +103,15 @@ function DaysAvailabilityRow({ tripSlots }: { tripSlots: TripSlotDto[] }) {
               <span
                 className={`
                   text-[10px] font-bold tabular-nums px-2 py-0.5 rounded-full
-                  ${hasSlots
-                    ? 'bg-(--accent-orange)/20 text-(--accent-orange)'
-                    : 'bg-gray-200/80 text-gray-400'
+                  ${
+                    hasSlots
+                      ? "bg-(--accent-orange)/20 text-(--accent-orange)"
+                      : "bg-gray-200/80 text-gray-400"
                   }
                 `}
               >
-                {count} 
-                {count === 1 ? ' time' : ' times'}
+                {count}
+                {count === 1 ? " time" : " times"}
               </span>
             </motion.div>
           );
@@ -149,7 +155,7 @@ export default function TripDetailPage() {
             <p className="text-gray-600 mb-6">
               {isApiError(error)
                 ? error.message
-                : 'The trip you are looking for does not exist or has been removed.'}
+                : "The trip you are looking for does not exist or has been removed."}
             </p>
             <Link href="/trips" className="btn-primary">
               <ArrowLeft className="inline w-5 h-5 mr-2" />
@@ -224,8 +230,12 @@ export default function TripDetailPage() {
                       <Clock className="w-4 h-4 text-(--accent-orange)" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Duration</p>
-                      <p className="text-sm font-bold text-gray-900">{trip.durationHours}</p>
+                      <p className="text-xs text-gray-500 font-medium">
+                        Duration
+                      </p>
+                      <p className="text-sm font-bold text-gray-900">
+                        {trip.durationHours}
+                      </p>
                     </div>
                   </motion.div>
 
@@ -237,8 +247,12 @@ export default function TripDetailPage() {
                       <MapPin className="w-4 h-4 text-(--accent-orange)" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Location</p>
-                      <p className="text-sm font-bold text-gray-900 truncate">{trip.city}</p>
+                      <p className="text-xs text-gray-500 font-medium">
+                        Location
+                      </p>
+                      <p className="text-sm font-bold text-gray-900 truncate">
+                        {trip.city}
+                      </p>
                     </div>
                   </motion.div>
 
@@ -250,8 +264,12 @@ export default function TripDetailPage() {
                       <Languages className="w-4 h-4 text-(--accent-orange)" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Languages</p>
-                      <p className="text-sm font-bold text-gray-900">{trip.languages.length}</p>
+                      <p className="text-xs text-gray-500 font-medium">
+                        Languages
+                      </p>
+                      <p className="text-sm font-bold text-gray-900">
+                        {trip.languages.length}
+                      </p>
                     </div>
                   </motion.div>
                 </div>
@@ -302,7 +320,7 @@ export default function TripDetailPage() {
                     </h2>
                   </div>
                   <p
-                    className={`text-gray-600 text-base leading-relaxed whitespace-pre-line ${!descriptionExpanded ? 'line-clamp-3' : ''}`}
+                    className={`text-gray-600 text-base leading-relaxed whitespace-pre-line ${!descriptionExpanded ? "line-clamp-3" : ""}`}
                   >
                     {trip.description}
                   </p>
@@ -311,7 +329,7 @@ export default function TripDetailPage() {
                     onClick={() => setDescriptionExpanded((v) => !v)}
                     className="mt-3 text-(--accent-orange) font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-(--accent-orange)/30 rounded"
                   >
-                    {descriptionExpanded ? 'See less' : 'See more'}
+                    {descriptionExpanded ? "See less" : "See more"}
                   </button>
                 </div>
               </motion.div>
@@ -343,7 +361,9 @@ export default function TripDetailPage() {
                         <div className="w-5 h-5 rounded-full bg-(--accent-orange) flex items-center justify-center shrink-0 mt-0.5">
                           <Check className="w-3 h-3 text-white" />
                         </div>
-                        <span className="text-gray-700 text-sm font-medium leading-snug">{highlight.name}</span>
+                        <span className="text-gray-700 text-sm font-medium leading-snug">
+                          {highlight.name}
+                        </span>
                       </motion.div>
                     ))}
                   </div>
@@ -374,7 +394,10 @@ export default function TripDetailPage() {
                           key={inclusion.id}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.4 + idx * 0.03 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: 0.4 + idx * 0.03,
+                          }}
                           className="flex items-start gap-2 text-gray-700 text-sm"
                         >
                           <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
@@ -407,7 +430,10 @@ export default function TripDetailPage() {
                           key={exclusion.id}
                           initial={{ opacity: 0, x: 10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.4 + idx * 0.03 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: 0.4 + idx * 0.03,
+                          }}
                           className="flex items-start gap-2 text-gray-700 text-sm"
                         >
                           <X className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
@@ -517,7 +543,6 @@ export default function TripDetailPage() {
                   transition={{ duration: 0.5, delay: 0.7 }}
                   className="bg-white rounded-2xl p-5 md:p-6 shadow-soft border border-gray-100"
                 >
-
                   <div className="flex items-center gap-2 mb-4">
                     <Calendar className="w-5 h-5 text-(--accent-orange)" />
                     <h2 className="text-xl md:text-2xl font-bold text-gray-900">
@@ -553,8 +578,6 @@ export default function TripDetailPage() {
                       </motion.div>
                     ))}
                   </div>
-
-
                 </motion.div>
               )}
             </div>
@@ -627,12 +650,15 @@ export default function TripDetailPage() {
                         className="w-full cursor-pointer flex items-center justify-center gap-3 bg-(--accent-orange) text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-(--secondary-orange) transition-all duration-300 hover:scale-105 shadow-xl"
                       >
                         <ShoppingCartIcon className="w-6 h-6" />
-                        {isAuthLoaded ? 'Sign in to Book' : 'Book Now'}
+                        {isAuthLoaded ? "Sign in to Book" : "Book Now"}
                       </button>
                     </SignInButton>
                   )}
 
-                  <Link href="/contactus" className="w-full flex items-center justify-center cursor-pointer btn-secondary py-4 text-lg">
+                  <Link
+                    href="/contactus"
+                    className="w-full flex items-center justify-center cursor-pointer btn-secondary py-4 text-lg"
+                  >
                     Ask a Question
                   </Link>
                 </div>
@@ -641,7 +667,8 @@ export default function TripDetailPage() {
                 <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
                   <p className="text-sm text-blue-800">
                     <Info className="inline w-4 h-4 mr-1" />
-                    Book at least <strong>{trip.bookingWindowHours} hours</strong> in advance
+                    Book at least{" "}
+                    <strong>{trip.bookingWindowHours} hours</strong> in advance
                   </p>
                 </div>
 

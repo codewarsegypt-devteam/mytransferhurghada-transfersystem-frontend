@@ -8,6 +8,7 @@ import { MapPin, Loader2, ArrowRightLeft, X } from 'lucide-react';
 import { getRegionByCoordinates } from '@/lib/apis/transferApi';
 import { isApiError } from '@/lib/apis/apiErrors';
 import type { RegionDto } from '@/lib/types/bookingTypes';
+import { useAuth } from '@clerk/nextjs';
 
 // Fix for default marker icons in Leaflet with webpack/Next.js
 delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
@@ -170,6 +171,7 @@ export default function TransferMapPicker({
     onToChange(null);
     setMode('to');
   };
+  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
 
   return (
     <div className="space-y-2">

@@ -14,6 +14,7 @@ import {
   Compass
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import PageBanner from '@/components/pageBanner';
 
 export default function AboutPage() {
   const stats = [
@@ -60,44 +61,18 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#F5F6F6]">
       {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-[#F3722A] via-[#F15A22] to-[#F36F24] text-white pt-24 md:pt-32 pb-14 md:pb-20 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-64 h-64 border-2 border-white rounded-full"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 border-2 border-white rounded-full"></div>
-          <div className="absolute top-1/2 left-1/3 w-48 h-48 border-2 border-white rounded-full"></div>
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.p
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="handwriting-style text-2xl md:text-3xl mb-4 text-white/90"
-            >
-              Welcome to Fox Travel Egypt
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
-            >
-              Your Gateway to Egypt&apos;s Wonders
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed"
-            >
-              We&apos;re more than a travel company—we&apos;re your local friends in Hurghada,
-              dedicated to creating unforgettable Egyptian adventures tailored just for you.
-            </motion.p>
-          </div>
-        </div>
-      </section>
+    <PageBanner
+      subtitle="About Us"
+      title="Your Gateway to Egypt's Wonders"
+      description="We're more than a travel company—we're your local friends in Hurghada, dedicated to creating unforgettable Egyptian adventures tailored just for you."
+      searchQuery={""}
+      setSearchQuery={() => {}}
+      placeholder="Search for a trip"
+      searchBar={false}
+      bgImageUrl="/assets/about.webp"
+      bgImageAlt="About Image"
+      bgOverlay={true}
+    />
 
       {/* Stats Section */}
       <section className="container mx-auto px-4 -mt-12 relative z-20">
@@ -130,56 +105,123 @@ export default function AboutPage() {
           </div>
         </motion.div>
       </section>
+{/* Our Story Section - Paper Theme */}
+<section className="container mx-auto px-4 py-16 md:py-24">
+  <div className="max-w-5xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-10 md:mb-14"
+    >
+      <p className="handwriting-style text-xl md:text-2xl text-[#F3722A] mb-3">
+        Our Journey
+      </p>
+      <h2 className="text-3xl md:text-4xl font-bold text-[#111827] mb-5">
+        The Fox Travel Story
+      </h2>
+      <div className="w-24 h-1 bg-linear-to-r from-[#F3722A] to-[#F15A22] mx-auto rounded-full" />
+    </motion.div>
 
-      {/* Our Story Section */}
-      <section className="container mx-auto px-4 py-16 md:py-24">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <p className="handwriting-style text-xl md:text-2xl text-[#F3722A] mb-3">
-              Our Journey
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#000000] mb-6">
-              The Fox Travel Story
-            </h2>
-            <div className="w-20 h-1 bg-linear-to-r from-[#F3722A] to-[#F15A22] mx-auto rounded-full"></div>
-          </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.15 }}
+      className="relative"
+    >
+      {/* Paper stack + shadows */}
+      <div
+        className="absolute inset-0 -rotate-[1.2deg] rounded-[28px] bg-[#FBF7EF] shadow-[0_18px_55px_rgba(0,0,0,0.10)]"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 rotate-[0.8deg] rounded-[28px] bg-[#F7F1E6] shadow-[0_12px_35px_rgba(0,0,0,0.08)]"
+        aria-hidden
+      />
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-brand-lg shadow-soft-lg p-6 md:p-10"
-          >
+      {/* Main sheet */}
+      <div className="relative overflow-hidden rounded-[28px] border border-black/5 bg-[#FFFCF5] shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+        {/* Paper grain + vignette */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute inset-0 opacity-[0.35] bg-[radial-gradient(circle_at_20%_15%,rgba(0,0,0,0.05),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(243,114,42,0.07),transparent_48%),radial-gradient(circle_at_30%_85%,rgba(0,0,0,0.04),transparent_55%)]" />
+          {/* faint fold line */}
+          <div className="absolute left-1/2 top-0 h-full w-px bg-black/5" />
+          {/* subtle top edge shading */}
+          <div className="absolute inset-x-0 top-0 h-10 bg-linear-to-b from-black/[0.05] to-transparent" />
+        </div>
+
+        {/* Paper header strip */}
+        <div className="relative px-6 sm:px-8 md:px-10 pt-8 md:pt-10">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#F3722A] shadow-[0_0_0_6px_rgba(243,114,42,0.12)]" />
+              <p className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">
+                Hurghada • Red Sea • Egypt
+              </p>
+            </div>
+
+            {/* “Tape” corners */}
+            <div className="hidden sm:block text-xs font-semibold text-gray-500">
+              Since 2010
+            </div>
+          </div>
+
+          <div className="mt-6 h-px w-full bg-black/10" />
+        </div>
+
+        {/* Content */}
+        <div className="relative px-6 sm:px-8 md:px-10 pb-8 md:pb-10 pt-6">
+          {/* Lined paper effect */}
+          <div className="pointer-events-none absolute inset-0 opacity-[0.20]" aria-hidden>
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-[length:100%_34px]" />
+          </div>
+
+          <div className="relative">
             <div className="prose prose-lg max-w-none">
-              <p className="text-gray-700 leading-relaxed mb-6">
+              <p className="text-gray-800 leading-relaxed mb-6">
                 Founded in the heart of Hurghada over 15 years ago, Fox Travel Egypt began with a simple
                 mission: to share the magic of Egypt&apos;s Red Sea with travelers from around the world.
                 What started as a small family-run business has grown into one of Hurghada&apos;s most trusted
                 travel agencies.
               </p>
-              <p className="text-gray-700 leading-relaxed mb-6">
+              <p className="text-gray-800 leading-relaxed mb-6">
                 Our founder grew up exploring the vibrant coral reefs, ancient desert landscapes, and historic
                 sites that make Egypt extraordinary. This deep connection to the region inspired a passion for
                 showing others the Egypt we know and love—not just the tourist highlights, but the authentic
                 experiences that create lasting memories.
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-800 leading-relaxed">
                 Today, we&apos;re proud to have welcomed over 10,000 travelers from every corner of the globe.
                 Each trip we organize carries the same personal touch and attention to detail that defined our
                 first tours. We&apos;re not just tour operators—we&apos;re storytellers, guides, and friends who
                 can&apos;t wait to introduce you to the wonders of Egypt.
               </p>
             </div>
-          </motion.div>
+
+
+            {/* Signature / stamp */}
+            <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <p className="handwriting-style text-2xl text-[#F3722A]">
+                Fox Travel Team
+              </p>
+
+              <div className="inline-flex items-center gap-2 rounded-xl border border-black/10 bg-white/60 px-4 py-2 backdrop-blur-sm">
+                <span className="h-2 w-2 rounded-full bg-[#111827]/70" />
+                <p className="text-sm font-semibold text-gray-700">Handcrafted experiences</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Paper “tape” accents */}
+        <div className="pointer-events-none absolute -top-3 left-10 h-10 w-24 rotate-[-8deg] rounded-lg bg-[#F2E7D3]/90 shadow-[0_10px_20px_rgba(0,0,0,0.10)] ring-1 ring-black/5" aria-hidden />
+        <div className="pointer-events-none absolute -top-3 right-10 h-10 w-24 rotate-[8deg] rounded-lg bg-[#F2E7D3]/90 shadow-[0_10px_20px_rgba(0,0,0,0.10)] ring-1 ring-black/5" aria-hidden />
+      </div>
+    </motion.div>
+  </div>
+</section>
 
       {/* Values Section */}
       <section className="bg-white py-16 md:py-24">

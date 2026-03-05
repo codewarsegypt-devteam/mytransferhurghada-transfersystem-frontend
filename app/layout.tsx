@@ -4,6 +4,7 @@ import { Poppins, Montserrat, Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ClerkAuthSync from "@/components/auth/ClerkAuthSync";
+import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const poppins = Poppins({
@@ -41,6 +42,7 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
+            <FloatingWhatsApp />
           </ClerkProvider>
         </Providers>
       </body>

@@ -1,23 +1,25 @@
-'use client';
+"use client";
 
-import { Waves, Anchor, Fish, Ship, Plus } from 'lucide-react';
-import Button from './ui/Button';
+import { Waves, Anchor, Fish, Ship, Plus } from "lucide-react";
+import Button from "./ui/Button";
 
 export default function SeaAdventures() {
   const adventures = [
     {
-      title: 'Snorkeling Trips',
-      description: 'Discover colorful coral reefs and marine life in crystal clear waters',
+      title: "Snorkeling Trips",
+      description:
+        "Discover colorful coral reefs and marine life in crystal clear waters",
       icon: Fish,
     },
     {
-      title: 'Diving Trips',
-      description: 'Explore the depths with professional guides and equipment',
+      title: "Diving Trips",
+      description: "Explore the depths with professional guides and equipment",
       icon: Anchor,
     },
     {
-      title: 'Island Trips',
-      description: 'Visit Orange Bay & Paradise Island for unforgettable experiences',
+      title: "Island Trips",
+      description:
+        "Visit Orange Bay & Paradise Island for unforgettable experiences",
       icon: Waves,
     },
     // {
@@ -29,14 +31,13 @@ export default function SeaAdventures() {
 
   // Sample user avatars for the counter
   const userImages = [
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
   ];
 
   return (
     <section className="relative py-15 bg-[#F5E6D8] overflow-hidden">
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Side - Creative Image Collage */}
@@ -44,36 +45,39 @@ export default function SeaAdventures() {
             {/* Main Blob Shape with Images */}
             <div className="relative">
               {/* Main organic blob background */}
-              <div 
+              <div
                 className="relative w-full aspect-square max-w-lg mx-auto"
                 style={{
-                  clipPath: "circle(50% at 50% 50%)"
+                  clipPath: "circle(50% at 50% 50%)",
                 }}
               >
                 {/* Main large image */}
-                <div 
+                <div
                   className="w-full h-full bg-cover bg-center"
                   style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=2070')"
+                    backgroundImage:
+                      "url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=2070')",
                   }}
                 />
               </div>
 
               {/* Floating circular images */}
               <div className="absolute -top-8 left-[10%] w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden border-4 border-white shadow-xl animate-float">
-                <div 
+                <div
                   className="w-full h-full bg-cover bg-center"
                   style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070')"
+                    backgroundImage:
+                      "url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070')",
                   }}
                 />
               </div>
 
               <div className="absolute top-1/3 -right-8 w-28 h-28 lg:w-36 lg:h-36 rounded-full overflow-hidden border-4 border-white shadow-xl animate-float-delayed">
-                <div 
+                <div
                   className="w-full h-full bg-cover bg-center"
                   style={{
-                    backgroundImage: "url('https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=2074')"
+                    backgroundImage:
+                      "url('https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=2074')",
                   }}
                 />
               </div>
@@ -87,8 +91,12 @@ export default function SeaAdventures() {
 
               {/* Destination Counter Badge */}
               <div className="absolute -bottom-6 left-[5%] lg:left-[10%] bg-white rounded-full px-6 py-3 shadow-xl">
-                <p className="text-2xl lg:text-3xl font-bold text-[#F3722A]">100000+</p>
-                <p className="text-xs lg:text-sm text-gray-600 handwriting-style">destinations</p>
+                <p className="text-2xl lg:text-3xl font-bold text-[#F3722A]">
+                  100000+
+                </p>
+                <p className="text-xs lg:text-sm text-gray-600 handwriting-style">
+                  destinations
+                </p>
               </div>
             </div>
           </div>
@@ -106,7 +114,8 @@ export default function SeaAdventures() {
                 Making Moments
               </h2>
               <p className="text-gray-600 text-lg">
-                Content of a page when looking at layout the point of using lorem the is ipsum less normal
+                Content of a page when looking at layout the point of using
+                lorem the is ipsum less normal
               </p>
             </div>
 
@@ -115,7 +124,7 @@ export default function SeaAdventures() {
               {adventures.map((adventure, index) => {
                 const Icon = adventure.icon;
                 return (
-                  <div 
+                  <div
                     key={index}
                     className="flex items-start space-x-4 p-5 bg-white rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-300 group cursor-pointer"
                   >
@@ -139,17 +148,19 @@ export default function SeaAdventures() {
 
             {/* CTA Section */}
             <div className="flex flex-wrap items-center gap-6 pt-4">
-              <Button href="#sea-trips" size="lg">Explore Sea Trips</Button>
+              <Button href="#sea-trips" size="lg">
+                Explore Sea Trips
+              </Button>
 
               {/* User Count */}
               <div className="flex items-center space-x-3">
                 <div className="flex -space-x-3">
                   {userImages.map((img, i) => (
-                    <div 
+                    <div
                       key={i}
                       className="w-12 h-12 rounded-full border-3 border-white overflow-hidden shadow-md"
                     >
-                      <div 
+                      <div
                         className="w-full h-full bg-cover bg-center"
                         style={{ backgroundImage: `url(${img})` }}
                       />
@@ -172,7 +183,8 @@ export default function SeaAdventures() {
       {/* Custom Animations */}
       <style jsx>{`
         @keyframes float {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {
@@ -181,7 +193,8 @@ export default function SeaAdventures() {
         }
 
         @keyframes float-delayed {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {
@@ -190,7 +203,8 @@ export default function SeaAdventures() {
         }
 
         @keyframes bounce-slow {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {

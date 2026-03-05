@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import type { TripItemDto } from "@/lib/types/tripsTypes";
 import TripCard from "@/components/ui/TripCard";
 import HeroText from "@/components/ui/HeroText";
+import { HeroTransferForm } from "../hero components/HeroTransferForm";
 
 const CARD_WIDTH_MOBILE = 300;
 const CARD_WIDTH_DESKTOP = 420;
@@ -28,7 +29,7 @@ function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => setIsInView(entry.isIntersecting),
-      { rootMargin: "100px", threshold: 0 }
+      { rootMargin: "100px", threshold: 0 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -49,14 +50,16 @@ function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
         <div
           className={cn(
             "carousel-track flex items-stretch gap-6 px-4 sm:px-6",
-            !isInView && "paused"
+            !isInView && "paused",
           )}
-          style={{
-            width: "max-content",
-            ["--carousel-offset-mobile" as string]: `-${offsetMobile}px`,
-            ["--carousel-offset-desktop" as string]: `-${offsetDesktop}px`,
-            ["--carousel-duration" as string]: `${duration}s`,
-          } as React.CSSProperties}
+          style={
+            {
+              width: "max-content",
+              ["--carousel-offset-mobile" as string]: `-${offsetMobile}px`,
+              ["--carousel-offset-desktop" as string]: `-${offsetDesktop}px`,
+              ["--carousel-duration" as string]: `${duration}s`,
+            } as React.CSSProperties
+          }
         >
           {duplicatedTrips.map((trip, index) => (
             <div
@@ -71,8 +74,10 @@ function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
       <div className="flex flex-row items-center justify-center gap-4 mt-10">
         <button
           type="button"
-          className="bg-main cursor-pointer text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-l hover:scale-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out"
-          onClick={() => { window.location.href = "/trips"; }}
+          className="bg-main cursor-pointer text-white px-6 py-4 text-sm rounded-full font-semibold shadow-lg hover:shadow-l hover:scale-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out"
+          onClick={() => {
+            window.location.href = "/trips";
+          }}
         >
           Explore trips
         </button>
@@ -83,7 +88,9 @@ function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
 
 /** Rotating words in the hero title; longest length is used to reserve layout space. */
 const HERO_TITLE_ROTATING_WORDS = ["Fox", "Travel", "Egypt"] as const;
-const HERO_TITLE_LONGEST_LENGTH = Math.max(...HERO_TITLE_ROTATING_WORDS.map((w) => w.length));
+const HERO_TITLE_LONGEST_LENGTH = Math.max(
+  ...HERO_TITLE_ROTATING_WORDS.map((w) => w.length),
+);
 
 export interface NavigationItem {
   label: string;
@@ -93,7 +100,6 @@ export interface NavigationItem {
 }
 
 export interface PulseFitHeroProps {
-
   /** Optional list of trips to show in the bottom carousel (TripCard). Demo data only; no fetch. */
   trips?: TripItemDto[];
   /** Optional background image URL for the main hero content area (title + CTAs). */
@@ -102,7 +108,7 @@ export interface PulseFitHeroProps {
   children?: React.ReactNode;
 }
 
-export function PulseFitHero({  
+export function PulseFitHero({
   trips = [],
   backgroundImageUrl = "/assets/heroImg.jpeg",
   className,
@@ -112,8 +118,7 @@ export function PulseFitHero({
     <section
       className={cn(
         "relative w-full min-h-screen flex flex-col overflow-hidden",
-        className
-
+        className,
       )}
       style={{
         background:
@@ -122,8 +127,6 @@ export function PulseFitHero({
       role="banner"
       aria-label="Hero section"
     >
-
-
       {/* Main Content */}
       {children ? (
         <div className="relative z-10 flex-1 flex items-center justify-center w-full">
@@ -162,8 +165,7 @@ export function PulseFitHero({
               {/* Title: left = static text, right = rotating word in a fixed-width slot to avoid layout shift */}
               <h1 className="flex flex-col items-center justify-between w-full gap-3 sm:gap-4 text-white text-4xl sm:text-5xl md:text-6xl font-bold">
                 <span className="shrink-0">
-                  Adventure &
-                  <span className="text-main"></span> Experience
+                  Adventure &<span className="text-main"></span> Experience
                 </span>
                 <span
                   className="inline-flex shrink-0 items-center justify-center rounded-lg bg-main py-0.5 sm:py-1 md:py-2 px-2 sm:px-2 md:px-3 overflow-hidden"
@@ -187,108 +189,19 @@ export function PulseFitHero({
 
               {/* Subtitle */}
               <p className="text-white/80 font-weight-400 font-size-clamp-14px-2-2vw-20px line-height-1-6 max-width-600px">
-                Sea trips, desert safaris, and private transfers—your adventure in Egypt made simple. <br />
+                Sea trips, desert safaris, and private transfers—your adventure
+                in Egypt made simple. <br />
                 Travel, explore, and book easily, all in one place.
               </p>
 
-              {/* CTA Bar - Transportation / Transfer (design only) */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="md:mt-10 w-full max-w-4xl"
-              >
-                <p className="text-white/90 text-sm font-medium mb-2.5 text-center">
-                  Book your transfer in seconds
-                </p>
-                <div
-                  className="w-full rounded-2xl overflow-hidden 
-                  flex flex-col sm:flex-row items-stretch gap-0 sm:gap-0 flex-nowrap min-w-0 
-                  bg-white/80 backdrop-blur-md 
-                  shadow-[0_4px_24px_rgba(0,0,0,0.12),0_0_0_1px_rgba(255,255,255,0.6)_inset,0_0_40px_-8px_rgba(243,114,42,0.15)]"
-                  
-                >
-                  {/* From */}
-                  <div className="flex-1 min-w-0 flex items-center shrink-0 basis-auto sm:flex-1 border-b sm:border-b-0 sm:border-r border-(--light-grey)/80">
-                    <button
-                      type="button"
-                      className="w-full flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 text-left hover:bg-white/60 transition-colors min-w-0 group"
-                    >
-                      <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-main/10 text-main shrink-0 group-hover:bg-main/15 transition-colors">
-                        <MapPin className="w-4 h-4" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          From
-                        </span>
-                        <span className="block text-sm font-medium text-gray-800 truncate">
-                          Pickup location
-                        </span>
-                      </div>
-                      <ChevronDown className="w-4 h-4 shrink-0 text-gray-400" />
-                    </button>
-                  </div>
-                  {/* To */}
-                  <div className="flex-1 min-w-0 flex items-center shrink-0 basis-auto sm:flex-1 border-b sm:border-b-0 sm:border-r border-(--light-grey)/80">
-                    <button
-                      type="button"
-                      className="w-full flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 text-left hover:bg-white/60 transition-colors min-w-0 group"
-                    >
-                      <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-main/10 text-main shrink-0 group-hover:bg-main/15 transition-colors">
-                        <MapPin className="w-4 h-4" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          To
-                        </span>
-                        <span className="block text-sm font-medium text-gray-800 truncate">
-                          Destination
-                        </span>
-                      </div>
-                      <ChevronDown className="w-4 h-4 shrink-0 text-gray-400" />
-                    </button>
-                  </div>
-                  {/* Date */}
-                  <div className="flex-1 min-w-0 flex items-center shrink-0 basis-auto sm:flex-[0.85] border-b sm:border-b-0 sm:border-r border-(--light-grey)/80">
-                    <button
-                      type="button"
-                      className="w-full flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 text-left hover:bg-white/60 transition-colors min-w-0 group"
-                    >
-                      <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-main/10 text-main shrink-0 group-hover:bg-main/15 transition-colors">
-                        <CalendarDays className="w-4 h-4" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Date
-                        </span>
-                        <span className="block text-sm font-medium text-gray-800 truncate">
-                          Select date
-                        </span>
-                      </div>
-                      <ChevronDown className="w-4 h-4 shrink-0 text-gray-400" />
-                    </button>
-                  </div>
-                  {/* Action button */}
-                  <div className="shrink-0 p-2.5 sm:p-3 flex items-center justify-center bg-main">
-                    <button
-                      type="button"
-                      className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/95 hover:bg-white text-gray-900 font-semibold px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl text-sm shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                      Book transfer
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
+              <HeroTransferForm />
             </motion.div>
           </div>
         </div>
       )}
 
-      {/* TripCard carousel: CSS-driven animation + pause when off-screen for performance */}
-      {trips.length > 0 && (
-        <CarouselBlock trips={trips} />
-      )}
+      {/* TripCard carousel: CSS-driven animation + pause w  hen off-screen for performance */}
+      {trips.length > 0 && <CarouselBlock trips={trips} />}
     </section>
   );
 }

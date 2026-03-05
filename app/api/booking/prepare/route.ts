@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
       });
     } else {
       // Transfer booking logic
-      const { vehicleTypeId, legs, extras, promoCode } = body;
+      const { vehicleTypeId, legs, extras, promoCode, name, phoneNumber, roomNumber, flightNumber } = body;
 
       if (!vehicleTypeId || !Array.isArray(legs) || legs.length === 0) {
         console.error('Validation failed: missing vehicleTypeId or legs', { vehicleTypeId, legs });
@@ -130,6 +130,10 @@ export async function POST(request: NextRequest) {
         })),
         extras: Array.isArray(extras) ? extras : [],
         promoCode: String(promoCode || ''),
+        ...(name != null && { name: String(name) }),
+        ...(phoneNumber != null && { phoneNumber: String(phoneNumber) }),
+        ...(roomNumber != null && roomNumber !== '' && { roomNumber: String(roomNumber) }),
+        ...(flightNumber != null && flightNumber !== '' && { flightNumber: String(flightNumber) }),
       };
 
       console.log('Calling transfer preview with booking data:', bookingData);

@@ -6,12 +6,15 @@ import {
   CREATE_TRANSFER_BOOKING,
   GET_REGION_ID_BY_COORDINATES,
   GET_VEHICLE_TYPES,
+  GET_EXTRAS,
 } from "@/paths";
 import type {
   TransferBookingRequest,
   TransferBookingResponseDto,
   GetRegionByCoordinatesResponseDto,
   GetVehicleTypesResponseDto,
+  GetExtrasResponseDto,
+  GetExtrasParams,
 } from "@/lib/types/bookingTypes";
 import { ApiError, normalizeAndThrow } from "./apiErrors";
 import { getAuthCookie } from "@/lib/storage/authToken";
@@ -129,6 +132,30 @@ export async function getVehicleTypes(): Promise<GetVehicleTypesResponseDto> {
     return data;
   } catch (error) {
     // console.log('getVehicleTypes error:', (error as AxiosError).response?.data);
+    normalizeAndThrow(error);
+  }
+}
+
+/**
+ * Get extras (for transfer or booking). Optional filters: extraCategoryId, extraChargeType, pagination.
+ * @throws {ApiError} On network error, non-2xx response, or when API returns succeeded: false
+ */
+export async function getExtras(
+  params?: GetExtrasParams
+): Promise<GetExtrasResponseDto> {
+  try {
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url: GET_EXTRAS,
+      params: params ?? {},
+      headers: {
+        accept: "text/plain",
+      },
+    };
+    const { data } = await axios.request<GetExtrasResponseDto>(config);
+    assertSucceeded(data);
+    return data;
+  } catch (error) {
     normalizeAndThrow(error);
   }
 }

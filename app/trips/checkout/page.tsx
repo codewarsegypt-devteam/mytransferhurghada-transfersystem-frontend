@@ -81,7 +81,7 @@ function CheckoutContent() {
     queryFn: () => getTripExtras(trip!.id),
     enabled: !!trip?.id,
   });
-
+// console.log(extrasData?.data);
   const extras: TripExtraDto[] = extrasData?.data || [];
 
   // Preview booking (manual trigger on step 3→4 and before payment)
