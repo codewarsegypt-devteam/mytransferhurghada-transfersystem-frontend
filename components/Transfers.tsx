@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react"; // or: import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   Car,
   Shield,
@@ -9,6 +9,7 @@ import {
   Clock,
   CheckCircle2,
   MapPin,
+  ArrowRight,
 } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 
@@ -101,51 +102,48 @@ function TransferCard({
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
-      className="group relative overflow-hidden rounded-[28px] bg-white shadow-soft border border-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]"
+      className="group relative overflow-hidden rounded-md bg-white border border-[#E2E8F0] hover:border-main/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(27,53,101,0.12)]"
     >
       {/* Image */}
-      <div className="relative h-56 sm:h-64 overflow-hidden">
+      <div className="relative h-52 sm:h-60 overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.08]"
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.06]"
           style={{ backgroundImage: `url('${option.image}')` }}
         />
-
-        {/* Luxury overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/25 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#0D1B2A]/80 via-[#0D1B2A]/30 to-transparent" />
 
         {/* Top badges */}
-        <div className="absolute top-4 left-4 flex items-center gap-2">
+        <div className="absolute top-3 left-3 flex items-center gap-2">
           {option.popular && (
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur px-3 py-1 text-xs font-semibold text-[#2C3539] shadow-sm border border-white/30">
-              <CheckCircle2 className="w-4 h-4 text-[#F3722A]" />
+            <div className="inline-flex items-center gap-1.5 rounded-sm bg-[#C9A14A] px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+              <CheckCircle2 className="w-3.5 h-3.5" />
               Most Popular
             </div>
           )}
         </div>
 
-        <div className="absolute top-4 right-4">
-          <div className="rounded-full bg-black/35 backdrop-blur px-3 py-1.5 text-xs font-semibold text-white border border-white/15">
-            <span className="opacity-90">from</span>{" "}
-            <span className="text-[13px] font-bold">${option.price}</span>
+        <div className="absolute top-3 right-3">
+          <div className="rounded-sm bg-main px-2.5 py-1 text-xs font-semibold text-white">
+            <span className="opacity-80 text-[11px]">from</span>{" "}
+            <span className="font-bold">${option.price}</span>
           </div>
         </div>
 
-        {/* Bottom glass title */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="rounded-2xl bg-white/12 backdrop-blur-md border border-white/15 px-4 py-3">
+        {/* Bottom title */}
+        <div className="absolute bottom-3 left-3 right-3">
+          <div className="rounded-sm bg-[#0D1B2A]/70 backdrop-blur-sm border border-white/10 px-4 py-3">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <h3 className="text-lg sm:text-xl font-extrabold tracking-tight text-white">
+                <h3 className="text-base sm:text-lg font-bold tracking-tight text-white">
                   {option.title}
                 </h3>
-                <p className="mt-0.5 text-sm text-white/80 line-clamp-1">
+                <p className="mt-0.5 text-xs text-white/70 line-clamp-1">
                   {option.description}
                 </p>
               </div>
-
               <div className="shrink-0">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white border border-white/15">
-                  <Clock className="w-4 h-4" />
+                <div className="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-2.5 py-1 text-xs font-semibold text-white border border-white/15">
+                  <Clock className="w-3.5 h-3.5 text-[#C9A14A]" />
                   {option.duration}
                 </div>
               </div>
@@ -155,21 +153,20 @@ function TransferCard({
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        {/* Routes */}
+      <div className="p-5">
         <div className="flex items-start gap-2">
-          <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3722A]/10 text-[#F3722A] border border-[#F3722A]/15">
-            <MapPin className="w-4.5 h-4.5" />
+          <div className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-sm bg-main/8 text-main border border-main/12">
+            <MapPin className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               Typical routes
             </p>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className="mt-2 flex flex-wrap gap-1.5">
               {option.routes.map((route, idx) => (
                 <span
                   key={idx}
-                  className="rounded-full bg-[#F5EDE4] px-3 py-1 text-xs font-medium text-[#2C3539] border border-black/5"
+                  className="rounded-sm bg-[#F0F4F8] px-2.5 py-1 text-xs font-medium text-main border border-[#E2E8F0]"
                 >
                   {route}
                 </span>
@@ -178,9 +175,6 @@ function TransferCard({
           </div>
         </div>
       </div>
-
-      {/* Subtle corner highlight */}
-      <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#F9C74F]/25 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
     </motion.div>
   );
 }
@@ -192,13 +186,12 @@ export default function Transfers() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.5 }}
-      className="relative overflow-hidden bg-linear-to-b from-white via-[#F5EDE4] to-white px-4 py-12 lg:py-16"
+      className="relative overflow-hidden bg-[#F8FAFC] px-4 py-14 lg:py-20 border-t border-[#E2E8F0]"
     >
-      {/* Premium background ornaments */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 right-[-120px] h-[320px] w-[320px] rounded-full bg-[#F3722A]/18 blur-3xl" />
-        <div className="absolute -bottom-28 left-[-140px] h-[360px] w-[360px] rounded-full bg-[#F9C74F]/22 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
+      {/* Decorative geometric accent */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-main/3 rounded-bl-[200px]" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#C9A14A]/4 rounded-tr-[150px]" />
       </div>
 
       <div className="relative container mx-auto max-w-7xl">
@@ -211,13 +204,33 @@ export default function Transfers() {
         >
           <SectionHeader
             subtitle="Reliable Transportation"
-            title="Private Transfers Safe, Comfortable & Premium"
+            title="Private Transfers — Safe, Comfortable & Premium"
             description="Enjoy a seamless ride with fixed pricing, executive vehicles, and punctual pickups crafted for a smooth, luxury experience."
           />
         </motion.div>
 
+        {/* Feature pills */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          className="flex flex-wrap justify-center gap-2 mb-10 -mt-4"
+        >
+          {keyFeatures.map(({ icon: Icon, title }) => (
+            <div
+              key={title}
+              className="inline-flex items-center gap-2 rounded-sm bg-white border border-[#E2E8F0] px-4 py-2 text-sm font-medium text-[#334155] shadow-sm"
+            >
+              <Icon className="w-3.5 h-3.5 text-[#C9A14A]" />
+              {title}
+            </div>
+          ))}
+        </motion.div>
+
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {transferOptions.map((option, index) => (
             <TransferCard key={option.id} option={option} index={index} />
           ))}
@@ -234,16 +247,17 @@ export default function Transfers() {
         >
           <Link
             href="/transfer"
-            className="inline-flex items-center justify-center rounded-full bg-[#F3722A] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(243,114,42,0.25)] transition-all hover:bg-[#F15A22] hover:translate-y-[-1px] w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-main px-7 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-secondary hover:-translate-y-0.5 hover:shadow-lg w-full sm:w-auto"
           >
-            Book Transfer
+            Book a Transfer
+            <ArrowRight className="w-4 h-4" />
           </Link>
 
           <Link
             href="/contactus"
-            className="inline-flex items-center justify-center rounded-full border border-black/10 bg-white/80 backdrop-blur px-6 py-3 text-sm font-semibold text-[#2C3539] transition-all hover:bg-white hover:border-black/15 w-full sm:w-auto"
+            className="inline-flex items-center justify-center rounded-md border border-main/20 bg-white px-7 py-3 text-sm font-semibold text-main transition-all hover:bg-[#F0F4F8] hover:border-main/40 w-full sm:w-auto"
           >
-            Talk to concierge
+            Talk to a Concierge
           </Link>
         </motion.div>
       </div>

@@ -5,8 +5,8 @@ import { type ButtonHTMLAttributes, type ReactNode } from "react";
 
 const variantStyles = {
   primary:
-    "bg-[#F3722A] hover:bg-[#F15A22] text-white rounded-full cursor-pointer font-semibold shadow-lg hover:shadow-xl transition-all duration-300",
-  icon: "hover:bg-white/50 rounded-lg transition-colors inline-flex items-center justify-center",
+    "bg-[#1B3565] hover:bg-[#243F76] text-white rounded-md cursor-pointer font-semibold shadow-md hover:shadow-lg transition-all duration-300 border border-[#1B3565] hover:border-[#243F76]",
+  icon: "hover:bg-white/10 rounded-md transition-colors inline-flex items-center justify-center",
 } as const;
 
 export type ButtonVariant = keyof typeof variantStyles;
@@ -15,8 +15,8 @@ export type ButtonSize = "sm" | "md" | "lg";
 const sizeStyles: Record<ButtonVariant, Record<ButtonSize, string>> = {
   primary: {
     sm: "px-4 py-2 text-xs",
-    md: "px-6 py-3 text-sm",
-    lg: "px-8 py-4 text-base",
+    md: "px-6 py-2.5 text-sm",
+    lg: "px-8 py-3.5 text-base",
   },
   icon: {
     sm: "p-1.5",

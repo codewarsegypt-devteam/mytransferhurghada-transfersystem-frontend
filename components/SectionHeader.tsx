@@ -1,11 +1,7 @@
 interface SectionHeaderProps {
-  /** Small label above the title (handwriting style, accent color) */
   subtitle: string;
-  /** Main section heading */
   title: string;
-  /** Optional description below the title */
   description?: string;
-  /** Optional extra class for the wrapper */
   className?: string;
 }
 
@@ -17,14 +13,20 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className={`text-center mb-12 ${className}`.trim()}>
-      <p className="text-secondary font-medium text-lg mb-3 handwriting-style">
-        {subtitle}
-      </p>
-      <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-[#2C3539] mb-4">
+      {subtitle && (
+        <div className="inline-flex items-center gap-3 mb-4">
+          <span className="w-8 h-px bg-[#C9A14A]" />
+          <p className="text-[#C9A14A] font-semibold text-xs uppercase tracking-[0.18em]">
+            {subtitle}
+          </p>
+          <span className="w-8 h-px bg-[#C9A14A]" />
+        </div>
+      )}
+      <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] leading-tight">
         {title}
       </h2>
       {description && (
-        <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg">
+        <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg mt-4 leading-relaxed">
           {description}
         </p>
       )}

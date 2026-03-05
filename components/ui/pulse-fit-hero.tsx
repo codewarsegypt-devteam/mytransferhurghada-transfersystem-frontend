@@ -3,7 +3,7 @@
 import React, { useMemo, useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronDown, ArrowRight, MapPin, CalendarDays } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TripItemDto } from "@/lib/types/tripsTypes";
 import TripCard from "@/components/ui/TripCard";
@@ -14,7 +14,6 @@ const CARD_WIDTH_MOBILE = 300;
 const CARD_WIDTH_DESKTOP = 420;
 const CARD_GAP = 24;
 
-/** Carousel with CSS animation (GPU-friendly) and pause when off-screen. */
 function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(true);
@@ -74,19 +73,19 @@ function CarouselBlock({ trips }: { trips: TripItemDto[] }) {
       <div className="flex flex-row items-center justify-center gap-4 mt-10">
         <button
           type="button"
-          className="bg-main cursor-pointer text-white px-6 py-4 text-sm rounded-full font-semibold shadow-lg hover:shadow-l hover:scale-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out"
+          className="bg-main cursor-pointer text-white px-8 py-3.5 text-sm rounded-md font-semibold shadow-lg hover:bg-secondary hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 ease-out flex items-center gap-2"
           onClick={() => {
             window.location.href = "/trips";
           }}
         >
-          Explore trips
+          Explore All Trips
+          <ArrowRight className="w-4 h-4" />
         </button>
       </div>
     </motion.div>
   );
 }
 
-/** Rotating words in the hero title; longest length is used to reserve layout space. */
 const HERO_TITLE_ROTATING_WORDS = ["Fox", "Travel", "Egypt"] as const;
 const HERO_TITLE_LONGEST_LENGTH = Math.max(
   ...HERO_TITLE_ROTATING_WORDS.map((w) => w.length),
@@ -100,9 +99,7 @@ export interface NavigationItem {
 }
 
 export interface PulseFitHeroProps {
-  /** Optional list of trips to show in the bottom carousel (TripCard). Demo data only; no fetch. */
   trips?: TripItemDto[];
-  /** Optional background image URL for the main hero content area (title + CTAs). */
   backgroundImageUrl?: string;
   className?: string;
   children?: React.ReactNode;
@@ -121,20 +118,17 @@ export function PulseFitHero({
         className,
       )}
       style={{
-        background:
-          "linear-gradient(180deg, var(--off-white) 0%, rgba(243, 114, 42, 0.06) 40%, #FFFFFF 100%)",
+        background: "linear-gradient(180deg, #0D1B2A 0%, #1B3565 40%, #0F172A 100%)",
       }}
       role="banner"
       aria-label="Hero section"
     >
-      {/* Main Content */}
       {children ? (
         <div className="relative z-10 flex-1 flex items-center justify-center w-full">
           {children}
         </div>
       ) : (
         <div className="relative z-10 flex-1 flex flex-col items-center pt-[100px] md:pt-[140px] w-full min-h-[120vh]">
-          {/* Background image for main content area only */}
           {backgroundImageUrl && (
             <>
               <Image
@@ -149,11 +143,17 @@ export function PulseFitHero({
                 quality={80}
               />
               <div
-                className="absolute inset-0 bg-linear-to-b from-black/40 via-black/65 to-black/40"
+                className="absolute inset-0 bg-linear-to-b from-[#0D1B2A]/60 via-[#0D1B2A]/70 to-[#0D1B2A]/55"
+                aria-hidden
+              />
+              {/* Subtle vignette sides */}
+              <div
+                className="absolute inset-0 bg-linear-to-r from-[#0D1B2A]/30 via-transparent to-[#0D1B2A]/30"
                 aria-hidden
               />
             </>
           )}
+
           <div className="relative z-10 flex flex-col items-center justify-center px-4 py-8 sm:py-12 w-full">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -162,19 +162,33 @@ export function PulseFitHero({
               className="flex flex-col items-center text-center max-w-4xl w-full"
               style={{ gap: "clamp(20px, 4vw, 32px)" }}
             >
-              {/* Title: left = static text, right = rotating word in a fixed-width slot to avoid layout shift */}
+              {/* Eyebrow */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="inline-flex items-center gap-3"
+              >
+                <span className="w-6 h-px bg-[#C9A14A]" />
+                <span className="text-[#C9A14A] text-xs font-semibold uppercase tracking-[0.18em]">
+                  Discover Egypt
+                </span>
+                <span className="w-6 h-px bg-[#C9A14A]" />
+              </motion.div>
+
+              {/* Title */}
               <h1 className="flex flex-col items-center justify-between w-full gap-3 sm:gap-4 text-white text-4xl sm:text-5xl md:text-6xl font-bold">
                 <span className="shrink-0">
-                  Adventure &<span className="text-main"></span> Experience
+                  Adventure &amp; Experience
                 </span>
                 <span
-                  className="inline-flex shrink-0 items-center justify-center rounded-lg bg-main py-0.5 sm:py-1 md:py-2 px-2 sm:px-2 md:px-3 overflow-hidden"
+                  className="inline-flex shrink-0 items-center justify-center rounded-md bg-main border border-[#C9A14A]/30 py-0.5 sm:py-1 md:py-2 px-3 sm:px-3 md:px-4 overflow-hidden"
                   style={{ minWidth: `${HERO_TITLE_LONGEST_LENGTH + 1.2}ch` }}
                   aria-hidden
                 >
                   <HeroText
                     texts={[...HERO_TITLE_ROTATING_WORDS]}
-                    mainClassName="text-white overflow-hidden justify-center"
+                    mainClassName="text-[#C9A14A] overflow-hidden justify-center"
                     staggerFrom="last"
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
@@ -188,9 +202,10 @@ export function PulseFitHero({
               </h1>
 
               {/* Subtitle */}
-              <p className="text-white/80 font-weight-400 font-size-clamp-14px-2-2vw-20px line-height-1-6 max-width-600px">
-                Sea trips, desert safaris, and private transfers—your adventure
-                in Egypt made simple. <br />
+              <p className="text-white/70 max-w-xl text-base md:text-lg leading-relaxed">
+                Sea trips, desert safaris, and private transfers — your adventure
+                in Egypt made simple.{" "}
+                <br className="hidden sm:block" />
                 Travel, explore, and book easily, all in one place.
               </p>
 
@@ -200,8 +215,7 @@ export function PulseFitHero({
         </div>
       )}
 
-      {/* TripCard carousel: CSS-driven animation + pause w  hen off-screen for performance */}
-      {trips.length > 0 && <CarouselBlock trips={trips} />}
+      {/* {trips.length > 0 && <CarouselBlock trips={trips} />} */}
     </section>
   );
 }

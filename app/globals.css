@@ -1,40 +1,41 @@
 @import "tailwindcss";
 
-/* Fox Travel Egypt Brand Identity */
+/* Fox Travel Egypt — Mediterranean Luxury Identity */
 @theme inline {
-  --color-main: #f3722a;
-  --color-secondary: #f15a22;
+  --color-main: #1B3565;
+  --color-secondary: #243F76;
   --font-family-poppins:
     var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
-  /* Color Palette - CSS Custom Properties */
   :root {
-    --primary-orange: #f3722a;
-    --accent-orange: #f15a22;
-    --secondary-orange: #f36f24;
-    --black: #000000;
-    --light-grey: #e6e7e8;
-    --off-white: #f5f6f6;
+    --primary-navy: #1B3565;
+    --secondary-navy: #243F76;
+    --accent-gold: #C9A14A;
+    --accent-gold-light: #DDB96A;
+    --dark-navy: #0D1B2A;
+    --midnight: #05111E;
+    --light-steel: #F0F4F8;
+    --off-white: #F8FAFC;
+    --border-light: #E2E8F0;
+    --text-dark: #0F172A;
+    --text-mid: #334155;
 
-    /* Tailwind v4 color tokens - automatically available as utility classes */
-    --color-primary-orange: var(--primary-orange);
-    --color-accent-orange: var(--accent-orange);
-    --color-secondary-orange: var(--secondary-orange);
-    --color-light-grey: var(--light-grey);
+    --color-primary-navy: var(--primary-navy);
+    --color-secondary-navy: var(--secondary-navy);
+    --color-accent-gold: var(--accent-gold);
+    --color-dark-navy: var(--dark-navy);
+    --color-light-steel: var(--light-steel);
     --color-off-white: var(--off-white);
-    --color-black: var(--black);
   }
 
-  /* Base Styles */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
-  /* Typography - Google Fonts loaded via Next.js font optimization */
   body {
     font-family:
       var(--font-inter),
@@ -43,7 +44,7 @@
       "Segoe UI",
       sans-serif;
     background-color: var(--off-white);
-    color: var(--black);
+    color: var(--text-dark);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -62,107 +63,73 @@
       BlinkMacSystemFont,
       "Segoe UI",
       sans-serif;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--text-dark);
   }
 
-  /* Mobile First - Responsive Typography */
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.75rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  h4 {
-    font-size: 1.25rem;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
 
   @media (min-width: 768px) {
-    h1 {
-      font-size: 2.5rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-    }
-
-    h3 {
-      font-size: 1.75rem;
-    }
-
-    h4 {
-      font-size: 1.5rem;
-    }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.75rem; }
+    h4 { font-size: 1.5rem; }
   }
 
   @media (min-width: 1024px) {
-    h1 {
-      font-size: 3rem;
-    }
-
-    h2 {
-      font-size: 2.5rem;
-    }
-
-    h3 {
-      font-size: 2rem;
-    }
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 2rem; }
   }
 
-  /* Smooth Scrolling */
   html {
     scroll-behavior: smooth;
   }
 }
 
 @layer components {
-  /* Card Styles */
   .card {
     background: white;
-    border: 1px solid var(--light-grey);
-    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
   }
 
-  /* Primary CTA Button */
   .btn-primary {
-    background-color: var(--primary-orange);
+    background-color: var(--primary-navy);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 6px;
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(241, 90, 34, 0.2);
+    box-shadow: 0 2px 8px rgba(27, 53, 101, 0.25);
     display: inline-block;
     text-decoration: none;
   }
 
   .btn-primary:hover {
-    background-color: var(--secondary-orange);
+    background-color: var(--secondary-navy);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(241, 90, 34, 0.3);
+    box-shadow: 0 4px 14px rgba(27, 53, 101, 0.35);
   }
 
   .btn-primary:active {
     transform: translateY(0);
   }
 
-  /* Secondary Button */
   .btn-secondary {
     background-color: white;
-    color: var(--accent-orange);
-    border: 2px solid var(--accent-orange);
-    border-radius: 12px;
+    color: var(--primary-navy);
+    border: 2px solid var(--primary-navy);
+    border-radius: 6px;
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     cursor: pointer;
@@ -172,12 +139,11 @@
   }
 
   .btn-secondary:hover {
-    background-color: var(--off-white);
-    border-color: var(--secondary-orange);
-    color: var(--secondary-orange);
+    background-color: var(--light-steel);
+    border-color: var(--secondary-navy);
+    color: var(--secondary-navy);
   }
 
-  /* Container */
   .container {
     max-width: 1280px;
     margin-left: auto;
@@ -186,59 +152,50 @@
 }
 
 @layer utilities {
-  /* Gradient Overlays */
   .gradient-overlay {
     background: linear-gradient(
       135deg,
-      rgba(243, 114, 42, 0.1),
-      rgba(241, 90, 34, 0.05)
+      rgba(27, 53, 101, 0.08),
+      rgba(201, 161, 74, 0.04)
     );
   }
 
-  /* Section Highlights */
   .section-highlight {
     background: linear-gradient(
       135deg,
-      rgba(243, 114, 42, 0.08),
-      rgba(241, 90, 34, 0.03)
+      rgba(27, 53, 101, 0.06),
+      rgba(201, 161, 74, 0.03)
     );
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 2rem;
   }
 
-  /* Rounded Corners Utility */
   .rounded-brand {
-    border-radius: 16px;
+    border-radius: 8px;
   }
 
   .rounded-brand-lg {
-    border-radius: 20px;
+    border-radius: 12px;
   }
 
-  /* Spacing Utilities */
   .spacing-clean {
     padding: 2rem;
   }
 
   @media (min-width: 768px) {
-    .spacing-clean {
-      padding: 3rem;
-    }
+    .spacing-clean { padding: 3rem; }
   }
 
   @media (min-width: 1024px) {
-    .spacing-clean {
-      padding: 4rem;
-    }
+    .spacing-clean { padding: 4rem; }
   }
 
-  /* Soft Shadows */
   .shadow-soft {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   }
 
   .shadow-soft-lg {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
   }
 }
 
@@ -258,88 +215,53 @@
   animation: fade-in-up 0.8s ease-out forwards;
 }
 
-.animation-delay-100 {
-  animation-delay: 0.1s;
-  opacity: 0;
-}
+.animation-delay-100 { animation-delay: 0.1s; opacity: 0; }
+.animation-delay-150 { animation-delay: 0.15s; opacity: 0; }
+.animation-delay-200 { animation-delay: 0.2s; opacity: 0; }
+.animation-delay-300 { animation-delay: 0.3s; opacity: 0; }
 
-.animation-delay-150 {
-  animation-delay: 0.15s;
-  opacity: 0;
-}
-
-.animation-delay-200 {
-  animation-delay: 0.2s;
-  opacity: 0;
-}
-
-.animation-delay-300 {
-  animation-delay: 0.3s;
-  opacity: 0;
-}
-
-/* Floating Animation */
 @keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) translateX(0px);
-  }
-  25% {
-    transform: translateY(-15px) translateX(5px);
-  }
-  50% {
-    transform: translateY(-10px) translateX(-5px);
-  }
-  75% {
-    transform: translateY(-20px) translateX(3px);
-  }
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25%  { transform: translateY(-15px) translateX(5px); }
+  50%  { transform: translateY(-10px) translateX(-5px); }
+  75%  { transform: translateY(-20px) translateX(3px); }
 }
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Expand Width Animation */
 @keyframes expand-width {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
+  from { width: 0%; }
+  to   { width: 100%; }
 }
 
 .animate-expand-width {
   animation: expand-width 1s ease-out forwards 0.5s;
 }
 
-/* Handwriting Style for Welcome Text */
+/* Gold underline accent used in section headings */
 .handwriting-style {
-  font-family:
-    cursive, "Lucida Handwriting", "Brush Script MT", "Apple Chancery",
-    sans-serif;
-  font-style: italic;
+  font-family: var(--font-poppins), sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8em;
 }
 
-/* Slow Spin Animation */
 @keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
 }
 
-/* Hero carousel: GPU-friendly infinite scroll (offset set via CSS vars on .carousel-track) */
+/* Hero carousel */
 @keyframes carousel-scroll {
-  to {
-    transform: translate3d(var(--carousel-offset), 0, 0);
-  }
+  to { transform: translate3d(var(--carousel-offset), 0, 0); }
 }
 
 .carousel-track {
@@ -357,6 +279,7 @@
 .carousel-track.paused {
   animation-play-state: paused;
 }
+
 .Why-Choose-Fox {
   background-image: url("/assets/contact.avif");
   background-size: cover;
