@@ -4,7 +4,7 @@ import Transfers from '../components/Transfers';
 import WhyChoose from '../components/WhyChoose';
 import Reviews from '../components/Reviews';
 import FAQ from '../components/FAQ';
-import { PulseFitHero } from '@/components/ui/pulse-fit-hero';
+import PulseFitHero from '@/components/ui/pulse-fit-hero';
 import { buildWhatsAppHref } from '@/components/ui/WhatsAppCTA';
 import type { TripItemDto } from '@/lib/types/tripsTypes';
 import PopularDestinationHero from '@/components/PopularDestinationHero';
@@ -70,15 +70,14 @@ export default function Home() {
   return (
     <>
       <PulseFitHero
-        trips={HERO_DEMO_TRIPS}
-      />
+          />
       {/* <PopularTrips /> */}
+      <WhyChoose />
+      <PopularDestinationHero />
       <Transfers />
+      <Reviews />
       {/* <SeaAdventures /> */}
       {/* <Accommodation /> */}
-      <PopularDestinationHero />
-      <WhyChoose />
-      <Reviews />
       {/* <FAQ /> */}
       <Contact/>
       {/* <Newsletter /> */}

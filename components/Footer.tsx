@@ -18,7 +18,7 @@ export default function Footer() {
         {/* Top accent line */}
         <div className="w-16 h-[3px] bg-[#C9A14A] mb-12" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-14">
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center group">
@@ -36,7 +36,7 @@ export default function Footer() {
           </div>
 
           {/* Company Column */}
-          <div>
+          {/* <div>
             <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-[#C9A14A] mb-5">
               Company
             </h4>
@@ -57,7 +57,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Our Services Column */}
           <div>
@@ -89,7 +89,7 @@ export default function Footer() {
               Contact Us
             </h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3">
+              {/* <li className="flex items-start gap-3">
                 <MapPin className="text-[#C9A14A] mt-0.5 shrink-0 w-4 h-4" />
                 <div className="text-slate-400 text-sm">
                   <a
@@ -131,7 +131,7 @@ export default function Footer() {
                     <p>Sharm El Sheikh, South Sinai, Egypt</p>
                   </a>
                 </div>
-              </li>
+              </li> */}
               <li className="flex items-center gap-3">
                 <Phone className="text-[#C9A14A] shrink-0 w-4 h-4" />
                 <p className="text-slate-400 text-sm">+201028886667</p>
@@ -142,13 +142,13 @@ export default function Footer() {
                   href="mailto:info@foxtravelegypt.com"
                   className="text-slate-400 text-sm hover:text-white transition-colors"
                 >
-                  info@foxtravelegypt.com
+                  info@gmail.com
                 </a>
               </li>
             </ul>
 
             {/* Social Media */}
-            <div className="flex gap-3 mt-6">
+            {/* <div className="flex gap-3 mt-6">
               {[
                 { Icon: Facebook, href: "https://www.facebook.com/foxtravelegypt", label: "Facebook" },
                 { Icon: Linkedin, href: "https://www.linkedin.com/company/fox-travel-egypt/", label: "LinkedIn" },
@@ -165,7 +165,7 @@ export default function Footer() {
                   <Icon className="w-4 h-4 text-slate-400 hover:text-[#C9A14A]" />
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -173,7 +173,7 @@ export default function Footer() {
         <div className="border-t border-white/8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
             <p>
-              © {new Date().getFullYear()} Fox Travel Egypt. All rights reserved
+              © {new Date().getFullYear()} My Transfer. All rights reserved
               &nbsp;|&nbsp; Powered by{" "}
               <Link
                 href="https://codewarsegypt.com"

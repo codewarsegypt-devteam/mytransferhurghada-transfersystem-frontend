@@ -32,8 +32,8 @@ export default function Header() {
     { name: "HOME", href: "/" },
     { name: "TRIPS", href: "/trips" },
     { name: "TRANSFER", href: "/transfer" },
-    { name: "ABOUT", href: "/about" },
-    { name: "FAQ", href: "/faq" },
+    // { name: "ABOUT", href: "/about" },
+    // { name: "FAQ", href: "/faq" },
     { name: "CONTACT", href: "/contactus" },
   ];
 
