@@ -46,7 +46,7 @@ export default function TripsPage() {
         setSearchQuery={setSearchQuery}
         placeholder="Search for a trip"
         searchBar={true}
-        bgImageUrl="/assets/trips2.avif"
+        bgImageUrl="/assets/travel-bags-airport.jpg"
         bgImageAlt="Trips Image"
         bgOverlay={true}
       />

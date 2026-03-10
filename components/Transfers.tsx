@@ -247,6 +247,7 @@ export default function Transfers() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <SectionHeader
+            color="000000"
             subtitle="Reliable Transportation"
             title="Build Your Private Transfer"
             description="Choose a transfer type, review details, and book in seconds — with fixed pricing and premium service."

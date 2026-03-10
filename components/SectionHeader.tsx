@@ -3,6 +3,7 @@ interface SectionHeaderProps {
   title: string;
   description?: string;
   className?: string;
+  color?: string;
 }
 
 export default function SectionHeader({
@@ -10,6 +11,7 @@ export default function SectionHeader({
   title,
   description,
   className = "",
+  color = "c4c4c4",
 }: SectionHeaderProps) {
   return (
     <div className={`text-center mb-12 ${className}`.trim()}>
@@ -22,7 +24,7 @@ export default function SectionHeader({
           <span className="w-8 h-px bg-[#C9A14A]" />
         </div>
       )}
-      <h2 className="text-3xl md:text-4xl font-bold text-[#c4c4c4] leading-tight">
+      <h2 className={`text-3xl md:text-4xl font-bold text-[#${color}] leading-tight`}>
         {title}
       </h2>
       {description && (

@@ -111,6 +111,7 @@ export default function Reviews() {
           transition={{ duration: 0.55 }}
         >
           <SectionHeader
+            color="000000"
             subtitle="Guest Feedback"
             title="What Travelers Remember Most"
             description="Short notes from guests who enjoyed a smooth, comfortable experience."

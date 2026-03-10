@@ -59,7 +59,7 @@ function validate(data: FormData) {
 }
 
 const Contact = () => {
-  const whatsappNumber = "+201010836364";
+  const whatsappNumber = "+201027241392";
 
   const whatsappLink = useMemo(() => {
     const digits = whatsappNumber.replace(/[^\d]/g, "");

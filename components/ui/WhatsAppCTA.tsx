@@ -45,7 +45,7 @@ export interface WhatsAppCTAProps {
   children?: ReactNode;
 }
 
-const defaultPhone = '+201010836364';
+const defaultPhone = '+201027241392';
 
 export function WhatsAppCTA({
   title,

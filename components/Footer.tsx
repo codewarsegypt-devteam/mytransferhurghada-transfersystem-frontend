@@ -16,24 +16,34 @@ export default function Footer() {
     <footer className="bg-[#05111E] text-white pt-16 pb-8">
       <div className="container mx-auto max-w-7xl px-4">
         {/* Top accent line */}
-        <div className="w-16 h-[3px] bg-[#C9A14A] mb-12" />
+        {/* <div className="w-16 h-[3px] bg-[#C9A14A] mb-12" /> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-14">
           {/* Brand Column */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center group">
-              <Image
-                src="/icons/whiteLogo.png"
-                alt="Fox Travel"
-                width={140}
-                height={140}
-                className="object-contain w-40"
-              />
+          <Link href="/" className="group flex shrink-0 items-center gap-3">
+                <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white/90 shadow-sm ring-1 ring-black/5">
+                  <Image
+                    src="/icons/Transferhurghada.svg"
+                    alt="Fox Travel"
+                    width={42}
+                    height={42}
+                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+
+                <div className="hidden sm:block">
+                  <div
+                    className="text-sm font-semibold tracking-[0.18em]"
+                  >
+                    MY TRANSFER
+                  </div>
+                  <div
+                    className="text-base font-bold tracking-tight"
+                  >
+                  Egypt Transfers
+                </div>
+              </div>
             </Link>
-            <p className="text-slate-400 text-sm leading-relaxed mt-4 max-w-[220px]">
-              Premium travel experiences across Egypt's seas, deserts, and ancient wonders.
-            </p>
-          </div>
 
           {/* Company Column */}
           {/* <div>
@@ -134,15 +144,15 @@ export default function Footer() {
               </li> */}
               <li className="flex items-center gap-3">
                 <Phone className="text-[#C9A14A] shrink-0 w-4 h-4" />
-                <p className="text-slate-400 text-sm">+201028886667</p>
+                <p className="text-slate-400 text-sm">+201027241392</p>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-[#C9A14A] shrink-0 w-4 h-4" />
                 <a
-                  href="mailto:info@foxtravelegypt.com"
+                  href="mailto:info@transferhurghada.com"
                   className="text-slate-400 text-sm hover:text-white transition-colors"
                 >
-                  info@gmail.com
+                  info@transferhurghada.com
                 </a>
               </li>
             </ul>

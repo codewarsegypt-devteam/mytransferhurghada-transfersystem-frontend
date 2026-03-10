@@ -40,7 +40,7 @@ const trustItems = [
 
 export default function TransferBookingHero({
   className,
-  backgroundImageUrl = "/assets/airport.jpg",
+  backgroundImageUrl = "/assets/pexels-clickerhappy-804463.jpg",
 }: TransferHeroProps) {
   return (
     <section

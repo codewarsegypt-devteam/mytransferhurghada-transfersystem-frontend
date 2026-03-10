@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { buildWhatsAppHref } from './WhatsAppCTA';
 
-const WHATSAPP_PHONE = '+201010836364';
+const WHATSAPP_PHONE = '+201027241392';
 
 /** WhatsApp logo SVG (official-style icon) */
 function WhatsAppIcon({ className }: { className?: string }) {

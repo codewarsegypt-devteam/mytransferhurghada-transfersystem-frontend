@@ -14,7 +14,7 @@ export default function ContactUsPage() {
         setSearchQuery={() => {}}
         placeholder="Search for a trip"
         searchBar={false}
-        bgImageUrl="/assets/contact.avif"
+        bgImageUrl="/assets/pexels-vojta-kovarik-388639-3243090.jpg"
         bgImageAlt="Contact Image"
         bgOverlay={true}
       />
