@@ -62,12 +62,6 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#F5F6F6]">
       {/* Hero Section */}
     <PageBanner
-      subtitle="About Us"
-      title="Your Gateway to Egypt's Wonders"
-      description="We're more than a travel company—we're your local friends in Hurghada, dedicated to creating unforgettable Egyptian adventures tailored just for you."
-      searchQuery={""}
-      setSearchQuery={() => {}}
-      placeholder="Search for a trip"
       searchBar={false}
       bgImageUrl="/assets/about.webp"
       bgImageAlt="About Image"
@@ -149,7 +143,7 @@ export default function AboutPage() {
           {/* faint fold line */}
           <div className="absolute left-1/2 top-0 h-full w-px bg-black/5" />
           {/* subtle top edge shading */}
-          <div className="absolute inset-x-0 top-0 h-10 bg-linear-to-b from-black/[0.05] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-10 bg-linear-to-b from-black/5 to-transparent" />
         </div>
 
         {/* Paper header strip */}
@@ -175,7 +169,7 @@ export default function AboutPage() {
         <div className="relative px-6 sm:px-8 md:px-10 pb-8 md:pb-10 pt-6">
           {/* Lined paper effect */}
           <div className="pointer-events-none absolute inset-0 opacity-[0.20]" aria-hidden>
-            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-[length:100%_34px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-size-[100%_34px]" />
           </div>
 
           <div className="relative">

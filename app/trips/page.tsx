@@ -39,12 +39,8 @@ export default function TripsPage() {
     <div className="min-h-screen bg-[#F5F6F6] ">
       {/* Hero Section */}
       <PageBanner
-        subtitle="Explore Paradise"
-        title="Discover Amazing Adventures"
-        description="Explore the Red Sea, visit ancient wonders, and create unforgettable memories in Hurghada"
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        placeholder="Search for a trip"
         searchBar={true}
         bgImageUrl="/assets/travel-bags-airport.jpg"
         bgImageAlt="Trips Image"

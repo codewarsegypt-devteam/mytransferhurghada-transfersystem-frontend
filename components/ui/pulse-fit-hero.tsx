@@ -31,7 +31,7 @@ export default function TransferBookingHero({
 }: TransferHeroProps) {
   return (
     <section
-      className={cn("relative min-h-[min(100dvh,900px)] overflow-hidden", className)}
+      className={cn("relative overflow-hidden", className)}
       aria-label="Transfer booking hero"
     >
       {/* Background */}
@@ -42,55 +42,44 @@ export default function TransferBookingHero({
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
           aria-hidden
         />
 
-        <div className="absolute inset-0 bg-[#08111F]/70" />
+        <div className="absolute inset-0 bg-[#003B5A]/35" />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(8,17,31,0.82) 0%, rgba(8,17,31,0.62) 42%, rgba(8,17,31,0.92) 100%)",
+              "linear-gradient(180deg, rgba(0,52,84,0.35) 0%, rgba(0,52,84,0.22) 46%, rgba(0,52,84,0.42) 100%)",
           }}
           aria-hidden
         />
-
-        <div
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(90deg, rgba(255,255,255,0.18) 0px, rgba(255,255,255,0.18) 1px, transparent 1px, transparent 40px)",
-          }}
-          aria-hidden
-        />
-
-        <div className="absolute -top-24 left-1/2 h-[340px] w-[340px] -translate-x-1/2 rounded-full bg-[#C9A14A]/15 blur-3xl" />
       </div>
 
       {/* Top accent */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A14A] to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-white/55 to-transparent" />
 
-      <div className="relative mx-auto flex min-h-[min(100dvh,900px)] max-w-7xl items-center px-4 py-28 pt-32 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-5xl">
+      <div className="relative mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className="w-full max-w-5xl">
           {/* Heading */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="mx-auto max-w-3xl text-center"
+            className="max-w-3xl text-left"
           >
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              Reliable, low-cost airport &amp; hotel transfers
+            <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white sm:text-3xl lg:text-[2.2rem] lg:leading-tight">
+              Reliable, low cost airport transfers
             </h1>
 
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
-              Book a private ride across the Red Sea region and major Egyptian cities — clear
-              prices, professional drivers, and easy confirmation.
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+              Book a private transfer or shared shuttle at over 700 airports, stations and ports
+              worldwide.
             </p>
           </motion.div>
 
-          <div className="mt-8 flex justify-center sm:mt-10">
+          <div className="mt-6 flex justify-start sm:mt-8">
             <HeroTransferForm variant="landing" />
           </div>
 
@@ -98,18 +87,18 @@ export default function TransferBookingHero({
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3"
+            className="mt-7 grid max-w-md grid-cols-1 gap-2 sm:max-w-none sm:grid-cols-3"
           >
             {trustBadges.map((b) => (
               <div
                 key={b.label}
-                className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-center backdrop-blur-md"
+                className="rounded-md border border-black/10 bg-white px-3 py-2 text-center shadow-sm"
               >
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/60">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   {b.label}
                 </p>
-                <p className="mt-1 text-lg font-extrabold text-white">{b.score}</p>
-                <p className="text-xs text-white/55">{b.sub}</p>
+                <p className="mt-0.5 text-base font-extrabold text-slate-900">{b.score}</p>
+                <p className="text-[11px] text-slate-500">{b.sub}</p>
               </div>
             ))}
           </motion.div>
@@ -117,7 +106,7 @@ export default function TransferBookingHero({
       </div>
 
       {/* Bottom accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A14A] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-white/55 to-transparent" />
     </section>
   );
 }
