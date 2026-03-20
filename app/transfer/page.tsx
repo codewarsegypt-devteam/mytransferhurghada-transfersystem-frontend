@@ -34,7 +34,7 @@ import {
   getVehicleTypes,
   previewTransferBooking,
 } from "@/lib/apis/transferApi";
-import { getTripExtras } from '@/lib/apis/extras';
+import { getTripExtras } from "@/lib/apis/extras";
 
 import { isApiError } from "@/lib/apis/apiErrors";
 import type {
@@ -354,15 +354,17 @@ function TransferBookingContent() {
       setIsProcessing(false);
     }
   };
-  
-  
+
   // If cash booking confirmed, show confirmation — luxury success screen
   if (cashBookingConfirmed) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-emerald-50/90 via-white to-amber-50/70 py-8 pt-24 flex items-center justify-center">
         <div className="container mx-auto px-4 max-w-lg">
           <div className="bg-white/95 backdrop-blur-sm rounded-3xl border-2 border-emerald-200/60 shadow-2xl shadow-slate-300/20 p-8 sm:p-10 text-center overflow-hidden relative">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-emerald-500 to-amber-400" aria-hidden />
+            <div
+              className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-emerald-500 to-amber-400"
+              aria-hidden
+            />
             <div className="flex justify-center mb-6">
               <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
                 <CheckCircle2
@@ -408,8 +410,8 @@ function TransferBookingContent() {
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/50 to-white pb-10">
       {/* Decorative top gradient strip */}
-      <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-amber-400 via-(--primary-orange) to-amber-500" aria-hidden />
-      <PageBanner
+      <div className="absolute left-0 right-0 top-0 " aria-hidden />
+      {/* <PageBanner
         subtitle="Transfer Booking"
         title="Book Your Transfer"
         description="Book your transfer with us and enjoy a smooth and comfortable journey to your destination."
@@ -420,8 +422,8 @@ function TransferBookingContent() {
         bgImageUrl="/assets/transfer.png"
         bgImageAlt="Transfer Image"
         bgOverlay={true}
-      />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-15 relative">
+      /> */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8  relative">
         {/* Step progress — luxury pill card */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-amber-200/60 shadow-lg shadow-amber-900/5 p-6 sm:p-8 mb-8">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
@@ -655,7 +657,10 @@ function TransferBookingContent() {
           {/* Sidebar Summary — luxury card */}
           <div className="lg:col-span-1">
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl border-2 border-amber-200/60 shadow-xl shadow-slate-200/50 p-5 sm:p-6 sticky top-24 lg:top-28 overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-(--primary-orange) to-amber-500" aria-hidden />
+              <div
+                className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-(--primary-orange) to-amber-500"
+                aria-hidden
+              />
               <h3 className="text-lg font-bold text-slate-800 tracking-tight mb-4 mt-1">
                 Transfer Summary
               </h3>
@@ -725,7 +730,7 @@ function TransferBookingContent() {
                   <ul className="text-xs text-(--black) space-y-1">
                     {formData.extras.map((e) => {
                       const opt = extrasOptions.find(
-                        (x) => Number(x.id) === e.extraId
+                        (x) => Number(x.id) === e.extraId,
                       );
                       return (
                         <li key={e.extraId} className="font-medium">
@@ -942,7 +947,9 @@ function Step3Vehicle({
           <h3 className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight mb-1">
             Add Extras
           </h3>
-          <p className="text-sm text-slate-600">Enhance your transfer (optional)</p>
+          <p className="text-sm text-slate-600">
+            Enhance your transfer (optional)
+          </p>
         </div>
         {extrasLoading ? (
           <div className="flex flex-col items-center justify-center py-12 gap-4">
@@ -953,7 +960,9 @@ function Step3Vehicle({
           <div className="rounded-2xl border-2 border-amber-200/50 bg-amber-50/50 py-12 px-6 text-center">
             <ShoppingBag className="w-10 h-10 text-amber-400 mx-auto mb-3" />
             <p className="text-slate-700 font-medium">No extras available</p>
-            <p className="text-sm text-slate-500 mt-1">You can continue to the next step</p>
+            <p className="text-sm text-slate-500 mt-1">
+              You can continue to the next step
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -968,9 +977,10 @@ function Step3Vehicle({
                   className={`
                     flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-brand border bg-white
                     transition-all duration-200
-                    ${quantity > 0
-                      ? "border-(--primary-orange) shadow-[0_0_0_1px_var(--primary-orange)] bg-[rgba(243,114,42,0.03)]"
-                      : "border-(--light-grey) hover:shadow-soft hover:border-[#d1d3d6]"
+                    ${
+                      quantity > 0
+                        ? "border-(--primary-orange) shadow-[0_0_0_1px_var(--primary-orange)] bg-[rgba(243,114,42,0.03)]"
+                        : "border-(--light-grey) hover:shadow-soft hover:border-[#d1d3d6]"
                     }
                   `}
                 >
@@ -1001,9 +1011,10 @@ function Step3Vehicle({
                         <span
                           className={`
                             text-xs font-medium px-2 py-0.5 rounded-md
-                            ${quantity > 0
-                              ? "bg-(--primary-orange)/15 text-(--accent-orange)"
-                              : "bg-(--light-grey) text-gray-600"
+                            ${
+                              quantity > 0
+                                ? "bg-(--primary-orange)/15 text-(--accent-orange)"
+                                : "bg-(--light-grey) text-gray-600"
                             }
                           `}
                         >
@@ -1021,9 +1032,10 @@ function Step3Vehicle({
                       }
                       className={`
                         flex shrink-0 items-center justify-center gap-1.5 h-9 sm:w-auto w-full px-3 rounded-lg border transition-all duration-200 text-sm
-                        ${quantity > 0
-                          ? "border-(--primary-orange) bg-(--primary-orange) text-white"
-                          : "border-(--light-grey) bg-white text-gray-600 hover:border-(--primary-orange) hover:text-(--accent-orange)"
+                        ${
+                          quantity > 0
+                            ? "border-(--primary-orange) bg-(--primary-orange) text-white"
+                            : "border-(--light-grey) bg-white text-gray-600 hover:border-(--primary-orange) hover:text-(--accent-orange)"
                         }
                       `}
                     >
@@ -1046,9 +1058,10 @@ function Step3Vehicle({
                         disabled={quantity === 0}
                         className={`
                           flex w-8 h-8 rounded-md items-center justify-center transition-all duration-200
-                          ${quantity > 0
-                            ? "text-(--accent-orange) hover:bg-(--primary-orange) hover:text-white active:scale-95"
-                            : "text-gray-300 cursor-not-allowed"
+                          ${
+                            quantity > 0
+                              ? "text-(--accent-orange) hover:bg-(--primary-orange) hover:text-white active:scale-95"
+                              : "text-gray-300 cursor-not-allowed"
                           }
                         `}
                         aria-label={`Less ${extra.title}`}
@@ -1152,7 +1165,10 @@ function Step4Payment({
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
-            <label htmlFor="transfer-name" className="block text-xs font-semibold text-slate-700 mb-1">
+            <label
+              htmlFor="transfer-name"
+              className="block text-xs font-semibold text-slate-700 mb-1"
+            >
               Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -1167,7 +1183,10 @@ function Step4Payment({
             />
           </div>
           <div>
-            <label htmlFor="transfer-phone" className="block text-xs font-semibold text-slate-700 mb-1">
+            <label
+              htmlFor="transfer-phone"
+              className="block text-xs font-semibold text-slate-700 mb-1"
+            >
               Phone number <span className="text-red-500">*</span>
             </label>
             <input
@@ -1175,15 +1194,22 @@ function Step4Payment({
               type="tel"
               value={formData.phoneNumber}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, phoneNumber: e.target.value }))
+                setFormData((prev) => ({
+                  ...prev,
+                  phoneNumber: e.target.value,
+                }))
               }
               placeholder="+20 100 000 0000"
               className="w-full px-3.5 py-2.5 text-sm border-2 border-amber-200/60 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400"
             />
           </div>
           <div>
-            <label htmlFor="transfer-room" className="block text-xs font-semibold text-slate-700 mb-1">
-              Room number <span className="text-slate-500 font-normal">(optional)</span>
+            <label
+              htmlFor="transfer-room"
+              className="block text-xs font-semibold text-slate-700 mb-1"
+            >
+              Room number{" "}
+              <span className="text-slate-500 font-normal">(optional)</span>
             </label>
             <input
               id="transfer-room"
@@ -1197,15 +1223,22 @@ function Step4Payment({
             />
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="transfer-flight" className="block text-xs font-semibold text-slate-700 mb-1">
-              Flight number <span className="text-slate-500 font-normal">(optional)</span>
+            <label
+              htmlFor="transfer-flight"
+              className="block text-xs font-semibold text-slate-700 mb-1"
+            >
+              Flight number{" "}
+              <span className="text-slate-500 font-normal">(optional)</span>
             </label>
             <input
               id="transfer-flight"
               type="text"
               value={formData.flightNumber}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, flightNumber: e.target.value }))
+                setFormData((prev) => ({
+                  ...prev,
+                  flightNumber: e.target.value,
+                }))
               }
               placeholder="e.g. for airport transfer"
               className="w-full px-3.5 py-2.5 text-sm border-2 border-amber-200/60 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400"
@@ -1254,13 +1287,19 @@ function Step4Payment({
         </label>
         <div className="flex gap-2">
           <div className="relative flex-1">
-            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500" strokeWidth={2} />
+            <Tag
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500"
+              strokeWidth={2}
+            />
             <input
               id="promoCode"
               type="text"
               value={formData.promoCode}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, promoCode: e.target.value.trim() }))
+                setFormData((prev) => ({
+                  ...prev,
+                  promoCode: e.target.value.trim(),
+                }))
               }
               placeholder="Enter code"
               className="w-full pl-9 pr-3.5 py-2.5 text-sm border-2 border-amber-200/60 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-shadow"
@@ -1274,11 +1313,13 @@ function Step4Payment({
             Apply
           </button>
         </div>
-        {previewData?.discountValue != null && previewData.discountValue > 0 && (
-          <p className="mt-2 text-sm text-green-700 font-medium">
-            Discount applied: −{previewData.discountValue} {previewData.currency}
-          </p>
-        )}
+        {previewData?.discountValue != null &&
+          previewData.discountValue > 0 && (
+            <p className="mt-2 text-sm text-green-700 font-medium">
+              Discount applied: −{previewData.discountValue}{" "}
+              {previewData.currency}
+            </p>
+          )}
       </div>
 
       {/* Total breakdown */}

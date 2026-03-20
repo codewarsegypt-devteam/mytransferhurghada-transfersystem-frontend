@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Facebook,
-  Linkedin,
-  Instagram,
-  MapPin,
-  Phone,
-  Mail,
-} from "lucide-react";
+import { Phone, Mail, Clock } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -179,25 +172,48 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Support + payments */}
+        <div className="mb-10 flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3 text-sm text-slate-300">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#C9A14A]">
+              <Clock className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="font-semibold text-white">Support available 24/7</p>
+              <p className="text-slate-400">WhatsApp &amp; phone — fast replies</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {["Visa", "Mastercard", "Apple Pay", "Google Pay", "PayPal"].map((label) => (
+              <span
+                key={label}
+                className="rounded-md border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Bar */}
         <div className="border-t border-white/8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-            <p>
+          <div className="flex flex-col items-center gap-4 text-sm text-slate-500 md:flex-row md:justify-between">
+            <p className="text-center md:text-left">
               © {new Date().getFullYear()} My Transfer. All rights reserved
               &nbsp;|&nbsp; Powered by{" "}
               <Link
                 href="https://codewarsegypt.com"
                 target="_blank"
-                className="hover:text-[#C9A14A] transition-colors text-slate-400"
+                className="text-slate-400 transition-colors hover:text-[#C9A14A]"
               >
                 CODEWARS
               </Link>
             </p>
             <div className="flex gap-6">
-              <Link href="#terms" className="hover:text-white transition-colors">
+              <Link href="#terms" className="transition-colors hover:text-white">
                 Terms & Conditions
               </Link>
-              <Link href="#privacy" className="hover:text-white transition-colors">
+              <Link href="#privacy" className="transition-colors hover:text-white">
                 Privacy Policy
               </Link>
             </div>

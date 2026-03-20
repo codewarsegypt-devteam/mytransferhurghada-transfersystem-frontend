@@ -3,7 +3,14 @@
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { MapPin, ChevronDown, CalendarDays, ArrowRight, Loader2 } from "lucide-react";
+import {
+  MapPin,
+  ChevronDown,
+  CalendarDays,
+  ArrowRight,
+  Loader2,
+  ArrowDownUp,
+} from "lucide-react";
 import { AddressAutocomplete } from "@/components/ui/AddressAutocomplete";
 import { getRegionByCoordinates } from "@/lib/apis/transferApi";
 
@@ -22,15 +29,21 @@ type HeroTransferFormValues = {
 const REGION_ERROR_MESSAGE =
   "We don't serve transfers for one or both of these locations yet. Please choose a pickup and destination within our service region (e.g. Hurghada, Cairo, Red Sea area).";
 
-export const HeroTransferForm = () => {
+type HeroTransferFormProps = {
+  /** Thick gold frame + green search CTA (home landing) */
+  variant?: "default" | "landing";
+};
+
+export const HeroTransferForm = ({ variant = "default" }: HeroTransferFormProps) => {
   const router = useRouter();
   const {
     register,
     control,
     setValue,
+    getValues,
     setError,
     handleSubmit,
-    formState: { errors, isSubmitting , isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<HeroTransferFormValues>({
     defaultValues: {
       from: "",
@@ -79,22 +92,52 @@ export const HeroTransferForm = () => {
     }
   };
 
+  const swapLocations = () => {
+    const from = getValues("from");
+    const fromPlaceId = getValues("fromPlaceId");
+    const fromLat = getValues("fromLat");
+    const fromLon = getValues("fromLon");
+    const to = getValues("to");
+    const toPlaceId = getValues("toPlaceId");
+    const toLat = getValues("toLat");
+    const toLon = getValues("toLon");
+
+    setValue("from", to, { shouldValidate: true });
+    setValue("fromPlaceId", toPlaceId, { shouldValidate: true });
+    setValue("fromLat", toLat, { shouldValidate: true });
+    setValue("fromLon", toLon, { shouldValidate: true });
+    setValue("to", from, { shouldValidate: true });
+    setValue("toPlaceId", fromPlaceId, { shouldValidate: true });
+    setValue("toLat", fromLat, { shouldValidate: true });
+    setValue("toLon", fromLon, { shouldValidate: true });
+  };
+
+  const isLanding = variant === "landing";
+  const shellClass = isLanding
+    ? "rounded-2xl border-4 border-[#DDB96A] shadow-[0_20px_50px_rgba(0,0,0,0.2)] bg-white"
+    : "rounded-2xl bg-white/80 backdrop-blur-md";
+
   return (
     <motion.form
       onSubmit={handleSubmit(submit)}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="md:mt-10 w-full max-w-4xl"
+      className="md:mt-10 w-full max-w-5xl"
     >
       {errors.root?.message && (
         <p className="mb-3 text-center text-sm text-amber-200 bg-amber-900/40 rounded-lg px-4 py-2">
           {errors.root.message}
         </p>
       )}
-      <div className="w-full rounded-2xl overflow-hidden flex flex-col sm:flex-row bg-white/80 backdrop-blur-md">
+      <div
+        className={[
+          "w-full overflow-hidden flex flex-col sm:flex-row",
+          shellClass,
+        ].join(" ")}
+      >
         {/* FROM */}
-        <div className="flex-1 min-w-0 flex items-center border-b sm:border-b-0 sm:border-r border-(--light-grey)/80">
+        <div className="flex-1 min-w-0 flex items-center border-b sm:border-b-0 sm:border-r border-slate-200/90">
           <div className="w-full flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 min-w-0 group">
             <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-main/10 text-main shrink-0">
               <MapPin className="w-4 h-4" />
@@ -144,8 +187,20 @@ export const HeroTransferForm = () => {
           </div>
         </div>
 
+        {/* Swap (desktop: between columns) */}
+        <div className="relative flex shrink-0 items-center justify-center border-b border-slate-200/90 bg-slate-50/80 py-2 sm:w-12 sm:border-b-0 sm:border-r sm:border-slate-200/90 sm:bg-white sm:py-0">
+          <button
+            type="button"
+            onClick={swapLocations}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-main shadow-sm transition hover:bg-main hover:text-white"
+            aria-label="Swap pickup and destination"
+          >
+            <ArrowDownUp className="h-4 w-4" />
+          </button>
+        </div>
+
         {/* TO */}
-        <div className="flex-1 min-w-0 flex items-center border-b sm:border-b-0 sm:border-r border-(--light-grey)/80">
+        <div className="flex-1 min-w-0 flex items-center border-b sm:border-b-0 sm:border-r border-slate-200/90">
           <div className="w-full flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 min-w-0 group">
             <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-main/10 text-main shrink-0">
               <MapPin className="w-4 h-4" />
@@ -191,7 +246,7 @@ export const HeroTransferForm = () => {
         </div>
 
         {/* DATE */}
-        <div className="flex-1 min-w-0 flex items-center sm:flex-[0.85] border-b sm:border-b-0 sm:border-r border-(--light-grey)/80">
+        <div className="flex-1 min-w-0 flex items-center sm:flex-[0.85] border-b sm:border-b-0 sm:border-r border-slate-200/90">
           <div className="w-full flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 min-w-0 group">
             <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-main/10 text-main shrink-0">
               <CalendarDays className="w-4 h-4" />
@@ -218,14 +273,28 @@ export const HeroTransferForm = () => {
         </div>
 
         {/* SUBMIT */}
-        <div className=" cursor-pointer shrink-0 p-2.5 sm:p-3 flex items-center justify-center bg-main">
+        <div
+          className={[
+            "shrink-0 p-2.5 sm:p-3 flex items-center justify-center",
+            isLanding ? "bg-emerald-600" : "bg-main",
+          ].join(" ")}
+        >
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/95 hover:bg-white text-gray-900 font-semibold px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl text-sm"
+            className={[
+              "w-full sm:w-auto flex items-center justify-center gap-2 font-semibold px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl text-sm transition",
+              isLanding
+                ? "bg-white text-emerald-800 hover:bg-emerald-50"
+                : "bg-white/95 hover:bg-white text-gray-900",
+            ].join(" ")}
           >
-             Book transfer
-            {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
+            {isLanding ? "Search" : "Book transfer"}
+            {isSubmitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <ArrowRight className="w-4 h-4" />
+            )}
           </button>
         </div>
 

@@ -2,9 +2,14 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShieldCheck, Clock3, BadgeDollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HeroTransferForm } from "../hero components/HeroTransferForm";
+
+const trustBadges = [
+  { label: "Google Reviews", score: "4.9", sub: "Average rating" },
+  { label: "Trustpilot", score: "4.8", sub: "Excellent" },
+  { label: "Tripadvisor", score: "5.0", sub: "Travelers’ choice" },
+];
 
 type TransferHeroProps = {
   className?: string;
@@ -20,31 +25,13 @@ const fadeUp = {
   },
 };
 
-const trustItems = [
-  {
-    icon: ShieldCheck,
-    title: "Verified Service",
-    text: "Trusted drivers and reliable routes",
-  },
-  {
-    icon: Clock3,
-    title: "On-Time Pickup",
-    text: "Smooth coordination for every ride",
-  },
-  {
-    icon: BadgeDollarSign,
-    title: "Fixed Price",
-    text: "Clear pricing with no surprises",
-  },
-];
-
 export default function TransferBookingHero({
   className,
   backgroundImageUrl = "/assets/pexels-clickerhappy-804463.jpg",
 }: TransferHeroProps) {
   return (
     <section
-      className={cn("relative min-h-screen overflow-hidden", className)}
+      className={cn("relative min-h-[min(100dvh,900px)] overflow-hidden", className)}
       aria-label="Transfer booking hero"
     >
       {/* Background */}
@@ -84,7 +71,7 @@ export default function TransferBookingHero({
       {/* Top accent */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A14A] to-transparent" />
 
-      <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 py-24 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex min-h-[min(100dvh,900px)] max-w-7xl items-center px-4 py-28 pt-32 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-5xl">
           {/* Heading */}
           <motion.div
@@ -93,49 +80,39 @@ export default function TransferBookingHero({
             variants={fadeUp}
             className="mx-auto max-w-3xl text-center"
           >
-            {/* <span className="inline-flex items-center rounded-full border border-white/10 bg-white/8 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#C9A14A] backdrop-blur-sm">
-              Private Transfers
-            </span> */}
-
-            <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-5xl">
-              Fast booking for your
-              <span className="block text-[#C9A14A]">
-                next transfer in Egypt
-              </span>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+              Reliable, low-cost airport &amp; hotel transfers
             </h1>
 
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70 sm:text-center">
-              Select your pickup, destination, and travel date to find the right
-              transfer route with clear pricing and smooth confirmation.
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
+              Book a private ride across the Red Sea region and major Egyptian cities — clear
+              prices, professional drivers, and easy confirmation.
             </p>
           </motion.div>
 
-          <div className="flex justify-center mt-10 md:mt-0">
-            <HeroTransferForm />
+          <div className="mt-8 flex justify-center sm:mt-10">
+            <HeroTransferForm variant="landing" />
           </div>
 
-          {/* Trust items */}
-          {/* <motion.div
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3"
           >
-            {trustItems.map(({ icon: Icon, title, text }) => (
+            {trustBadges.map((b) => (
               <div
-                key={title}
-                className="rounded-2xl border border-white/10 bg-white/6 px-4 py-4 text-center backdrop-blur-sm"
+                key={b.label}
+                className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-center backdrop-blur-md"
               >
-                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#C9A14A]/15 text-[#C9A14A]">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-3 text-sm font-bold text-white">{title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-white/55">
-                  {text}
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/60">
+                  {b.label}
                 </p>
+                <p className="mt-1 text-lg font-extrabold text-white">{b.score}</p>
+                <p className="text-xs text-white/55">{b.sub}</p>
               </div>
             ))}
-          </motion.div> */}
+          </motion.div>
         </div>
       </div>
 
